@@ -1,0 +1,159 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[
+  digital,     %% The `digital` option enables the default options for the
+               %% digital version of a document. Replace with `printed`
+               %% to enable the default options for the printed version
+               %% of a document.
+%%  color,       %% Uncomment these lines (by removing the %% at the
+%%               %% beginning) to use color in the printed version of your
+%%               %% document
+  oneside,     %% The `oneside` option enables one-sided typesetting,
+               %% which is preferred if you are only going to submit a
+               %% digital version of your thesis. Replace with `twoside`
+               %% for double-sided typesetting if you are planning to
+               %% also print your thesis. For double-sided typesetting,
+               %% use at least 120 g/m² paper to prevent show-through.
+  nosansbold,  %% The `nosansbold` option prevents the use of the
+               %% sans-serif type face for bold text. Replace with
+               %% `sansbold` to use sans-serif type face for bold text.
+  nocolorbold, %% The `nocolorbold` option disables the usage of the
+               %% blue color for bold text, instead using black. Replace
+               %% with `colorbold` to use blue for bold text.
+  lof,         %% The `lof` option prints the List of Figures. Replace
+               %% with `nolof` to hide the List of Figures.
+  lot,         %% The `lot` option prints the List of Tables. Replace
+               %% with `nolot` to hide the List of Tables.
+]{fithesis4}
+%% The following section sets up the locales used in the thesis.
+\usepackage[resetfonts]{cmap} %% We need to load the T2A font encoding
+\usepackage[T1,T2A]{fontenc}  %% to use the Cyrillic fonts with Russian texts.
+\usepackage[
+  main=czech, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the thesis
+                %% in either Czech or Slovak, respectively.
+  english, german, czech, slovak %% The additional keys allow
+]{babel}        %% foreign texts to be typeset as follows:
+%%
+%%   \begin{otherlanguage}{german}  ... \end{otherlanguage}
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%%
+%% The following section sets up the metadata of the thesis.
+\thesissetup{
+    date        = \the\year/\the\month/\the\day,
+    university  = mu,
+    faculty     = fi,
+    type        = bc,
+    department  = Department of Machine Learning and Data Processing,
+    author      = Tomáš Ondráček,
+    gender      = m,
+    advisor     = {Mgr. Luděk Bártek, Ph.D.},
+    title       = {The Proof of P = NP},
+    TeXtitle    = {The Proof of $\mathsf{P}=\mathsf{NP}$},
+    keywords    = {keyword1, keyword2, ...},
+    TeXkeywords = {keyword1, keyword2, \ldots},
+    abstract    = {%
+      This is the abstract of my thesis, which can
+
+      span multiple paragraphs.
+    },
+    thanks      = {%
+      These are the acknowledgements for my thesis, which can
+
+      span multiple paragraphs.
+    },
+    bib         = example.bib,
+    %% Remove the following line to use the JVS 2018 faculty logo.
+    facultyLogo = fithesis-fi,
+}
+\usepackage{makeidx}      %% The `makeidx` package contains
+\makeindex                %% helper commands for index typesetting.
+%% These additional packages are used within the document:
+\usepackage{paralist} %% Compact list environments
+\usepackage{amsmath}  %% Mathematics
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+\usepackage[hyphens]{url}      %% Hyperlinks
+\usepackage{hyperref}
+\Urlmuskip=0mu plus 1mu\relax
+
+\usepackage{markdown} %% Lightweight markup
+\usepackage{listings} %% Source code highlighting
+
+
+\lstset{
+  basicstyle      = \ttfamily,
+  identifierstyle = \color{black},
+  keywordstyle    = \color{blue},
+  keywordstyle    = {[2]\color{cyan}},
+  keywordstyle    = {[3]\color{olive}},
+  stringstyle     = \color{teal},
+  commentstyle    = \itshape\color{magenta},
+  breaklines      = true,
+}
+\usepackage{floatrow} %% Putting captions above tables
+\floatsetup[table]{capposition=top}
+\usepackage[babel]{csquotes} %% Context-sensitive quotation marks
+\begin{document}
+%% The \chapter* command can be used to produce unnumbered chapters:
+\chapter*{Úvod}
+%% Unlike \chapter, \chapter* does not update the headings and does not
+%% enter the chapter to the table of contents. If we want correct
+%% headings and a table of contents entry, we must add them manually:
+\markright{\textsc{Úvod}}
+\addcontentsline{toc}{chapter}{Úvod}
+Hurá, píšeme bakalářskou práci.
+Hele, citace v patičce se dělá takto\footfullcite{greenberg98}.
+
+\chapter{Analýza}
+\section{Motivace}
+% včelařství, vesnice, domácí prodej
+\section{Existující aplikace a projekty}
+% existující podobné projekty + Facebook Marketplace, Google Maps Business Listings
+\section{Výběr technologií}
+% Compose (vs Java/xml), Material 3, Firebase (vs Server Backend, vs Spring Server a proč jsem si to nevybral), Dokumentová databáze (vs SQL), BaaS, Serverless backend??
+
+\chapter{Demo aplikace}
+% implementace google map a firebase, 
+
+\chapter{Návrh aplikace}
+\section{Postupy softwarového inženýrství}
+% jaké jsem si vybral, co by bylo zbytečný, co by bylo užitečný
+\section{Use case diagram}
+\section{Class diagram}
+
+\chapter{Architektura kódu}
+\section{vertikální dělení vs horizontální dělení}
+% features + ui (jako samostatná feature), moduly, packages, common, core
+\section{generický repozitář}
+% firebasecollection anotace, generika, mappery
+\section{UC result wrapper}
+% výhody/nevýhody, důvod, záměr, Success, Failure, funkcionální interface
+\section{UC třídy vs Jedna velká service třída}
+% výhody/nevýhody
+
+\chapter{Testování aplikace}
+
+\chapter{Vydání aplikace}
+
+
+  \printbibliography[heading=bibintoc] %% Print the bibliography.
+  \makeatletter\thesis@blocks@clear\makeatother
+  \phantomsection %% Print the index and insert it into the
+  \addcontentsline{toc}{chapter}{\indexname} %% table of contents.
+  \printindex
+
+\appendix %% Start the appendices.
+\chapter{An appendix}
+Here you can insert the appendices of your thesis.
+
+\end{document}
