@@ -56,10 +56,10 @@
     author      = Tomáš Ondráček,
     gender      = m,
     advisor     = {Mgr. Luděk Bártek, Ph.D.},
-    title       = {The Proof of P = NP},
-    TeXtitle    = {The Proof of $\mathsf{P}=\mathsf{NP}$},
-    keywords    = {keyword1, keyword2, ...},
-    TeXkeywords = {keyword1, keyword2, \ldots},
+    title       = {Mobilní aplikace pro on-line tržiště},
+    TeXtitle    = {Mobilní aplikace pro on-line tržiště},
+    keywords    = {Android, Jetpack Compose, Firebase, Mobile Application, ...},
+    TeXkeywords = {Android, Jetpack Compose, Firebase, Mobile Application, \ldots},
     abstract    = {%
       This is the abstract of my thesis, which can
 
@@ -81,15 +81,9 @@
 \usepackage{amsmath}  %% Mathematics
 \usepackage{amsthm}
 \usepackage{amsfonts}
-
-\usepackage[hyphens]{url}      %% Hyperlinks
-\usepackage{hyperref}
-\Urlmuskip=0mu plus 1mu\relax
-
+\usepackage{url}      %% Hyperlinks
 \usepackage{markdown} %% Lightweight markup
 \usepackage{listings} %% Source code highlighting
-
-
 \lstset{
   basicstyle      = \ttfamily,
   identifierstyle = \color{black},
@@ -103,48 +97,17 @@
 \usepackage{floatrow} %% Putting captions above tables
 \floatsetup[table]{capposition=top}
 \usepackage[babel]{csquotes} %% Context-sensitive quotation marks
+
 \begin{document}
-%% The \chapter* command can be used to produce unnumbered chapters:
-\chapter*{Úvod}
-%% Unlike \chapter, \chapter* does not update the headings and does not
-%% enter the chapter to the table of contents. If we want correct
-%% headings and a table of contents entry, we must add them manually:
-\markright{\textsc{Úvod}}
-\addcontentsline{toc}{chapter}{Úvod}
-Hurá, píšeme bakalářskou práci.
-Hele, citace v patičce se dělá takto\footfullcite{greenberg98}.
 
-\chapter{Analýza}
-\section{Motivace}
-% včelařství, vesnice, domácí prodej
-\section{Existující aplikace a projekty}
-% existující podobné projekty + Facebook Marketplace, Google Maps Business Listings
-\section{Výběr technologií}
-% Compose (vs Java/xml), Material 3, Firebase (vs Server Backend, vs Spring Server a proč jsem si to nevybral), Dokumentová databáze (vs SQL), BaaS, Serverless backend??
-
-\chapter{Demo aplikace}
-% implementace google map a firebase, 
-
-\chapter{Návrh aplikace}
-\section{Postupy softwarového inženýrství}
-% jaké jsem si vybral, co by bylo zbytečný, co by bylo užitečný
-\section{Use case diagram}
-\section{Class diagram}
-
-\chapter{Architektura kódu}
-\section{vertikální dělení vs horizontální dělení}
-% features + ui (jako samostatná feature), moduly, packages, common, core
-\section{generický repozitář}
-% firebasecollection anotace, generika, mappery
-\section{UC result wrapper}
-% výhody/nevýhody, důvod, záměr, Success, Failure, funkcionální interface
-\section{UC třídy vs Jedna velká service třída}
-% výhody/nevýhody
-
-\chapter{Testování aplikace}
-
-\chapter{Vydání aplikace}
-
+\include{chapters/00_uvod}
+\include{chapters/01_analyza}
+\include{chapters/02_navrh_aplikace}
+\include{chapters/03_architektura}
+\include{chapters/04_implementace}
+\include{chapters/05_testovani}
+\include{chapters/06_vydani_nasazeni}
+\include{chapters/07_zaver}
 
   \printbibliography[heading=bibintoc] %% Print the bibliography.
   \makeatletter\thesis@blocks@clear\makeatother
@@ -154,6 +117,6 @@ Hele, citace v patičce se dělá takto\footfullcite{greenberg98}.
 
 \appendix %% Start the appendices.
 \chapter{An appendix}
-Here you can insert the appendices of your thesis.
+Here, you can insert the appendices of your thesis.
 
 \end{document}
