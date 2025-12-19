@@ -8,6 +8,13 @@
 \section{Generický repozitář}
 % firebasecollection anotace, generika, mappery
 
+%Pro přístup k datům je použit generický repozitář, který odděluje doménovou logiku od konkrétní implementace datového zdroje.
+% Zároveň tím předchází duplicitě kódu při práci s různými typy entit.
+% Dovoluje mi tak pro každou novou funkcionalitu využít již existující základní implementaci a pro specifické potřeby jednotlivých entit pouze rozšířit o potřebné funkce.
+
+% Zároveň umožňuje snadnou výměnu datového zdroje (svého jádra) bez nutnosti zásahu do zbytku aplikace.
+% V repozitáři jsou využity generika pro práci s různými typy entit a mappery pro převod mezi datovými modely a doménovými modely.
+
 
 \section{UC result wrapper}
 % výhody/nevýhody, důvod, záměr, Success, Failure, funkcionální interface
@@ -15,3 +22,6 @@
 
 \section{UC třídy vs Jedna velká service třída}
 % výhody/nevýhody
+
+
+\section{MVVM}
