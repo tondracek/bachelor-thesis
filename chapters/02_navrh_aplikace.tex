@@ -52,6 +52,33 @@ Nefunkční požadavky popisují vlastnosti aplikace, které se netýkají pří
 
 \section{Use case diagram}
 
+Use case diagram slouží k~přehlednému znázornění základních funkcí aplikace a interakcí mezi uživateli a systémem.
+Diagram vychází ze specifikace funkčních požadavků a zachycuje chování aplikace z~pohledu jednotlivých typů uživatelů.
+
+V~rámci aplikace jsou rozlišeny tři základní role: obecného uživatele (User), zákazníka (Customer) a prodejce (Seller).
+Obecný uživatel představuje nadřazenou roli, ze které vycházejí specializované role zákazníka a prodejce.
+Tyto specializované role jsou rozděleny podle toho, jakým způsobem chce uživatel aplikaci využívat.
+
+Obecný uživatel zahrnuje možnosti registrace, přihlášení a odhlášení z~aplikace, které jsou přístupné všem uživatelům bez ohledu na jejich způsob využití aplikace.
+Umožňuje také úpravu osobních údajů.
+Tato možnost je přístupná jakémukoli přihlášenému uživateli.
+
+Zákazník může procházet obchody v~mapovém nebo seznamovém zobrazení, zobrazovat detail obchodu a filtrovat obchody podle kategorií, vzdálenosti nebo hodnocení.
+Tyto filtry jsou v~diagramu modelovány jako rozšiřující případy užití nad základními způsoby procházení obchodů.
+Pokud je běžný uživatel přihlášen, může vytvářet recenze obchodů ostatních uživatelů.
+
+Druhým aktérem je prodejce, který může vytvářet, upravovat a odstraňovat své obchody.
+V rámci správy obchodu může prodejce upravovat polohu obchodu na mapě, otevírací dobu, nabídku produktů a kategorie nabízených produktů.
+Všechny interakce prodejce vyžadují přihlášení.
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\textwidth]{res/use_case_diagram}
+    \caption{Use case diagram aplikace}
+    \label{fig:use-case-diagram}
+\end{figure}
+\FloatBarrier
+
 
 \section{Class diagram}
 
