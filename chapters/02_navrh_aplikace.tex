@@ -114,7 +114,8 @@ Poloha obchodu je modelována hodnotovým objektem \texttt{Location}, který obs
 Poslední entitou je recenze (Review), která reprezentuje hodnocení obchodu uživatelem.
 Recenze je identifikována jednoznačným identifikátorem typu UUID a obsahuje atributy: id, autor, obchod, hodnocení a volitelný komentář.
 Recenze je svázána s uživatelem prostřednictvím asociace, která vyjadřuje autora recenze.
-S obchodem je recenze svázána prostřednictvím kompozice, jelikož bez existence obchodu nemá recenze samostatný význam.
+S obchodem je recenze rovněž svázána asociací, jelikož recenze reprezentuje interakci mezi uživatelem a konkrétním obchodem, nikoli jeho vnitřní součást.
+Přestože recenze bez existence obchodu ztrácí svůj praktický význam, není modelována jako kompozitní součást obchodu, protože má vlastní identitu a samostatný životní cyklus.
 
 \begin{figure}[h]
     \centering
@@ -125,6 +126,10 @@ S obchodem je recenze svázána prostřednictvím kompozice, jelikož bez existe
 
 
 \section{Návrh uživatelského rozhraní}
+
+Návrh uživatelského rozhraní (UI) se zaměřuje na vytvoření přehledného a intuitivního prostředí pro uživatele aplikace.
+Cílem je zajistit, aby uživatelé mohli snadno a efektivně využívat funkce aplikace a dosahovat svých cílů.
+Návrh UI zahrnuje rozvržení obrazovek, navigační strukturu a interakční prvky.
 
 
 \section{Výběr technologií}
