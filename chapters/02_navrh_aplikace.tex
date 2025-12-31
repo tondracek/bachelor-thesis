@@ -54,6 +54,7 @@ Nefunkční požadavky popisují vlastnosti aplikace, které se netýkají pří
 
 Use case diagram slouží k~přehlednému znázornění základních funkcí aplikace a interakcí mezi uživateli a systémem.
 Diagram vychází ze specifikace funkčních požadavků a zachycuje chování aplikace z~pohledu jednotlivých typů uživatelů.
+Přehled aktérů a případů užití aplikace je znázorněn na obrázku~\ref{fig:use-case-diagram}.
 
 V~rámci aplikace jsou rozlišeny tři základní role: obecného uživatele (User), zákazníka (Customer) a prodejce (Seller).
 Obecný uživatel představuje nadřazenou roli, ze které vycházejí specializované role zákazníka a prodejce.
@@ -67,11 +68,11 @@ Zákazník může procházet obchody v~mapovém nebo seznamovém zobrazení, zob
 Tyto filtry jsou v~diagramu modelovány jako rozšiřující případy užití nad základními způsoby procházení obchodů.
 Pokud je běžný uživatel přihlášen, může vytvářet recenze obchodů ostatních uživatelů.
 
-Druhým aktérem je prodejce, který může vytvářet, upravovat a odstraňovat své obchody.
+Třetím aktérem je prodejce, který může vytvářet, upravovat a odstraňovat své obchody.
 V rámci správy obchodu může prodejce upravovat polohu obchodu na mapě, otevírací dobu, nabídku produktů a kategorie nabízených produktů.
 Všechny interakce prodejce vyžadují přihlášení.
 
-\begin{figure}[h] % [p] pro full page
+\begin{figure}[h] % [p] pro full page, [h] pro here
     \centering
     \includegraphics[width=\textwidth]{res/use_case_diagram}
     \caption{Use case diagram aplikace}
@@ -118,7 +119,11 @@ Recenze je svázána s uživatelem prostřednictvím asociace, která vyjadřuje
 S obchodem je recenze rovněž svázána asociací, jelikož recenze reprezentuje interakci mezi uživatelem a konkrétním obchodem, nikoli jeho vnitřní součást.
 Přestože recenze bez existence obchodu ztrácí svůj praktický význam, není modelována jako kompozitní součást obchodu, protože má vlastní identitu a samostatný životní cyklus.
 
-\begin{figure}[h]
+%Celkový návrh class diagramu odděluje entity s~vlastní identitou od hodnotových objektů, které jsou používány jako jejich součásti.
+%
+%Tím je dosaženo přehledné struktury doménového modelu, která odpovídá požadavkům aplikace a zároveň umožňuje její další rozšiřování.
+
+\begin{figure}[p]
     \centering
     \includegraphics[width=\textwidth]{res/class_diagram}
     \caption{Class diagram aplikace}
@@ -129,8 +134,66 @@ Přestože recenze bez existence obchodu ztrácí svůj praktický význam, nen�
 \section{Návrh uživatelského rozhraní}
 
 Návrh uživatelského rozhraní (UI) se zaměřuje na vytvoření přehledného a intuitivního prostředí pro uživatele aplikace.
-Cílem je zajistit, aby uživatelé mohli snadno a efektivně využívat funkce aplikace a dosahovat svých cílů.
+Cílem je zajistit, aby uživatelé mohli snadno a efektivně využívat funkce aplikace a dosahovat svých cílů, které vychází z funkčních požadavků a use case diagramu.
 Návrh UI zahrnuje rozvržení obrazovek, navigační strukturu a interakční prvky.
+Při návrhu rozhraní je kladen důraz na konzistenci ovládacích prvků, díky čemuž se uživatel snadno zorientuje v aplikaci, jasnou navigaci aplikací a minimalizaci počtu kroků potřebných k~provedení akcí.
+
+\subsection{Barevné schéma}
+Aplikace využívá principy Material Designu, které zajišťují jednotný a moderní vzhled aplikace.
+Barevná paleta byla vygenerována pomocí nástroje Material Theme Builder, který pomocí jedné primární barvy vytvoří kompletní sadu barev pro světlé i tmavé téma aplikace.
+V případě potřeby lze barvy dále upravovat, avšak pro základní návrh zajišťují tyto vygenerované barvy konzistentní a esteticky příjemný vzhled aplikace.
+Pro primární barvu byla zvolena tmavě zelená (\#3C6838), která evokuje přírodní potraviny a zemědělství.
+Ostatní barvy byly nástrojem Material Theme Builder vygenerovány na základě této primární barvy, aby se vzájemně doplňovaly.
+Zajišťují tak dostatečný kontrast pro čitelnost textu a vizuální přitažlivost aplikace.
+
+Významnou barvou v Material Design paletě je barva \textit{surface}, která je používána jako pozadí pro většinu obrazovek aplikace (v obrázku~\ref{fig:color-palette} je použita jako pozadí boxu \enquote{Světlý motiv}, respektive \enquote{Tmavý motiv}).
+Těmi nejdůležitějšími barvami jsou ale barvy primární, sekundární, terciární a jejich kontejnerové varianty (zobrazeny na~obrázku~\ref{fig:color-palette}).
+Primární, sekundární a terciární barvy jsou používány pro zvýraznění důležitých prvků uživatelského rozhraní, jako jsou tlačítka, ikony a další interakční prvky.
+Kontejnerové varianty těchto barev jsou používány pro větší plochy, které jsou třeba zvýraznit, jako jsou karty nebo větší tlačítka.\footfullcite{material3_color_roles}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{res/color_palette}
+    \caption{Barevná paleta aplikace}
+    \label{fig:color-palette}
+\end{figure}
+
+\subsection{Rozvržení obrazovek}
+Návrh rozvržení obrazovek aplikace vychází z funkčních požadavků a use case diagramu.
+Úvodní obrazovkou aplikace je obrazovka, kde uživatel může zvolit mezi mapovým a seznamovým zobrazením obchodů.
+Výchozím zobrazením je mapové zobrazení, kde mapa ukazuje polohu uživatele a okolní obchody jako značky na mapě (obrázek~\ref{fig:map-view}).
+Při kliknutí na značku obchodu se zobrazí detail obchodu jako spodní panel, který obsahuje detaily obchodu (obrázek~\ref{fig:map-view-shop-detail}).
+V seznamovém zobrazení jsou obchody zobrazeny jako karty v~seznamu, které obsahují pouze základní informace o obchodu, aby byly karty přehledné, ale zároveň obchod dostatečně popisovaly (obrázek~\ref{fig:list-view}).
+Zde se při kliknutí na kartu obchodu zobrazí detail obchodu na samostatné obrazovce (obrázek~\ref{fig:shop-detail}).
+Obě zobrazení mají společnou spodní nabídku, kde může uživatel přepínat mezi mapovým a seznamovým zobrazením a otevřít dialog pro filtry.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.2\textwidth]{res/ui/map_view}
+    \caption{Mapové zobrazení obchodů}
+    \label{fig:map-view}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.2\textwidth]{res/ui/map_view_shop_detail}
+    \caption{Detail obchodu v mapovém zobrazení}
+    \label{fig:map-view-shop-detail}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.2\textwidth]{res/ui/list_view}
+    \caption{Seznamové zobrazení obchodů}
+    \label{fig:list-view}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.2\textwidth]{res/ui/shop_detail}
+    \caption{Detail obchodu v plném zobrazení}
+    \label{fig:shop-detail}
+\end{figure}
 
 
 \section{Výběr technologií}
