@@ -166,6 +166,10 @@ Při kliknutí na značku obchodu se zobrazí detail obchodu jako spodní panel,
 V seznamovém zobrazení jsou obchody zobrazeny jako karty v~seznamu, které obsahují pouze základní informace o obchodu, aby byly karty přehledné, ale zároveň obchod dostatečně popisovaly (obrázek~\ref{fig:list-view}).
 Zde se při kliknutí na kartu obchodu zobrazí detail obchodu na samostatné obrazovce (obrázek~\ref{fig:shop-detail}).
 Obě zobrazení mají společnou spodní nabídku, kde může uživatel přepínat mezi mapovým a seznamovým zobrazením a otevřít dialog pro filtry.
+Při kliknutí na tlačítko filtrů se zobrazí dialog, kde může uživatel zvolit jaký filtr chce upravit (kategorie, vzdálenost, hodnocení) a následně nastavit jeho hodnoty (obrázek~\ref{fig:filters}).
+V záložce \enquote{Filtry kategorií} může uživatel přidat název kategorie, které chce zobrazit.
+Názvy se doporučují na základě jejich četnosti v existujících obchodech, aby uživatel mohl snadno vybrat nejčastější kategorie a podle již zadaných počátečních písmen.
+V záložce \enquote{Filtr vzdálenosti} může uživatel zvolit maximální vzdálenost obchodů od své aktuální polohy pomocí posuvníku a v záložce \enquote{Filtr hodnocení} může uživatel zvolit minimální průměrné hodnocení obchodů pomocí hvězdiček.
 
 \begin{figure}[htbp]
     \centering
@@ -198,6 +202,39 @@ Obě zobrazení mají společnou spodní nabídku, kde může uživatel přepín
     \caption{Přehled uživatelského rozhraní aplikace}
     \label{fig:ui-overview}
 \end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{res/ui/filters}
+    \caption{Dialog pro nastavení filtrů}
+    \label{fig:filters}
+\end{figure}
+
+Ve spodní části základních obrazovek se nachází navigační lišta.
+Díky ní může uživatel snadno navigovat mezi právě těmito základními obrazovkami aplikace.
+První ikona v liště slouží pro navigaci na obrazovku se seznamem obchodů vytvořených uživatelem.
+Tato ikona se v navigační liště zobrazuje pouze pokud je uživatel přihlášen.
+Druhá ikona slouží pro navigaci na úvodní obrazovku s mapovým a seznamovým zobrazením obchodů.
+Třetí ikona slouží pro navigaci na obrazovku profilu uživatele.
+V případě, že je uživatel přihlášen, je na této obrazovce možné upravit osobní údaje.
+V opačném případě se zobrazí přihlašovací obrazovka, kde se může uživatel přihlásit nebo zaregistrovat nový účet.
+
+Na obrazovce profilu může uživatel upravit své osobní údaje, jak bylo specifikováno ve funkčních požadavcích.
+Mezi tyto údaji patří jméno, kontaktní informace a profilový obrázek.
+V případě profilového obrázku může uživatel buď nahrát obrázek ze svého zařízení, nebo přímo vyfotit nový obrázek pomocí fotoaparátu zařízení.
+Uživatel se zde také může odhlásit z aplikace.
+
+Na obrazovce \enquote{Moje obchody} má uživatel přehled o všech obchodech, které vytvořil.
+Obchody jsou zobrazeny jako karty v seznamu, podobně jako v seznamovém zobrazení na úvodní obrazovce.
+Každá karta má však navíc tlačítka pro úpravu a odstranění obchodu.
+Po kliknutí na tlačítko pro úpravu se spustí proces úpravy obchodu a po kliknutí na tlačítko pro odstranění se daný obchod smaže.
+K tomu se ve spodní části obrazovky nachází tlačítko pro vytvoření nového obchodu.
+Po kliknutí na toto tlačítko se spustí proces vytváření nového obchodu.
+
+Proces vytváření a úpravy obchodu je rozdělen do několika kroků a každý krok je zobrazen na samostatné obrazovce.
+Uživatel může mezi těmito kroky libovolně navigovat pomocí dvou spodních tlačítek \enquote{Předchozí} a \enquote{Další}.
+TODO: jednotlivé kroky\ldots - UI návrh done
+%V posledním kroku se zobrazí shrnutí zadaných údajů před vytvořením obchodu a místo tlačítka \enquote{Další} se zobrazí tlačítko \enquote{Potvrdit}, které obchod vytvoří nebo upraví.
 
 
 \section{Výběr technologií}
