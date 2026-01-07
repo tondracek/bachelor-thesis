@@ -119,7 +119,7 @@ Recenze je svázána s uživatelem prostřednictvím asociace, která vyjadřuje
 S obchodem je recenze rovněž svázána asociací, jelikož recenze reprezentuje interakci mezi uživatelem a konkrétním obchodem, nikoli jeho vnitřní součást.
 Přestože recenze bez existence obchodu ztrácí svůj praktický význam, není modelována jako kompozitní součást obchodu, protože má vlastní identitu a samostatný životní cyklus.
 
-\begin{figure}[p]
+\begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{res/class_diagram}
     \caption{Class diagram aplikace}
@@ -136,11 +136,14 @@ Návrh UI zahrnuje rozvržení obrazovek, navigační strukturu a interakční p
 Při návrhu rozhraní je kladen důraz na konzistenci ovládacích prvků, díky čemuž se uživatel snadno zorientuje v aplikaci, jasnou navigaci aplikací a minimalizaci počtu kroků potřebných k~provedení akcí.
 
 \subsection{Barevné schéma}
-% TODO: Co je to material design? Odkaz do literatury!
-% TODO: #Material theme builder je v praci navrzen nebo prevzat. V 1. pripade je vhodne odkazat odpovidajici cat text ve durhem zdroj, odkud cerpate.
+% TODO: Co je to material design? Odkaz do literatury! - DONE
+% TODO: #Material theme builder je v praci navrzen nebo prevzat. V 1. pripade je vhodne odkazat odpovidajici cat text ve durhem zdroj, odkud cerpate. - DONE
 
 Aplikace využívá principy Material Designu, které zajišťují jednotný a moderní vzhled aplikace.
-Barevná paleta byla vygenerována pomocí nástroje Material Theme Builder, který pomocí jedné primární barvy vytvoří kompletní sadu barev pro světlé i tmavé téma aplikace.
+Material Design je designový systém vyvinutý společností Google, který poskytuje sadu doporučených postupů a komponent pro tvorbu uživatelských rozhraní.\footfullcite{material_design}
+
+Barevná paleta byla vygenerována pomocí nástroje Material Theme Builder, který generuje barevné schéma v souladu s principy Material Designu.\footfullcite{material_theme_builder}
+Po zadání primární barvy do nástroje nám vytvoří kompletní sadu barev pro světlé i tmavé téma aplikace.
 V případě potřeby lze barvy dále upravovat, avšak pro základní návrh zajišťují tyto vygenerované barvy konzistentní a esteticky příjemný vzhled aplikace.
 Pro primární barvu byla zvolena tmavě zelená (\#3C6838), která evokuje přírodní potraviny a zemědělství.
 Ostatní barvy byly nástrojem Material Theme Builder vygenerovány na základě této primární barvy, aby se vzájemně doplňovaly.
@@ -160,15 +163,31 @@ Kontejnerové varianty těchto barev jsou používány pro větší plochy, kter
 
 \subsection{Rozvržení obrazovek}
 Návrh rozvržení obrazovek aplikace vychází z funkčních požadavků a use case diagramu.
+Je důležité, aby uživatelské rozhraní bylo přehledné a intuitivní, což umožní uživatelům snadno najít a využít požadované funkce aplikace.
+
+\subsubsection{Navigační lišta}
+Ve spodní části základních obrazovek se nachází navigační lišta (obrázky~\ref{fig:ui-overview}), která obsahuje tři ikony představující tři hlavní obrazovky aplikace: \enquote{Moje obchody}, \enquote{Úvodní obrazovka} a \enquote{Profil uživatele}.
+Díky ní může uživatel snadno navigovat mezi právě těmito základními obrazovkami aplikace.
+První ikona v liště slouží pro navigaci na obrazovku se seznamem obchodů vytvořených uživatelem.
+Tato ikona se v navigační liště zobrazuje pouze pokud je uživatel přihlášen.
+Druhá ikona slouží pro navigaci na úvodní obrazovku s mapovým a seznamovým zobrazením obchodů.
+Třetí ikona slouží pro navigaci na obrazovku profilu uživatele.
+V případě, že je uživatel přihlášen, je na této obrazovce možné upravit osobní údaje.
+V opačném případě se zobrazí přihlašovací obrazovka, kde se může uživatel přihlásit nebo zaregistrovat nový účet.
+
+\subsubsection{Úvodní obrazovka}
 Úvodní obrazovkou aplikace je obrazovka, kde uživatel může zvolit mezi mapovým a seznamovým zobrazením obchodů.
+
 Výchozím zobrazením je mapové zobrazení, kde mapa ukazuje polohu uživatele a okolní obchody jako značky na mapě (obrázek~\ref{fig:map-view}).
 Při kliknutí na značku obchodu se zobrazí detail obchodu jako spodní panel, který obsahuje detaily obchodu (obrázek~\ref{fig:map-view-shop-detail}).
+
 V seznamovém zobrazení jsou obchody zobrazeny jako karty v~seznamu, které obsahují pouze základní informace o obchodu, aby byly karty přehledné, ale zároveň obchod dostatečně popisovaly (obrázek~\ref{fig:list-view}).
 Zde se při kliknutí na kartu obchodu zobrazí detail obchodu na samostatné obrazovce (obrázek~\ref{fig:shop-detail}).
+
 Obě zobrazení mají společnou spodní nabídku, kde může uživatel přepínat mezi mapovým a seznamovým zobrazením a otevřít dialog pro filtry.
 Při kliknutí na tlačítko filtrů se zobrazí dialog, kde může uživatel zvolit jaký filtr chce upravit (kategorie, vzdálenost, hodnocení) a následně nastavit jeho hodnoty (obrázek~\ref{fig:filters}).
 V záložce \enquote{Filtry kategorií} může uživatel přidat název kategorie, které chce zobrazit.
-Názvy se doporučují na základě jejich četnosti v existujících obchodech, aby uživatel mohl snadno vybrat nejčastější kategorie a podle již zadaných počátečních písmen.
+Názvy jsou doporučovány na základě jejich četnosti v existujících obchodech, aby uživatel mohl snadno vybrat nejčastější kategorie a podle již zadaných počátečních písmen.
 V záložce \enquote{Filtr vzdálenosti} může uživatel zvolit maximální vzdálenost obchodů od své aktuální polohy pomocí posuvníku a v záložce \enquote{Filtr hodnocení} může uživatel zvolit minimální průměrné hodnocení obchodů pomocí hvězdiček.
 
 \begin{figure}[htbp]
@@ -210,20 +229,13 @@ V záložce \enquote{Filtr vzdálenosti} může uživatel zvolit maximální vzd
     \label{fig:filters}
 \end{figure}
 
-Ve spodní části základních obrazovek se nachází navigační lišta.
-Díky ní může uživatel snadno navigovat mezi právě těmito základními obrazovkami aplikace.
-První ikona v liště slouží pro navigaci na obrazovku se seznamem obchodů vytvořených uživatelem.
-Tato ikona se v navigační liště zobrazuje pouze pokud je uživatel přihlášen.
-Druhá ikona slouží pro navigaci na úvodní obrazovku s mapovým a seznamovým zobrazením obchodů.
-Třetí ikona slouží pro navigaci na obrazovku profilu uživatele.
-V případě, že je uživatel přihlášen, je na této obrazovce možné upravit osobní údaje.
-V opačném případě se zobrazí přihlašovací obrazovka, kde se může uživatel přihlásit nebo zaregistrovat nový účet.
-
+\subsubsection{Obrazovka profilu uživatele}
 Na obrazovce profilu může uživatel upravit své osobní údaje, jak bylo specifikováno ve funkčních požadavcích.
 Mezi tyto údaji patří jméno, kontaktní informace a profilový obrázek.
 V případě profilového obrázku může uživatel buď nahrát obrázek ze svého zařízení, nebo přímo vyfotit nový obrázek pomocí fotoaparátu zařízení.
 Uživatel se zde také může odhlásit z aplikace.
 
+\subsubsection{Obrazovka Moje obchody}
 Na obrazovce \enquote{Moje obchody} má uživatel přehled o všech obchodech, které vytvořil.
 Obchody jsou zobrazeny jako karty v seznamu, podobně jako v seznamovém zobrazení na úvodní obrazovce.
 Každá karta má však navíc tlačítka pro úpravu a odstranění obchodu.
@@ -231,13 +243,103 @@ Po kliknutí na tlačítko pro úpravu se spustí proces úpravy obchodu a po kl
 K tomu se ve spodní části obrazovky nachází tlačítko pro vytvoření nového obchodu.
 Po kliknutí na toto tlačítko se spustí proces vytváření nového obchodu.
 
+\subsubsection{Proces vytváření a úpravy obchodu}
 Proces vytváření a úpravy obchodu je rozdělen do několika kroků a každý krok je zobrazen na samostatné obrazovce.
 Uživatel může mezi těmito kroky libovolně navigovat pomocí dvou spodních tlačítek \enquote{Předchozí} a \enquote{Další}.
 
-TODO: jednotlivé kroky\ldots - UI návrh done
+V prvním kroku uživatel zadává název a polohu obchodu na mapě (obrázek~\ref{fig:create-shop-step-01}).
+Jsou to kromě samotné nabídky nejvýznamnější údaje, které obchod popisují a kterých si zájemci všimnou jako první.
 
-%V posledním kroku se zobrazí shrnutí zadaných údajů před vytvořením obchodu a místo tlačítka \enquote{Další} se zobrazí tlačítko \enquote{Potvrdit}, které obchod vytvoří nebo upraví.
+V druhém kroku uživatel přidává fotografie a popis obchodu (obrázek~\ref{fig:create-shop-step-02}).
+Pro fotografie má uživatel na výběr mezi přidáním ze svého zařízení nebo vyfocením nové fotografie pomocí fotoaparátu zařízení.
+Fotografie může uživatel přidávat, mazat nebo měnit jejich pořadí.
+Pro popis obchodu je k dispozici textové pole, kde uživatel může zadat libovolný dlouhý text.
+
+Ve třetím kroku uživatel přidává kategorie produktů obchodu a položky nabídky (obrázek~\ref{fig:create-shop-step-03}).
+Kategorie produktů jsou reprezentovány názvem a barvou, kterou si uživatel může zvolit z předdefinované palety barev (obrázek~\ref{fig:create-shop-add-edit-category}).
+Názvy kategorií se uživatelovi doporučují na základě jejich četnosti v existujících obchodech, aby uživatel mohl snadno vybrat nejpopulárnější kategorie a jeho obchod byl tak lépe dohledatelný.
+Položky nabídky produktů (Menu produktů) obsahují název, volitelný popis, cenu a informaci o dostupnosti (obrázek~\ref{fig:create-shop-add-edit-product}).
+Po kliknutí na tlačítko \enquote{Přidat produkt} se zobrazí dialog pro zadání těchto údajů o nové položce nabídky.
+Každá položka nabídky je zobrazena jako karta v seznamu a kromě zobrazení údajů obsahuje také tlačítka pro úpravu a odstranění položky nabídky.
+
+Ve čtvrtém kroku uživatel zadává otevírací dobu obchodu (obrázek~\ref{fig:create-shop-step-04}).
+Uživatel má na výběr mezi dvěma způsoby zadání otevírací doby: jako pravidelnou denní otevírací dobu (obrázek~\ref{fig:create-shop-opening-hours-time}), kde může uživatel ke každému dni v týdnu zadat zprávu, kde popíše otevírací hodiny (například \enquote{9:00-11:00, 13:00-17:00}), nebo jako volitelnou zprávu, kde uživatel může zadat libovolný text (například \enquote{Kontaktujte mě předem telefonicky}).
+
+Posledním krokem je shrnutí, kde může uživatel zkontrolovat všechny zadané údaje před vytvořením nebo úpravou obchodu.
+Tato obrazovka je téměř totožná jako obrazovka detailu obchodu, ale obsahuje navíc tlačítka \enquote{Předchozí} a \enquote{Potvrdit} (místo tlačítka \enquote{Další} jako v předchozích krocích).
+
+\begin{figure}[htbp]
+
+    \centering
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_01}
+        \caption{Krok 1: Název a poloha obchodu}
+        \label{fig:create-shop-step-01}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_02}
+        \caption{Krok 2: Obrázky a popis obchodu}
+        \label{fig:create-shop-step-02}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_03}
+        \caption{Krok 3: Kategorie produktů obchodu a nabídka produktů}
+        \label{fig:create-shop-step-03}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_04}
+        \caption{Krok 4: Otevírací doba obchodu – zpráva}
+        \label{fig:create-shop-step-04}
+    \end{subfigure}
+
+    \caption{Kroky vytváření a úpravy obchodu}
+    \label{fig:create-shop-steps}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/opening_hours_time}
+        \caption{Denní otevírací doba obchodu}
+        \label{fig:create-shop-opening-hours-time}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/add/edit_category}
+        \caption{Přidání / úprava kategorie obchodu}
+        \label{fig:create-shop-add-edit-category}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/add/edit_product}
+        \caption{Přidání / úprava položky nabídky obchodu}
+        \label{fig:create-shop-add-edit-product}
+    \end{subfigure}
+
+    \caption{Dodatečné prvky vytváření a úpravy obchodu}
+    \label{fig:create-shop-additional}
+\end{figure}
 
 
 \section{Výběr technologií}
 % Compose (vs Java/xml), Material 3, Firebase (vs Server Backend, vs Spring Server a proč jsem si to nevybral), Dokumentová databáze (vs SQL), BaaS, Serverless backend??
+
+\subsection{Platforma Android}
+
+\subsection{Kotlin a Jetpack Compose}
+
+\subsection{Material Design 3}
+% Design system
+
+\subsection{Firebase}
+%Backend as a Service a serverless architektura
+%NoSQL databáze
+%Autentizace uživatelů
+%Ukládání souborů
