@@ -331,15 +331,69 @@ Tato obrazovka je téměř totožná jako obrazovka detailu obchodu, ale obsahuj
 \section{Výběr technologií}
 % Compose (vs Java/xml), Material 3, Firebase (vs Server Backend, vs Spring Server a proč jsem si to nevybral), Dokumentová databáze (vs SQL), BaaS, Serverless backend??
 
-\subsection{Platforma Android}
+%Volba použitých technologií pro vývoj navrhované aplikace je klíčovým krokem, který ovlivní nejen samotný proces vývoje, ale i konečnou kvalitu a použitelnost aplikace.
+Volba použitých technologií vychází z požadavků aplikace a zohledňuje faktory jako je efektivita vývoje, uživatelský zážitek, škálovatelnost a údržba aplikace.
+Cílem je zvolit technologie vhodné pro vytvoření funkční, spolehlivé a uživatelsky přívětivé aplikace, která bude odpovídat potřebám cílových uživatelů a splňovat stanovené požadavky.
 
-\subsection{Kotlin a Jetpack Compose}
+\subsection{Volba cílové platformy}
+% 3 hlavní možnosti: mobilní aplikace, webová aplikace, desktopová aplikace
+% Proč mobilní aplikace?
+% Důvody volby platformy
+%  - fotky - foťák/galerie (stejně telefon potřebuješ) jednodušší na telefonu
+%  - aktuální poloha uživatele - jednodušší na telefonu
+%  - mapa okolí uživatele - možnost použití mimo domov, při cestování/návratu domů z cesty - primární využití telefonu
+%  - kontaktování producenta většinou přes telefon - jednodušší, protože by uživatel stejně použil telefon
+% A z těchto důvodů volím vývoj jako platformu mobilní aplikaci, aby byla její použitelnost a uživatelský zážitek co nejlepší.
+% Webová aplikace by sice zajistila větší dostupnost, ale primární využití je na mobilním telefonu, kde by webová aplikace ve srovnání s nativní mobilní aplikací poskytovala výrazně horší uživatelský zážitek.
+% Soustředit se na mobilní aplikaci je tak nejoptimálnější řešení tohoto problému.
 
-\subsection{Material Design 3}
+% Android je nejrozšířenější mobilní platforma v česku, proto ji volím jako cílovou platformu pro vývoj aplikace.
+
+% TODO: iOS - zmínit/nezmínit -  nemám prostředky pro vývoj, testování ani vydání aplikace na této platformě
+% TODO: Zmínit/nezmínit - Jetpack compose - možnost předělat na multiplatform
+
+\subsection{Programovací jazyk a UI framework} % TODO: mám rozdělit jazyk a UI framework?
+% Možnosti pro Android vývoj
+% - Java + XML - starší, ale stále používané
+% - Kotlin + XML - moderní jazyk, ale starší způsob tvorby UI
+% - Kotlin + Jetpack Compose - moderní a doporučovaný způsob tvorby UI
+% Důvody volby Kotlinu a Jetpack Compose
+% - Kotlin - moderní a doporučovaný jazyk pro Android
+% - Jetpack Compose - moderní framework pro tvorbu UI
+% - Deklarativní přístup k tvorbě UI
+% - Jetpack Compose - méně kódu, jednodušší údržba, rychlejší vývoj, přirozené napojení na state management
+
+\subsection{Designový systém}
 % Design system
+% Možnosti pro mobilní aplikaci
+%  - Material Design 2 - starší, ale stále používaný
+%  - Material Design 3 - nejmodernější, prozkoumaný vliv na UX a uživatele
+%  - vlastní design - náročné na čas a vývoj, horší UX, odpovídá značce produktu a společnosti
+% Material Design 2 vs 3 - statistika, testováno na uživatelích (někde jsou aji studie nebo něco takovýho)
+% Důvody volby Material Design 3
+% - moderní vzhled a dojem
+% - doporučený Googlem pro Android aplikace
+% - lepší podpora pro tmavý režim
+% - vestavěné komponenty a vzory pro lepší UX
 
-\subsection{Firebase}
-%Backend as a Service a serverless architektura
-%NoSQL databáze
-%Autentizace uživatelů
-%Ukládání souborů
+\subsection{Backendové řešení a architektura}
+% Porovnání Firebase vs Backend server (Spring) - proč se backend server nevyplatí s mém případě
+
+% Důvody volby Firebase
+% - Integrace s Androidem a Kotlinem
+% - snadný a rychlý vývoj backendu
+% - Nejčastěji používaný pro podobné aplikace
+% - Nejčastěji používaný startupy a menšími týmy
+% - Nízké či nulové náklady na provoz při menším počtu uživatelů
+% - Netřeba řešit škálovatelnost a provoz serveru
+
+% "Zvolené řešení Firebase představuje plnohodnotné backendové řešení typu Backend-as-a-Service"
+
+% Zvolené řešení umožňuje soustředit se na návrh aplikace a uživatelského rozhraní, nikoli na provozní aspekty backendu.
+
+% TODO: zmínit/nezmínit - při správném návrhu backendu lze později přejít na vlastní serverové řešení, pokud by to bylo potřeba
+
+% Backend as a Service a serverless architektura
+% NoSQL databáze
+% Autentizace uživatelů - Firebase Authentication
+% Ukládání souborů - Firebase Storage
