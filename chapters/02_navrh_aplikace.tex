@@ -353,13 +353,17 @@ Cílem je zvolit technologie vhodné pro vytvoření funkční, spolehlivé a u�
 % TODO: Zmínit/nezmínit - Jetpack compose - možnost předělat na multiplatform
 
 Při volbě platformy pro vývoj aplikace se obvykle nabízejí tři hlavní možnosti: mobilní aplikace, webová aplikace a desktopová aplikace.
-Vyvíjená aplikace bude využívat funkce jako je fotoaparát, galerie obrázků, aktuální poloha uživatele a mapa okolí uživatele.
-Pro aplikaci bude vhodné mít možnost ji používat i mimo domov, například při cestování nebo návratu domů z cesty, kdy bude uživatel chtít najít obchody v~okolí své aktuální polohy.
-Ve finálním kroku budou uživatelé většinou kontaktovat producenta pomocí kontaktních údajů, které budou dostupné v aplikaci u jednotlivých obchodů.
-Přestože to není jediné řešení, budou uživatelé typicky k tomuto účelu používat svůj telefon.
-Z těchto důvodů je nejvhodnější platformou pro vývoj aplikace mobilní aplikace.
-Webová aplikace by sice zajistila větší dostupnost, ale primární využití je na mobilním telefonu, kde by webová aplikace ve srovnání s nativní mobilní aplikací poskytovala výrazně horší uživatelský zážitek.
-V České republice je nejrozšířenějším operačním systémem pro mobilní zařízení Android, a proto byla jako cílová platforma zvolena Android mobilní aplikace.
+Navrhovaná aplikace využívá funkce, jako jsou fotoaparát zařízení, galerie obrázků, zjišťování aktuální polohy uživatele a mapové zobrazení okolí.
+Aplikace je navržena tak, aby byla využitelná i mimo domov, například při cestování nebo návratu z cesty, kdy uživatel potřebuje rychle vyhledat obchody v~okolí své aktuální polohy.
+Zároveň obchody v aplikaci poskytují zájemcům kontaktní údaje na producenty, aby je mohli snadno kontaktovat například formou telefonního hovoru, SMS nebo odkazem na sociální sítě.
+V praxi k této interakci uživatelé ve většině případů využívají mobilní telefon, takže i zde je vhodnější mít aplikaci přímo na mobilním zařízení.
+Z uvedených důvodů je nejvhodnější aplikační platformou mobilní aplikace.
+Webová aplikace by sice zajistila vyšší míru dostupnosti napříč zařízeními, avšak v prostředí mobilních zařízení by ve srovnání s nativní mobilní aplikací poskytovala výrazně horší uživatelský zážitek, jak z hlediska výkonu, odezvy a použitelnosti, tak i z hlediska přístupu k nativním funkcím zařízení.
+V České republice je nejrozšířenějším operačním systémem pro mobilní zařízení Android, a proto byla jako cílová platforma zvolena mobilní aplikace pro platformu Android.
+
+% TODO: Alternativou k nativnímu vývoji by bylo využití multiplatformních frameworků, jako jsou Flutter nebo React Native, které umožňují cílit na více platforem z jednoho kódu.
+%  Tato řešení však přinášejí další vrstvu abstrakce a zvyšují složitost integrace s nativními funkcemi zařízení, jako jsou práce s mapami, polohou uživatele nebo fotoaparátem.
+%  Vzhledem k zaměření práce výhradně na platformu Android, rozsahu bakalářské práce a důrazu na návrh uživatelského rozhraní a aplikační logiky bylo zvoleno nativní řešení v jazyce Kotlin s frameworkem Jetpack Compose, které umožňuje plnou kontrolu nad chováním aplikace a přímé využití oficiálně doporučených nástrojů platformy.
 
 \subsection{Programovací jazyk a UI framework} % TODO: mám rozdělit jazyk a UI framework?
 % Možnosti pro Android vývoj
@@ -371,6 +375,18 @@ V České republice je nejrozšířenějším operačním systémem pro mobilní
 % - Jetpack Compose - moderní framework pro tvorbu UI
 % - Deklarativní přístup k tvorbě UI
 % - Jetpack Compose - méně kódu, jednodušší údržba, rychlejší vývoj, přirozené napojení na state management
+
+Pro vývoj mobilní aplikace pro platformu Android bylo nutné zvolit vhodný programovací jazyk a framework pro tvorbu uživatelského rozhraní.
+V současnosti patří mezi nejčastěji používané kombinace pro vývoj nativních Android aplikací Java s XML, Kotlin s XML a Kotlin s frameworkem Jetpack Compose.
+
+Jako programovací jazyk byl zvolen Kotlin, který je moderním a oficiálně doporučovaným jazykem pro vývoj Android aplikací.
+Ve srovnání s jazykem Java nabízí Kotlin kratší a čitelnější syntaxi, lepší podporu moderních programovacích paradigmat a vyšší bezpečnost typů díky práci s nulovatelností (null-safety).
+
+Pro tvorbu uživatelského rozhraní byl zvolen framework Jetpack Compose, který umožňuje deklarativní přístup k návrhu UI\@.
+Tento přístup snižuje množství potřebného kódu, usnadňuje jeho údržbu a zrychluje vývoj aplikace.
+Jetpack Compose je navíc přirozeně integrován se správou stavu aplikace, což usnadňuje práci s dynamickým obsahem a uživatelskými interakcemi.
+
+Zvolená kombinace jazyka Kotlin a frameworku Jetpack Compose představuje moderní a v současnosti doporučovaný způsob vývoje nativních aplikací pro platformu Android.
 
 \subsection{Designový systém}
 % Design system
