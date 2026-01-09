@@ -7,7 +7,7 @@ specifikace požadavků a návrhové diagramy.
 
 Nejprve jsou specifikovány funkční a nefunkční požadavky, které vymezují chování a vlastnosti aplikace.
 Na jejich základě je dále vytvořen diagram případů užití znázorňující základní interakce mezi uživateli a aplikací.
-Struktura aplikace je následně popsána pomocí class diagramu, který zachycuje hlavní entity a jejich vzájemné vztahy.
+Struktura aplikace je následně popsána pomocí diagramu tříd, který zachycuje hlavní entity a jejich vzájemné vztahy.
 Součástí kapitoly je také návrh uživatelského rozhraní, jenž se zaměřuje na rozvržení obrazovek a způsob interakce s~uživatelem.
 Závěrečná část kapitoly se věnuje výběru technologií, které budou vyhovovat požadavkům aplikace a umožní její efektivní implementaci.
 
@@ -81,50 +81,59 @@ Všechny interakce prodejce vyžadují přihlášení.
 \FloatBarrier
 
 
-\section{Class diagram} % TODO: Přeložit do češtiny??
+\section{Diagram tříd}
 
-Class diagram popisuje strukturu aplikace z~pohledu hlavních entit, jejich atributů a vztahů mezi nimi.
+Diagram tříd (anglicky Class Diagram) popisuje strukturu aplikace z~pohledu hlavních entit, jejich atributů a vztahů mezi nimi.
 Diagram vychází ze specifikace funkčních požadavků a diagramu případů užití a slouží jako podklad pro návrh datového modelu a implementaci aplikační logiky.
 Modeluje základní entity tak, aby systém mohl plnit požadované funkce, zajišťoval konzistenci dat a umožňoval jejich efektivní správu do budoucna.
 Přehled hlavních tříd a jejich vztahů je znázorněn na obrázku~\ref{fig:class-diagram}.
 
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\textwidth]{res/class_diagram}
+    \caption{Diagram tříd aplikace}
+    \label{fig:class-diagram}
+\end{figure}
+
+\subsection{Entita uživatele}
 Jednou ze základních entit je uživatel (User), který reprezentuje registrovaného uživatele aplikace.
 Uživatel je identifikován jednoznačným identifikátorem a obsahuje základní osobní údaje, profilový obrázek a kontaktní informace.
 Identifikátor je typu UUID, což zajišťuje jeho jedinečnost napříč celým systémem.
 Kontaktní údaje jsou modelovány samostatnou třídou \texttt{ContactInfo}, která je s uživatelem svázána kompozicí, jelikož bez existence uživatele nemají samostatný význam.
 Profilový obrázek je volitelný a je reprezentován hodnotovým objektem \texttt{ImageResource}, který uchovává odkaz na externě uložený obrazový soubor.
 
+\subsection{Entita obchodu}
 Druhou klíčovou entitou je obchod (Shop), který reprezentuje obchod vytvořený registrovaným uživatelem, kde může nabízet své produkty.
 Obchod je také identifikován jednoznačným identifikátorem typu UUID\@.
-Obchod obsahuje atributy: id, název, popis, vlastník, seznam kategorií, obrázky, nabídku produktů, polohu a otevírací dobu.
+Obchod obsahuje atributy: id, název, popis, vlastník, seznam kategorií, obrázky, nabídku produktů, polohu a otevírací dobu. % TODO: zvýraznit výčet?
 Základní atributy jako název a popis jsou oba typu \texttt{String} a jsou volitelné.
+
 Obchod je svázán s uživatelem prostřednictvím asociace, která vyjadřuje vlastnictví obchodu konkrétním uživatelem.
+
 Kategorie obchodu je reprezentována hodnotovým objektem \texttt{ShopCategory}, který obsahuje název kategorie a barvu pro vizuální odlišení.
 Vztah mezi obchodem a kategoriemi je modelován jako kompozice, protože kategorie jsou vlastněny konkrétním obchodem.
 Zakladatel obchodu si tak může zvolit libovolnou kombinaci názvu a barvy pro každou kategorii.
 Požadované filtrování obchodů podle kategorií bude realizováno pomocí normalizovaných názvů kategorií ze všech obchodů.
+
 Obrázky obchodu jsou reprezentovány jako seznam již zmiňovaných hodnotových objektů \texttt{ImageResource}.
+
 Nabídka produktů je modelována hodnotovým objektem \texttt{Menu}, který obsahuje seznam položek nabídky typu \texttt{MenuItem}.
 Každá položka nabídky obsahuje název, volitelný popis, cenu a informaci o dostupnosti.
 Cena je reprezentována hodnotovým objektem \texttt{PriceLabel}, který uchovává cenu jako formátovaný řetězec.
 Uživatel tak může cenu popsat vzhledem k měně a jednotce v jaké se produkt nabízí (například \enquote{150 Kč / kg}).
+
 Otevírací doba obchodu je reprezentována rozhraním \texttt{OpeningHours}, které má dvě implementace: \texttt{TimeOpeningHours} a \texttt{MessageOpeningHours}.
 První implementace uchovává otevírací dobu jako mapu dnů v týdnu na otevírací hodiny v případě, že producent je dostupný v pravidelných časech.
 Druhá implementace uchovává otevírací dobu jako volitelnou zprávu v~případě, že producent chce například uvést, aby ho zájemce nejdříve kontaktoval.
+
 Poloha obchodu je modelována hodnotovým objektem \texttt{Location}, který obsahuje zeměpisnou šířku a délku jako desetinná čísla.
 
+\subsection{Entita recenze}
 Poslední entitou je recenze (Review), která reprezentuje hodnocení obchodu uživatelem.
 Recenze je identifikována jednoznačným identifikátorem typu UUID a obsahuje atributy: id, autor, obchod, hodnocení a volitelný komentář.
 Recenze je svázána s uživatelem prostřednictvím asociace, která vyjadřuje autora recenze.
 S obchodem je recenze rovněž svázána asociací, jelikož recenze reprezentuje interakci mezi uživatelem a konkrétním obchodem, nikoli jeho vnitřní součást.
 Přestože recenze bez existence obchodu ztrácí svůj praktický význam, není modelována jako kompozitní součást obchodu, protože má vlastní identitu a samostatný životní cyklus.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{res/class_diagram}
-    \caption{Class diagram aplikace}
-    \label{fig:class-diagram}
-\end{figure}
 
 
 \section{Návrh uživatelského rozhraní}
