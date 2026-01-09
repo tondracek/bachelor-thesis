@@ -6,7 +6,7 @@ K tomuto byly využity standardní techniky softwarového inženýrství, zejmé
 specifikace požadavků a návrhové diagramy.
 
 Nejprve jsou specifikovány funkční a nefunkční požadavky, které vymezují chování a vlastnosti aplikace.
-Na jejich základě je dále vytvořen use case diagram znázorňující základní interakce mezi uživateli a aplikací.
+Na jejich základě je dále vytvořen diagram případů užití znázorňující základní interakce mezi uživateli a aplikací.
 Struktura aplikace je následně popsána pomocí class diagramu, který zachycuje hlavní entity a jejich vzájemné vztahy.
 Součástí kapitoly je také návrh uživatelského rozhraní, jenž se zaměřuje na rozvržení obrazovek a způsob interakce s~uživatelem.
 Závěrečná část kapitoly se věnuje výběru technologií, které budou vyhovovat požadavkům aplikace a umožní její efektivní implementaci.
@@ -50,9 +50,9 @@ Nefunkční požadavky popisují vlastnosti aplikace, které se netýkají pří
 \end{itemize}
 
 
-\section{Use case diagram}
-% TODO: Spis by se hodilo cesky Diagranm pripadu uziti. podobne nasledujici kapitola Diagram trid - jedna se o zazite ceske terminy.
-Use case diagram slouží k~přehlednému znázornění základních funkcí aplikace a interakcí mezi uživateli a systémem.
+\section{Diagram případů užití}
+% TODO: Spis by se hodilo cesky Diagranm pripadu uziti. podobne nasledujici kapitola Diagram trid - jedna se o zazite ceske terminy. - DONE
+Diagram případů (anglicky Use Case Diagram) užití slouží k~přehlednému znázornění základních funkcí aplikace a interakcí mezi uživateli a systémem.
 Diagram vychází ze specifikace funkčních požadavků a zachycuje chování aplikace z~pohledu jednotlivých typů uživatelů.
 Přehled aktérů a případů užití aplikace je znázorněn na obrázku~\ref{fig:use-case-diagram}.
 
@@ -75,16 +75,16 @@ Všechny interakce prodejce vyžadují přihlášení.
 \begin{figure}[h] % [p] pro full page, [h] pro here
     \centering
     \includegraphics[width=\textwidth]{res/use_case_diagram}
-    \caption{Use case diagram aplikace}
+    \caption{Diagram případů užití aplikace}
     \label{fig:use-case-diagram}
 \end{figure}
 \FloatBarrier
 
 
-\section{Class diagram}
+\section{Class diagram} % TODO: Přeložit do češtiny??
 
 Class diagram popisuje strukturu aplikace z~pohledu hlavních entit, jejich atributů a vztahů mezi nimi.
-Diagram vychází ze specifikace funkčních požadavků a use case diagramu a slouží jako podklad pro návrh datového modelu a implementaci aplikační logiky.
+Diagram vychází ze specifikace funkčních požadavků a diagramu případů užití a slouží jako podklad pro návrh datového modelu a implementaci aplikační logiky.
 Modeluje základní entity tak, aby systém mohl plnit požadované funkce, zajišťoval konzistenci dat a umožňoval jejich efektivní správu do budoucna.
 Přehled hlavních tříd a jejich vztahů je znázorněn na obrázku~\ref{fig:class-diagram}.
 
@@ -131,7 +131,7 @@ Přestože recenze bez existence obchodu ztrácí svůj praktický význam, nen�
 % TODO: Jak a na kolika ruznych lidech planujete testovat kvalitu UI?
 
 Návrh uživatelského rozhraní (UI) se zaměřuje na vytvoření přehledného a intuitivního prostředí pro uživatele aplikace.
-Cílem je zajistit, aby uživatelé mohli snadno a efektivně využívat funkce aplikace a dosahovat svých cílů, které vychází z funkčních požadavků a use case diagramu.
+Cílem je zajistit, aby uživatelé mohli snadno a efektivně využívat funkce aplikace a dosahovat svých cílů, které vychází z funkčních požadavků a diagramu případů užití.
 Návrh UI zahrnuje rozvržení obrazovek, navigační strukturu a interakční prvky.
 Při návrhu rozhraní je kladen důraz na konzistenci ovládacích prvků, díky čemuž se uživatel snadno zorientuje v aplikaci, jasnou navigaci aplikací a minimalizaci počtu kroků potřebných k~provedení akcí.
 
@@ -162,7 +162,7 @@ Kontejnerové varianty těchto barev jsou používány pro větší plochy, kter
 \end{figure}
 
 \subsection{Rozvržení obrazovek}
-Návrh rozvržení obrazovek aplikace vychází z funkčních požadavků a use case diagramu.
+Návrh rozvržení obrazovek aplikace vychází z funkčních požadavků a diagramu případů užití.
 Je důležité, aby uživatelské rozhraní bylo přehledné a intuitivní, což umožní uživatelům snadno najít a využít požadované funkce aplikace.
 
 \subsubsection{Navigační lišta}
@@ -331,7 +331,6 @@ Tato obrazovka je téměř totožná jako obrazovka detailu obchodu, ale obsahuj
 \section{Výběr technologií}
 % Compose (vs Java/xml), Material 3, Firebase (vs Server Backend, vs Spring Server a proč jsem si to nevybral), Dokumentová databáze (vs SQL), BaaS, Serverless backend??
 
-%Volba použitých technologií pro vývoj navrhované aplikace je klíčovým krokem, který ovlivní nejen samotný proces vývoje, ale i konečnou kvalitu a použitelnost aplikace.
 Volba použitých technologií vychází z požadavků aplikace a zohledňuje faktory jako je efektivita vývoje, uživatelský zážitek, škálovatelnost a údržba aplikace.
 Cílem je zvolit technologie vhodné pro vytvoření funkční, spolehlivé a uživatelsky přívětivé aplikace, která bude odpovídat potřebám cílových uživatelů a splňovat stanovené požadavky.
 
@@ -361,20 +360,11 @@ Z uvedených důvodů je nejvhodnější aplikační platformou mobilní aplikac
 Webová aplikace by sice zajistila vyšší míru dostupnosti napříč zařízeními, avšak v prostředí mobilních zařízení by ve srovnání s nativní mobilní aplikací poskytovala výrazně horší uživatelský zážitek, jak z hlediska výkonu, odezvy a použitelnosti, tak i z hlediska přístupu k nativním funkcím zařízení.
 V České republice je nejrozšířenějším operačním systémem pro mobilní zařízení Android, a proto byla jako cílová platforma zvolena mobilní aplikace pro platformu Android.
 
-% TODO: Alternativou k nativnímu vývoji by bylo využití multiplatformních frameworků, jako jsou Flutter nebo React Native, které umožňují cílit na více platforem z jednoho kódu.
-%  Tato řešení však přinášejí další vrstvu abstrakce a zvyšují složitost integrace s nativními funkcemi zařízení, jako jsou práce s mapami, polohou uživatele nebo fotoaparátem.
-%  Vzhledem k zaměření práce výhradně na platformu Android, rozsahu bakalářské práce a důrazu na návrh uživatelského rozhraní a aplikační logiky bylo zvoleno nativní řešení v jazyce Kotlin s frameworkem Jetpack Compose, které umožňuje plnou kontrolu nad chováním aplikace a přímé využití oficiálně doporučených nástrojů platformy.
+Alternativou k nativnímu vývoji by bylo využití multiplatformních frameworků, jako jsou Flutter nebo React Native, které umožňují cílit na více platforem z jednoho kódu.
+Tato řešení však přinášejí další vrstvu abstrakce a zvyšují složitost integrace s nativními funkcemi zařízení, jako jsou práce s mapami, polohou uživatele nebo fotoaparátem.
+Vzhledem k zaměření práce výhradně na platformu Android, rozsahu bakalářské práce a důrazu na návrh uživatelského rozhraní a aplikační logiky bylo zvoleno nativní řešení v jazyce Kotlin s frameworkem Jetpack Compose.
 
-\subsection{Programovací jazyk a UI framework} % TODO: mám rozdělit jazyk a UI framework?
-% Možnosti pro Android vývoj
-% - Java + XML - starší, ale stále používané
-% - Kotlin + XML - moderní jazyk, ale starší způsob tvorby UI
-% - Kotlin + Jetpack Compose - moderní a doporučovaný způsob tvorby UI
-% Důvody volby Kotlinu a Jetpack Compose
-% - Kotlin - moderní a doporučovaný jazyk pro Android
-% - Jetpack Compose - moderní framework pro tvorbu UI
-% - Deklarativní přístup k tvorbě UI
-% - Jetpack Compose - méně kódu, jednodušší údržba, rychlejší vývoj, přirozené napojení na state management
+\subsection{Programovací jazyk a UI framework}
 
 Pro vývoj mobilní aplikace pro platformu Android bylo nutné zvolit vhodný programovací jazyk a framework pro tvorbu uživatelského rozhraní.
 V současnosti patří mezi nejčastěji používané kombinace pro vývoj nativních Android aplikací Java s XML, Kotlin s XML a Kotlin s frameworkem Jetpack Compose.
@@ -401,6 +391,17 @@ Zvolená kombinace jazyka Kotlin a frameworku Jetpack Compose představuje moder
 % - lepší podpora pro tmavý režim
 % - vestavěné komponenty a vzory pro lepší UX
 
+Designový systém aplikace ovlivňuje vzhled, dojem z aplikace a snadnost jejího používání.
+Pro mobilní aplikaci pro platformu Android se v praxi využívají většinou tři hlavní možnosti: Material Design 2, Material Design 3 a vlastní designový systém.
+
+Vlastní designový systém by zahrnoval vytvoření veškerých vlastních komponent, barevného schématu a vzorů pro uživatelské rozhraní.
+Tento přístup je velmi časově náročný a vyžaduje značné usilí při návrhu i při implementaci.
+Použití vlastního designového systému je vhodné řešení především pro velké společnosti, které chtějí, aby jejich aplikace přesně odpovídala značce produktu či společnosti a svých stylem se velmi blízce podobala jejich dalším produktům.
+
+Nejpoužívanější možností pro Android aplikace je využití Material Designu, což je designový systém vyvinutý společností Google.
+V praxi se využívají verze Material Design 2 a Material Design 3.
+% TODO: dopsat
+
 \subsection{Backendové řešení a architektura}
 % Porovnání Firebase vs Backend server (Spring) - proč se backend server nevyplatí s mém případě
 
@@ -411,8 +412,7 @@ Zvolená kombinace jazyka Kotlin a frameworku Jetpack Compose představuje moder
 % - Nejčastěji používaný startupy a menšími týmy
 % - Nízké či nulové náklady na provoz při menším počtu uživatelů
 % - Netřeba řešit škálovatelnost a provoz serveru
-
-% "Zvolené řešení Firebase představuje plnohodnotné backendové řešení typu Backend-as-a-Service"
+% - Náklady na provoz serveru
 
 % Zvolené řešení umožňuje soustředit se na návrh aplikace a uživatelského rozhraní, nikoli na provozní aspekty backendu.
 
@@ -422,3 +422,45 @@ Zvolená kombinace jazyka Kotlin a frameworku Jetpack Compose představuje moder
 % NoSQL databáze
 % Autentizace uživatelů - Firebase Authentication
 % Ukládání souborů - Firebase Storage
+
+Součástí návrhu aplikace bylo rozhodnutí o vhodném backendovém řešení, které by odpovídalo rozsahu bakalářské práce, požadavkům aplikace a možnostem jednotlivce jako vývojáře.
+Pro realizaci backendové části aplikace bylo zvoleno řešení Firebase, které představuje plnohodnotné backendové řešení \textit{Backend-as-a-Service} (BaaS).
+
+Firebase nabízí širokou škálu služeb, které dobře zapadají do potřeb navrhované aplikace.
+Mezi klíčové služby patří Firestore databáze pro ukládání dat, Firebase Autentizace pro správu uživatelských účtů, Firebase Storage pro ukládání souborů, jako jsou fotografie obchodů a profilové obrázky uživatelů a Firebase Crashlytics pro sledování chyb a výkonu aplikace.
+Výhodou použití Firebase je jeho snadná integrace s platformou Android a jazykem Kotlin, protože Firebase poskytuje oficiální SDK a knihovny pro tyto technologie.\footfullcite{firebase_android_kotlin}
+Alternativním řešením by bylo vytvoření vlastního backendového serveru například pomocí frameworku Spring.
+Tento přístup by však vyžadoval značné množství času a úsilí.
+Kromě více implementační práce by bylo nutné řešit i provozní aspekty, jako je nasazení, škálovatelnost, bezpečnost a údržba serveru nebo i náklady na jeho provoz.
+Cílem této bakalářské práce je však zaměřit se na návrh aplikace a uživatelského rozhraní, vývoj aplikace a její nasazení.
+Zvolená architektura Firebase jako BaaS umožňuje soustředit se na vývoj aplikace, aniž by bylo nutné řešit především provozní aspekty.
+Zároveň je to řešení, které je velmi často využíváno startupy a menšími týmy pro rychlý vývoj aplikací s nízkými či nulovými náklady na provoz.
+Při BaaS řešení se náklady na provoz odvíjejí podle počtu uživatelů a využití služeb, což je výhodné pro aplikace s menším počtem uživatelů.
+
+\subsubsection{Backend as a Service a serverless architektura}
+Zvolené řešení Firebase představuje plnohodnotné backendové řešení typu Backend-as-a-Service (BaaS).
+% TODO: BaaS je...
+BaaS je model cloudové služby, který poskytuje vývojářům předpřipravené backendové služby, jako jsou databáze, autentizace uživatelů, ukládání souborů a další funkce.\footfullcite{baas_definition}
+Tento model umožňuje vývojářům soustředit se na vývoj aplikace, aniž by museli řešit provozní aspekty backendu, jako je nasazení, škálovatelnost a údržba serveru.
+% TODO: serverless architektura
+
+\subsubsection{Databázové řešení}
+% NoSQL databáze Firestore
+% NoSQL vs SQL databáze
+% Výhody/nevýhody
+
+Firebase poskytuje jako databázové řešení NoSQL databázi Firestore.
+NoSQL databáze jsou vhodné pro aplikace s hierarchickými daty.
+Aplikace která je postavena především na nižším počtu hlavních entit (obchod) s několika podřízenými entitami (kategorie produktů, položky nabídky, recenze, \ldots), či hodnotovými objekty (poloha, seznam fotografií, \ldots) je ideálním kandidátem pro NoSQL databázi.
+
+\subsection{Mapové služby}
+% Možnosti pro mapové služby
+% - Google Maps - nejpoužívanější, dobrá dokumentace, snadná integrace s Androidem, ale placené nad určitou hranici použití
+% - Mapbox - alternativa k Google Maps, dobrá dokumentace, snadná integrace s Androidem,
+% - OpenStreetMap - open source, zdarma, ale horší dokumentace a složitější integrace s Androidem
+% Důvody volby Google Maps
+% - nejpoužívanější mapová služba
+% - dobrá dokumentace a podpora
+% - snadná integrace s Androidem
+% - pokročilé funkce a možnosti přizpůsobení
+% - minimální či nulové náklady při menším počtu uživatelů
