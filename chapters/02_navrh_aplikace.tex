@@ -42,7 +42,7 @@ Jejím cílem je poskytnout prostředek pro prezentaci nabídky domácích produ
 Nefunkční požadavky popisují vlastnosti aplikace, které se netýkají přímo funkcionality, ale ovlivňují kvalitu, použitelnost a provoz aplikace.
 
 \begin{itemize}
-    \item Aplikace je určena pro platformu Android.
+    \item Aplikace je implementována jako nativní mobilní aplikace pro platformu Android a využívá nativní API zařízení.
     \item Uživatelské rozhraní aplikace musí být přehledné a snadno použitelné i~pro méně technicky zdatné uživatele.
     \item Aplikace musí umožňovat plynulé zobrazení mapy a obchodů bez výrazných prodlev.
     \item Data uložená v~aplikaci musí být přístupná pouze oprávněným uživatelům.
@@ -51,7 +51,6 @@ Nefunkční požadavky popisují vlastnosti aplikace, které se netýkají pří
 
 
 \section{Diagram případů užití}
-% TODO: Spis by se hodilo cesky Diagranm pripadu uziti. podobne nasledujici kapitola Diagram trid - jedna se o zazite ceske terminy. - DONE
 Diagram případů (anglicky Use Case Diagram) užití slouží k~přehlednému znázornění základních funkcí aplikace a interakcí mezi uživateli a systémem.
 Diagram vychází ze specifikace funkčních požadavků a zachycuje chování aplikace z~pohledu jednotlivých typů uživatelů.
 Přehled aktérů a případů užití aplikace je znázorněn na obrázku~\ref{fig:use-case-diagram}.
@@ -137,7 +136,7 @@ Přestože recenze bez existence obchodu ztrácí svůj praktický význam, nen�
 
 
 \section{Návrh uživatelského rozhraní}
-% TODO: Jak a na kolika ruznych lidech planujete testovat kvalitu UI?
+% TODO: Jak a na kolika různých lidech plánujete testovat kvalitu UI?
 
 Návrh uživatelského rozhraní (UI) se zaměřuje na vytvoření přehledného a intuitivního prostředí pro uživatele aplikace.
 Cílem je zajistit, aby uživatelé mohli snadno a efektivně využívat funkce aplikace a dosahovat svých cílů, které vychází z funkčních požadavků a diagramu případů užití.
@@ -145,10 +144,7 @@ Návrh UI zahrnuje rozvržení obrazovek, navigační strukturu a interakční p
 Při návrhu rozhraní je kladen důraz na konzistenci ovládacích prvků, díky čemuž se uživatel snadno zorientuje v aplikaci, jasnou navigaci aplikací a minimalizaci počtu kroků potřebných k~provedení akcí.
 
 \subsection{Barevné schéma}
-% TODO: Co je to material design? Odkaz do literatury! - DONE
-% TODO: #Material theme builder je v praci navrzen nebo prevzat. V 1. pripade je vhodne odkazat odpovidajici cat text ve durhem zdroj, odkud cerpate. - DONE
-
-Aplikace využívá principy Material Designu, které zajišťují jednotný a moderní vzhled aplikace.
+Při návrhu byly využity principy Material Designu, které zajišťují jednotný a moderní vzhled aplikace.
 Material Design je designový systém vyvinutý společností Google, který poskytuje sadu doporučených postupů a komponent pro tvorbu uživatelských rozhraní.\footfullcite{material_design}
 
 Barevná paleta byla vygenerována pomocí nástroje Material Theme Builder, který generuje barevné schéma v souladu s principy Material Designu.\footfullcite{material_theme_builder}
@@ -338,45 +334,27 @@ Tato obrazovka je téměř totožná jako obrazovka detailu obchodu, ale obsahuj
 
 
 \section{Výběr technologií}
-% Compose (vs Java/xml), Material 3, Firebase (vs Server Backend, vs Spring Server a proč jsem si to nevybral), Dokumentová databáze (vs SQL), BaaS, Serverless backend??
-
 Volba použitých technologií vychází z požadavků aplikace a zohledňuje faktory jako je efektivita vývoje, uživatelský zážitek, škálovatelnost a údržba aplikace.
 Cílem je zvolit technologie vhodné pro vytvoření funkční, spolehlivé a uživatelsky přívětivé aplikace, která bude odpovídat potřebám cílových uživatelů a splňovat stanovené požadavky.
 
 \subsection{Volba cílové platformy}
-% 3 hlavní možnosti: mobilní aplikace, webová aplikace, desktopová aplikace
-% Proč mobilní aplikace?
-% Důvody volby platformy
-%  - fotky - foťák/galerie (stejně telefon potřebuješ) jednodušší na telefonu
-%  - aktuální poloha uživatele - jednodušší na telefonu
-%  - mapa okolí uživatele - možnost použití mimo domov, při cestování/návratu domů z cesty - primární využití telefonu
-%  - kontaktování producenta většinou přes telefon - jednodušší, protože by uživatel stejně použil telefon
-% A z těchto důvodů volím vývoj jako platformu mobilní aplikaci, aby byla její použitelnost a uživatelský zážitek co nejlepší.
-% Webová aplikace by sice zajistila větší dostupnost, ale primární využití je na mobilním telefonu, kde by webová aplikace ve srovnání s nativní mobilní aplikací poskytovala výrazně horší uživatelský zážitek.
-% Soustředit se na mobilní aplikaci je tak nejoptimálnější řešení tohoto problému.
-
-% Android je nejrozšířenější mobilní platforma v česku, proto ji volím jako cílovou platformu pro vývoj aplikace.
-
-% TODO: iOS - zmínit/nezmínit -  nemám prostředky pro vývoj, testování ani vydání aplikace na této platformě
-% TODO: Zmínit/nezmínit - Jetpack compose - možnost předělat na multiplatform
-
 Při volbě platformy pro vývoj aplikace se obvykle nabízejí tři hlavní možnosti: mobilní aplikace, webová aplikace a desktopová aplikace.
 Navrhovaná aplikace využívá funkce, jako jsou fotoaparát zařízení, galerie obrázků, zjišťování aktuální polohy uživatele a mapové zobrazení okolí.
 Aplikace je navržena tak, aby byla využitelná i mimo domov, například při cestování nebo návratu z cesty, kdy uživatel potřebuje rychle vyhledat obchody v~okolí své aktuální polohy.
 Zároveň obchody v aplikaci poskytují zájemcům kontaktní údaje na producenty, aby je mohli snadno kontaktovat například formou telefonního hovoru, SMS nebo odkazem na sociální sítě.
 V praxi k této interakci uživatelé ve většině případů využívají mobilní telefon, takže i zde je vhodnější mít aplikaci přímo na mobilním zařízení.
 Z uvedených důvodů je nejvhodnější aplikační platformou mobilní aplikace.
-Webová aplikace by sice zajistila vyšší míru dostupnosti napříč zařízeními, avšak v prostředí mobilních zařízení by ve srovnání s nativní mobilní aplikací poskytovala výrazně horší uživatelský zážitek, jak z hlediska výkonu, odezvy a použitelnosti, tak i z hlediska přístupu k nativním funkcím zařízení.
-V České republice je nejrozšířenějším operačním systémem pro mobilní zařízení Android, a proto byla jako cílová platforma zvolena mobilní aplikace pro platformu Android.
+Webová aplikace by sice zajistila vyšší míru dostupnosti napříč zařízeními, avšak v prostředí mobilních zařízení by ve srovnání s nativní mobilní aplikací poskytovala méně vhodný uživatelský zážitek, jak z hlediska výkonu, odezvy a použitelnosti, tak i z hlediska přístupu k nativním funkcím zařízení.
+V České republice je nejrozšířenějším operačním systémem pro mobilní zařízení Android, a proto byla jako cílová platforma zvolena mobilní aplikace pro platformu Android.\footfullcite{android_market_share_cz}
 
 Alternativou k nativnímu vývoji by bylo využití multiplatformních frameworků, jako jsou Flutter nebo React Native, které umožňují cílit na více platforem z jednoho kódu.
-Tato řešení však přinášejí další vrstvu abstrakce a zvyšují složitost integrace s nativními funkcemi zařízení, jako jsou práce s mapami, polohou uživatele nebo fotoaparátem.
-Vzhledem k zaměření práce výhradně na platformu Android, rozsahu bakalářské práce a důrazu na návrh uživatelského rozhraní a aplikační logiky bylo zvoleno nativní řešení v jazyce Kotlin s frameworkem Jetpack Compose.
+Tato řešení však přinášejí další vrstvu abstrakce a zvyšují složitost integrace s nativními funkcemi zařízení, jako jsou práce s mapami, polohou uživatele nebo fotoaparátem.\footfullcite{native_vs_cross_platform}
+Vzhledem k zaměření práce výhradně na platformu Android, rozsahu bakalářské práce a důrazu na návrh uživatelského rozhraní, aplikační logiky a využití nativních funkcí zařízení bylo zvoleno \textbf{nativní řešení pro platformu Android}.
 
 \subsection{Programovací jazyk a UI framework}
 
 Pro vývoj mobilní aplikace pro platformu Android bylo nutné zvolit vhodný programovací jazyk a framework pro tvorbu uživatelského rozhraní.
-V současnosti patří mezi nejčastěji používané kombinace pro vývoj nativních Android aplikací Java s XML, Kotlin s XML a Kotlin s frameworkem Jetpack Compose.
+V současnosti patří mezi nejčastěji používané kombinace pro vývoj nativních Android aplikací Java s XML, Kotlin s XML a Kotlin s frameworkem Jetpack Compose.\footfullcite{compose_vs_xml, kotlin_vs_java_android}
 
 Jako programovací jazyk byl zvolen Kotlin, který je moderním a oficiálně doporučovaným jazykem pro vývoj Android aplikací.
 Ve srovnání s jazykem Java nabízí Kotlin kratší a čitelnější syntaxi, lepší podporu moderních programovacích paradigmat a vyšší bezpečnost typů díky práci s nulovatelností (null-safety).
@@ -388,28 +366,17 @@ Jetpack Compose je navíc přirozeně integrován se správou stavu aplikace, co
 Zvolená kombinace jazyka Kotlin a frameworku Jetpack Compose představuje moderní a v současnosti doporučovaný způsob vývoje nativních aplikací pro platformu Android.
 
 \subsection{Designový systém}
-% Design system
-% Možnosti pro mobilní aplikaci
-%  - Material Design 2 - starší, ale stále používaný
-%  - Material Design 3 - nejmodernější, prozkoumaný vliv na UX a uživatele
-%  - vlastní design - náročné na čas a vývoj, horší UX, odpovídá značce produktu a společnosti
-% Material Design 2 vs 3 - statistika, testováno na uživatelích (někde jsou aji studie nebo něco takovýho)
-% Důvody volby Material Design 3
-% - moderní vzhled a dojem
-% - doporučený Googlem pro Android aplikace
-% - lepší podpora pro tmavý režim
-% - vestavěné komponenty a vzory pro lepší UX
-
 Designový systém aplikace ovlivňuje vzhled, dojem z aplikace a snadnost jejího používání.
-Pro mobilní aplikaci pro platformu Android se v praxi využívají většinou tři hlavní možnosti: Material Design 2, Material Design 3 a vlastní designový systém.
+Pro mobilní aplikaci pro platformu Android se v praxi využívají většinou dvě hlavní možnosti: Material Design 3 a vlastní designový systém.\footfullcite{android_design_system_options}
 
 Vlastní designový systém by zahrnoval vytvoření veškerých vlastních komponent, barevného schématu a vzorů pro uživatelské rozhraní.
-Tento přístup je velmi časově náročný a vyžaduje značné usilí při návrhu i při implementaci.
-Použití vlastního designového systému je vhodné řešení především pro velké společnosti, které chtějí, aby jejich aplikace přesně odpovídala značce produktu či společnosti a svých stylem se velmi blízce podobala jejich dalším produktům.
+Tento přístup je velmi časově náročný a vyžaduje značné úsilí při návrhu i při implementaci.
+Použití vlastního designového systému je vhodné řešení především pro velké společnosti, které chtějí, aby jejich aplikace přesně odpovídala značce produktu či společnosti a svých stylem se velmi blízce podobala jejich dalším produktům.\footfullcite{custom_design_system_benefits}
 
-Nejpoužívanější možností pro Android aplikace je využití Material Designu, což je designový systém vyvinutý společností Google.
-V praxi se využívají verze Material Design 2 a Material Design 3.
-% TODO: dopsat
+Další možností pro Android aplikace je využití Material Designu, což je designový systém vyvinutý společností Google.
+Pro vývoj nových aplikací je doporučováno využití nejnovější verze Material Design 3, která přináší moderní vzhled a dojem z aplikace, lepší podporu pro tmavý režim a vestavěné komponenty a vzory pro lepší uživatelský zážitek.\footfullcite{material_design_3_recommendation}
+
+Z těchto důvodů byl zvolen Material Design 3, který poskytuje moderní a konzistentní vzhled aplikace a zároveň usnadňuje vývoj uživatelského rozhraní díky předpřipraveným komponentám a vzorům.
 
 \subsection{Backendové řešení a architektura}
 % Porovnání Firebase vs Backend server (Spring) - proč se backend server nevyplatí s mém případě
@@ -433,11 +400,11 @@ V praxi se využívají verze Material Design 2 a Material Design 3.
 % Ukládání souborů - Firebase Storage
 
 Součástí návrhu aplikace bylo rozhodnutí o vhodném backendovém řešení, které by odpovídalo rozsahu bakalářské práce, požadavkům aplikace a možnostem jednotlivce jako vývojáře.
-Pro realizaci backendové části aplikace bylo zvoleno řešení Firebase, které představuje plnohodnotné backendové řešení \textit{Backend-as-a-Service} (BaaS).
+Pro realizaci backendové části aplikace bylo zvoleno řešení Firebase, které představuje plnohodnotné backendové řešení typu \textit{Backend-as-a-Service} (BaaS).
 
 Firebase nabízí širokou škálu služeb, které dobře zapadají do potřeb navrhované aplikace.
 Mezi klíčové služby patří Firestore databáze pro ukládání dat, Firebase Autentizace pro správu uživatelských účtů, Firebase Storage pro ukládání souborů, jako jsou fotografie obchodů a profilové obrázky uživatelů a Firebase Crashlytics pro sledování chyb a výkonu aplikace.
-Výhodou použití Firebase je jeho snadná integrace s platformou Android a jazykem Kotlin, protože Firebase poskytuje oficiální SDK a knihovny pro tyto technologie.\footfullcite{firebase_android_kotlin}
+Výhodou použití Firebase je jeho snadná integrace s platformou Android a jazykem Kotlin, protože Firebase poskytuje oficiální SDK a knihovny pro tyto technologie.\footfullcite{firebase_android_kotlin_support}
 Alternativním řešením by bylo vytvoření vlastního backendového serveru například pomocí frameworku Spring.
 Tento přístup by však vyžadoval značné množství času a úsilí.
 Kromě více implementační práce by bylo nutné řešit i provozní aspekty, jako je nasazení, škálovatelnost, bezpečnost a údržba serveru nebo i náklady na jeho provoz.
@@ -448,7 +415,6 @@ Při BaaS řešení se náklady na provoz odvíjejí podle počtu uživatelů a 
 
 \subsubsection{Backend as a Service a serverless architektura}
 Zvolené řešení Firebase představuje plnohodnotné backendové řešení typu Backend-as-a-Service (BaaS).
-% TODO: BaaS je...
 BaaS je model cloudové služby, který poskytuje vývojářům předpřipravené backendové služby, jako jsou databáze, autentizace uživatelů, ukládání souborů a další funkce.\footfullcite{baas_definition}
 Tento model umožňuje vývojářům soustředit se na vývoj aplikace, aniž by museli řešit provozní aspekty backendu, jako je nasazení, škálovatelnost a údržba serveru.
 % TODO: serverless architektura
@@ -462,7 +428,8 @@ Firebase poskytuje jako databázové řešení NoSQL databázi Firestore.
 NoSQL databáze jsou vhodné pro aplikace s hierarchickými daty.
 Aplikace která je postavena především na nižším počtu hlavních entit (obchod) s několika podřízenými entitami (kategorie produktů, položky nabídky, recenze, \ldots), či hodnotovými objekty (poloha, seznam fotografií, \ldots) je ideálním kandidátem pro NoSQL databázi.
 
-\subsection{Mapové služby}
+%TODO: mapové služby
+%\subsection{Mapové služby}
 % Možnosti pro mapové služby
 % - Google Maps - nejpoužívanější, dobrá dokumentace, snadná integrace s Androidem, ale placené nad určitou hranici použití
 % - Mapbox - alternativa k Google Maps, dobrá dokumentace, snadná integrace s Androidem,
