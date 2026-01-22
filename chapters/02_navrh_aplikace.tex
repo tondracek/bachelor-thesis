@@ -2,8 +2,7 @@
 
 Tato kapitola se zabývá návrhem mobilní aplikace na základě výsledků provedené analýzy.
 Cílem návrhu je definovat funkční rozsah aplikace, její strukturu, uživatelské rozhraní a technologické řešení tak, aby odpovídaly potřebám cílových uživatelů a zvolenému zaměření aplikace.
-K tomuto byly využity standardní techniky softwarového inženýrství, zejména
-specifikace požadavků a návrhové diagramy.
+K tomuto byly využity standardní techniky softwarového inženýrství, zejména specifikace požadavků a návrhové diagramy.
 
 Nejprve jsou specifikovány funkční a nefunkční požadavky, které vymezují chování a vlastnosti aplikace.
 Na jejich základě je dále vytvořen diagram případů užití znázorňující základní interakce mezi uživateli a aplikací.
@@ -409,26 +408,37 @@ Tento model umožňuje vývojářům soustředit se na vývoj aplikace, aniž by
 V případě, že je potřeba implementovat vlastní logiku na straně serveru, Firebase nabízí službu Cloud Functions, která umožňuje spouštět backendový kód formou serverless funkcí v reakci na definované události.
 
 \subsubsection{Databázové řešení}
-Firebase poskytuje jako databázové řešení dokumentově orientovanou NoSQL databázi Firestore.\footfullcite{firebase_firestore}
-Tento typ databáze ukládá data ve formě dokumentů seskupených do kolekcí.
+Firebase poskytuje jako databázové řešení dokumentově orientovanou NoSQL databázi Cloud Firestore.
+Tento typ databáze ukládá data ve formě dokumentů seskupených do kolekcí.\footfullcite{firestore_overview}
 
-Dokument je jednoduchý datový záznam, který obsahuje páry klíč-hodnota.
+Dokument je jednoduchý datový záznam, který obsahuje páry klíč-hodnota.\footfullcite{firebase_firestore}
 Hodnoty mohou být různých datových typů, včetně běžných typů (řetězce, čísla, boolean, \ldots), ale také složitějších typů, jako jsou pole nebo vnořené objekty.
 Dokumenty tak mohou reprezentovat komplexní datové struktury.
 Kolekce jsou skupiny dokumentů, které sdílejí společný kontext (například kolekce uživatelů, kolekce obchodů, kolekce recenzí).
-%TODO: dokončit
-% proč je vhodná pro moji aplikaci + zdroj
 
+Dokumentově orientovaný přístup je vhodný zejména pro aplikace, které pracují s hierarchickými daty.\footfullcite{nosql_vs_sql}
+V navrhované aplikaci je datový model tvořen omezeným počtem hlavních entit, jako jsou obchody, uživatelé a recenze, které obsahují další vnořené nebo odvozené informace (například seznam kategorií, nabídku produktů, otevírací dobu nebo polohu obchodu).
+Firestore umožňuje ukládat tyto související informace přímo v rámci jednoho dokumentu nebo v podřízených kolekcích, což zjednodušuje práci s daty a snižuje potřebu složitých spojení (joins), která jsou typická pro relační databáze.
 
-%TODO: mapové služby
-%\subsection{Mapové služby}
-% Možnosti pro mapové služby
-% - Google Maps - nejpoužívanější, dobrá dokumentace, snadná integrace s Androidem, ale placené nad určitou hranici použití
-% - Mapbox - alternativa k Google Maps, dobrá dokumentace, snadná integrace s Androidem,
-% - OpenStreetMap - open source, zdarma, ale horší dokumentace a složitější integrace s Androidem
-% Důvody volby Google Maps
-% - nejpoužívanější mapová služba
-% - dobrá dokumentace a podpora
-% - snadná integrace s Androidem
-% - pokročilé funkce a možnosti přizpůsobení
-% - minimální či nulové náklady při menším počtu uživatelů
+Další výhodou použití databáze Firestore je její automatická škálovatelnost a integrace s ostatními službami Firebase.
+Databáze je navržena pro práci v reálném čase a umožňuje efektivní synchronizaci dat mezi klientskou aplikací a backendem.
+Společně s bezpečnostními pravidly (security rules) je možné zajistit řízení přístupu k datům na úrovni jednotlivých dokumentů podle přihlášeného uživatele.
+
+Zvolená databázová technologie tak odpovídá požadavkům aplikace z hlediska struktury dat, výkonu, škálovatelnosti i vývoje.
+
+\subsection{Mapové služby}
+
+Klíčovým prvkem navrhované aplikace je mapové zobrazení okolních obchodů.
+Pro implementaci mapových funkcí bylo nutné zvolit vhodnou mapovou službu, která by splňovala požadavky aplikace z hlediska funkcionality, výkonu, uživatelského zážitku a nákladů na provoz.
+Rozhodování probíhalo mezi třemi hlavními možnostmi: Google Maps, Mapbox a OpenStreetMap.
+
+Google Maps je nejpoužívanější mapová služba na světě a nabízí velmi rozsáhlou dokumentaci, snadnou integraci s platformou Android a frameworkem Jetpack Compose.\footfullcite{google_maps_benefits}
+
+Mapbox představuje populární alternativu ke službě Google Maps.
+Poskytuje rovněž kvalitní dokumentaci a snadnou integraci s platformou Android a navíc nabízí vyšší míru přizpůsobitelnosti mapových stylů a lepší výkon při zobrazení většího množství značek na mapě.\footfullcite{mapbox_benefits}
+
+OpenStreetMap je open source projekt, který poskytuje volně dostupná mapová data.
+Jeho hlavní výhodou je otevřenost a absence licenčních poplatků, avšak ve srovnání s komerčními řešeními neposkytuje ucelené SDK pro platformu Android a jeho integrace je zpravidla složitější.\footfullcite{openstreetmap_about}
+
+V průběhu vývoje aplikace byla jako hlavní mapová služba zvolena platforma Mapbox, a to především z důvodu vyšší přizpůsobitelnosti mapového vzhledu a lepšího výkonu při práci s větším množstvím zobrazovaných obchodů.
+Služba Google Maps je v aplikaci využita pouze okrajově pro vybrané funkce, kde byla její integrace jednodušší a dostatečná.
