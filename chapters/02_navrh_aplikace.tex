@@ -378,11 +378,6 @@ Pro vývoj nových aplikací je doporučováno využití nejnovější verze Mat
 Z těchto důvodů byl zvolen Material Design 3, který poskytuje moderní a konzistentní vzhled aplikace a zároveň usnadňuje vývoj uživatelského rozhraní díky předpřipraveným komponentám a vzorům.
 
 \subsection{Backendové řešení}
-%TODO: přidat někam?:
-% Architektura aplikace je navržena tak, aby nebyla pevně svázána s konkrétní implementací backendu.
-% Komunikace s backendem je realizována prostřednictvím abstrahovaných rozhraní, což umožňuje případnou budoucí náhradu backendového řešení jinou technologií, například vlastním serverovým backendem.
-% Zvolené řešení Firebase tak odpovídá současnému rozsahu a cílům bakalářské práce, přičemž nevylučuje další rozvoj aplikace v případě zvýšených nároků na backendovou logiku nebo škálovatelnost.
-
 Součástí návrhu aplikace bylo rozhodnutí o vhodném backendovém řešení, které by odpovídalo rozsahu bakalářské práce, požadavkům aplikace a možnostem jednotlivce jako vývojáře.
 Pro realizaci backendové části aplikace bylo zvoleno řešení Firebase, které představuje plnohodnotné backendové řešení typu \textit{Backend-as-a-Service} (BaaS).
 
@@ -396,6 +391,10 @@ Cílem této bakalářské práce je však zaměřit se na návrh aplikace a už
 Zvolená architektura Firebase jako BaaS umožňuje soustředit se na vývoj aplikace, aniž by bylo nutné řešit především provozní aspekty.
 Zároveň je to řešení, které je velmi často využíváno startupy a menšími týmy pro rychlý vývoj aplikací s nízkými či nulovými náklady na provoz.\footfullcite{firebase_benefits}
 Při BaaS řešení se náklady na provoz odvíjejí podle počtu uživatelů a využití služeb, což je výhodné pro aplikace s menším počtem uživatelů.
+
+Architektura aplikace je navržena tak, aby nebyla pevně svázána s konkrétní implementací backendu.
+Komunikace s backendem je realizována prostřednictvím abstrahovaných rozhraní, což umožňuje případnou budoucí náhradu zvoleného backendového řešení jinou technologií, například vlastním serverovým backendem.
+Zvolené řešení Firebase tak odpovídá současnému rozsahu a cílům bakalářské práce, přičemž nevylučuje další rozvoj aplikace v případě zvýšených nároků na backendovou logiku nebo škálovatelnost.
 
 \subsubsection{Backend as a Service a serverless architektura}
 Zvolené řešení Firebase představuje plnohodnotné backendové řešení typu Backend-as-a-Service (BaaS).
