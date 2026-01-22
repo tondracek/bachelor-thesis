@@ -103,7 +103,8 @@ Profilový obrázek je volitelný a je reprezentován hodnotovým objektem \text
 \subsection{Entita obchodu}
 Druhou klíčovou entitou je obchod (Shop), který reprezentuje obchod vytvořený registrovaným uživatelem, kde může nabízet své produkty.
 Obchod je také identifikován jednoznačným identifikátorem typu UUID\@.
-Obchod obsahuje atributy: id, název, popis, vlastník, seznam kategorií, obrázky, nabídku produktů, polohu a otevírací dobu. % TODO: zvýraznit výčet?
+Obchod obsahuje atributy: id, název, popis, vlastník, seznam kategorií, obrázky, nabídku produktů, polohu a otevírací dobu.
+% TODO: zvýraznit výčet?
 Základní atributy jako název a popis jsou oba typu \texttt{String} a jsou volitelné.
 
 Obchod je svázán s uživatelem prostřednictvím asociace, která vyjadřuje vlastnictví obchodu konkrétním uživatelem.
@@ -136,7 +137,6 @@ Přestože recenze bez existence obchodu ztrácí svůj praktický význam, nen�
 
 \section{Návrh uživatelského rozhraní}
 % TODO: Jak a na kolika různých lidech plánujete testovat kvalitu UI?
-
 Návrh uživatelského rozhraní (UI) se zaměřuje na vytvoření přehledného a intuitivního prostředí pro uživatele aplikace.
 Cílem je zajistit, aby uživatelé mohli snadno a efektivně využívat funkce aplikace a dosahovat svých cílů, které vychází z funkčních požadavků a diagramu případů užití.
 Návrh UI zahrnuje rozvržení obrazovek, navigační strukturu a interakční prvky.
@@ -169,8 +169,7 @@ Kontejnerové varianty těchto barev jsou používány pro větší plochy, kter
 Návrh rozvržení obrazovek aplikace vychází z funkčních požadavků a diagramu případů užití.
 Je důležité, aby uživatelské rozhraní bylo přehledné a intuitivní, což umožní uživatelům snadno najít a využít požadované funkce aplikace.
 
-\subsubsection{Navigační lišta}
-Ve spodní části základních obrazovek se nachází navigační lišta (obrázky~\ref{fig:ui-overview}), která obsahuje tři ikony představující tři hlavní obrazovky aplikace: \enquote{Moje obchody}, \enquote{Úvodní obrazovka} a \enquote{Profil uživatele}.
+Ve spodní části základních obrazovek se nachází \textbf{navigační lišta} (obrázky~\ref{fig:ui-overview}), která obsahuje tři ikony představující tři hlavní obrazovky aplikace: \enquote{Moje obchody}, \enquote{Úvodní obrazovka} a \enquote{Profil uživatele}.
 Díky ní může uživatel snadno navigovat mezi právě těmito základními obrazovkami aplikace.
 První ikona v liště slouží pro navigaci na obrazovku se seznamem obchodů vytvořených uživatelem.
 Tato ikona se v navigační liště zobrazuje pouze pokud je uživatel přihlášen.
@@ -179,8 +178,7 @@ Třetí ikona slouží pro navigaci na obrazovku profilu uživatele.
 V případě, že je uživatel přihlášen, je na této obrazovce možné upravit osobní údaje.
 V opačném případě se zobrazí přihlašovací obrazovka, kde se může uživatel přihlásit nebo zaregistrovat nový účet.
 
-\subsubsection{Úvodní obrazovka}
-Úvodní obrazovkou aplikace je obrazovka, kde uživatel může zvolit mezi mapovým a seznamovým zobrazením obchodů.
+\textbf{Úvodní obrazovkou} aplikace je obrazovka, kde uživatel může zvolit mezi mapovým a seznamovým zobrazením obchodů.
 
 Výchozím zobrazením je mapové zobrazení, kde mapa ukazuje polohu uživatele a okolní obchody jako značky na mapě (obrázek~\ref{fig:map-view}).
 Při kliknutí na značku obchodu se zobrazí detail obchodu jako spodní panel, který obsahuje detaily obchodu (obrázek~\ref{fig:map-view-shop-detail}).
@@ -233,22 +231,19 @@ V záložce \enquote{Filtr vzdálenosti} může uživatel zvolit maximální vzd
     \label{fig:filters}
 \end{figure}
 
-\subsubsection{Obrazovka profilu uživatele}
-Na obrazovce profilu může uživatel upravit své osobní údaje, jak bylo specifikováno ve funkčních požadavcích.
+\textbf{Na obrazovce profilu} může uživatel upravit své osobní údaje, jak bylo specifikováno ve funkčních požadavcích.
 Mezi tyto údaji patří jméno, kontaktní informace a profilový obrázek.
 V případě profilového obrázku může uživatel buď nahrát obrázek ze svého zařízení, nebo přímo vyfotit nový obrázek pomocí fotoaparátu zařízení.
 Uživatel se zde také může odhlásit z aplikace.
 
-\subsubsection{Obrazovka Moje obchody}
-Na obrazovce \enquote{Moje obchody} má uživatel přehled o všech obchodech, které vytvořil.
+Na obrazovce \textbf{Moje obchody} má uživatel přehled o všech obchodech, které vytvořil.
 Obchody jsou zobrazeny jako karty v seznamu, podobně jako v seznamovém zobrazení na úvodní obrazovce.
 Každá karta má však navíc tlačítka pro úpravu a odstranění obchodu.
 Po kliknutí na tlačítko pro úpravu se spustí proces úpravy obchodu a po kliknutí na tlačítko pro odstranění se daný obchod smaže.
 K tomu se ve spodní části obrazovky nachází tlačítko pro vytvoření nového obchodu.
 Po kliknutí na toto tlačítko se spustí proces vytváření nového obchodu.
 
-\subsubsection{Proces vytváření a úpravy obchodu}
-Proces vytváření a úpravy obchodu je rozdělen do několika kroků a každý krok je zobrazen na samostatné obrazovce.
+\textbf{Proces vytváření a úpravy obchodu} je rozdělen do několika kroků a každý krok je zobrazen na samostatné obrazovce.
 Uživatel může mezi těmito kroky libovolně navigovat pomocí dvou spodních tlačítek \enquote{Předchozí} a \enquote{Další}.
 
 V prvním kroku uživatel zadává název a polohu obchodu na mapě (obrázek~\ref{fig:create-shop-step-01}).
@@ -397,7 +392,7 @@ Komunikace s backendem je realizována prostřednictvím abstrahovaných rozhran
 Zvolené řešení Firebase tak odpovídá současnému rozsahu a cílům bakalářské práce, přičemž nevylučuje další rozvoj aplikace v případě zvýšených nároků na backendovou logiku nebo škálovatelnost.
 
 \subsubsection{Backend as a Service a serverless architektura}
-Zvolené řešení Firebase představuje plnohodnotné backendové řešení typu Backend-as-a-Service (BaaS).
+Zvolené řešení Firebase představuje plnohodnotné backendové řešení typu \textbf{Backend-as-a-Service} (BaaS).
 BaaS je model cloudové služby, který poskytuje vývojářům předpřipravené backendové služby, jako jsou databáze, řízení přístupu k datům pomocí bezpečnostních pravidel (security rules), autentizace uživatelů, ukládání souborů a další funkce.\footfullcite{baas_definition}
 
 Firebase zároveň využívá principy serverless architektury.\footfullcite{firebase_serverless}
@@ -406,8 +401,7 @@ Poskytované služby se tak automaticky přizpůsobují aktuálnímu zatížení
 Tento model umožňuje vývojářům soustředit se na vývoj aplikace, aniž by museli řešit provozní aspekty backendu, jako je nasazení, škálovatelnost a údržba serveru.
 V případě, že je potřeba implementovat vlastní logiku na straně serveru, Firebase nabízí službu Cloud Functions, která umožňuje spouštět backendový kód formou serverless funkcí v reakci na definované události.
 
-\subsubsection{Databázové řešení}
-Firebase poskytuje jako databázové řešení dokumentově orientovanou NoSQL databázi Cloud Firestore.
+Firebase poskytuje jako databázové řešení dokumentově orientovanou NoSQL databázi \textbf{Cloud Firestore}.
 Tento typ databáze ukládá data ve formě dokumentů seskupených do kolekcí.\footfullcite{firestore_overview}
 
 Dokument je jednoduchý datový záznam, který obsahuje páry klíč-hodnota.\footfullcite{firebase_firestore}
