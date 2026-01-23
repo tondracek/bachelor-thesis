@@ -1,29 +1,112 @@
 \chapter{Architektura kódu}
+Před začátkem implementace je důležité si rozmyslet a naplánovat architekturu kódu.
+Dobře navržená architektura nám může ušetřit spoustu času a námahy v budoucnu, například při přidávání nových funkcí nebo opravování a předělávání stávajícího kódu.
+Naopak špatně navržená architektura může vést k problémům, jako je těžko udržovatelný kód, problémy s testovatelností a obtížná spolupráce mezi vývojáři.
+
+% Nativní android aplikace
+% Využívá doporučený architektonický vzor MVVM (zdroj)
+% Inspirace principy Clean Architecture (zdroj) a Hexagonal Architecture (zdroj). - TODO: dle chatgpt prý nemám zmiňovat...
+% cíle architektury: čitelnost, oddělení odpovědností, rozšiřitelnost, opětovná použitelnost prvků
 
 
-\section{Vertikální dělení vs horizontální dělení}
-% features + ui (jako samostatná feature), moduly, packages, common, core
+\section{Architektonický vzor MVVM}
+% model-view-viewmodel
+% oddělení odpovědností
+% doporučený vzor pro nativní android aplikace
+%
+% podporované Android Frameworkem
+%  - lifecycle awareness
+%    - změny konfigurace (aplikace na pozadí, otočení obrazovky)
+%    - životní cyklus aktivit (onCreate, onResume, onPause)
+%  - hilt integrace (injekce závislostí, scoping, viewmodel store owner)
+%
+% reaktivní programování - Flow
+%
+% Ve zkratce:
+%  - role ViewModelu:
+%    - správa stavu obrazovky
+%    - reakce na uživatelské události
+%  - role View:
+%    - zobrazování dat
+%    - předávání uživatelských událostí ViewModelu
+%  - role Model:
+%    - reprezentace dat a doménové logiky
+%    - komunikace s repozitáři a datovými zdroji
+
+% TODO: zmínit immutabilty princip?
 
 
-\section{Generický repozitář}
-% firebasecollection anotace, generika, mappery
+\section{Struktura projektu podle funkčních celků}
+% *Feature-based struktura projektu*
 
-%Pro přístup k datům je použit generický repozitář, který odděluje doménovou logiku od konkrétní implementace datového zdroje.
-% Zároveň tím předchází duplicitě kódu při práci s různými typy entit.
-% Dovoluje mi tak pro každou novou funkcionalitu využít již existující základní implementaci a pro specifické potřeby jednotlivých entit pouze rozšířit o potřebné funkce.
+% každá feature obsahuje:
+% - domain
+% - data
+% - případně di
 
-% Zároveň umožňuje snadnou výměnu datového zdroje (svého jádra) bez nutnosti zásahu do zbytku aplikace.
-% V repozitáři jsou využity generika pro práci s různými typy entit a mappery pro převod mezi datovými modely a doménovými modely.
+% konkrétní features (+ vysvětlení):
+% - auth
+% - core - DomainResult (viz. \ref{sec:domain_result}), ...
+% - common
+% - shop, review, user, ...
+% - ui - dle obrazovek/samostatných celků
+
+% Zdůraznit přínos:
+% - lepší orientace v kódu
+% - omezení provázanosti
+% - možnost paralelního vývoje (možnost kompletně přepsat jednu feature bez vlivu na ostatní)
 
 
-\section{UC result wrapper}
-% výhody/nevýhody, důvod, záměr, Success, Failure, funkcionální interface. Nadpis predelat na 
+\section{Oddělení doménové a datové vrstvy}
+
+% Domain
+%  - doménové modely
+%  - use case třídy
+%  - rozhraní repozitářů
+% "Komunikace s backendem probíhá přes rozhraní definovaná v doménové vrstvě."
+
+% Data
+%  - implementace repozitářů
+%  - datové modely
+%  - práce s Firestore, Firebase Auth, Firebase Storage, ...
 
 
-\section{UC třídy vs Jedna velká service třída}
-% TODO: Nadpis predelat do cestiny (zejmena souslovi "service trida".
-% výhody/nevýhody
+\section{Zpracování výsledků a chyb v doménové vrstvě}
+% DomainResult a DomainError
+% princip...
+% výhody...
+
+% Zdůrazni:
+%  - návratová hodnota use-casů a repozitářů
+%  - nutí volajícího explicitně řešit chyby
 
 
-\section{MVVM}
-% TODO: Proc prave navrhovy vzor MVVM?
+\section{Tok dat v aplikaci}
+
+% příklad toku dat:
+% 1. uživatelská akce v UI
+% 2. ViewModel zpracuje událost
+% 3. volání use-casu, doménová logika
+% 4. volání repozitáře
+% 5. výsledek jako DomainResult z repozitáře (respektive DomainError v případě chyby)
+% 6. aktualizace StateFlow (respektive zpracování chyby)
+% 7. UI se automaticky přerenderuje
+
+% TODO: zmínit immutabilty princip?
+
+
+\section{Vkládání závislostí (Dependency Injection)}
+% Hilt
+% výhody DI
+%  - lepší testovatelnost
+%  - méně kódu pro vytváření závislostí
+%  - pro viewmodely, use-casy, repozitáře
+
+
+\section{Shrnutí architektury}
+% architektura odpovídá rozsahu bakalářské práce
+% ověřena reálným provozem aplikace
+% umožnila úspěšnou implementaci a publikaci aplikace
+% zjednodušila vývoj, údržbu kódu, přidávání nových funkcí a opravy chyb
+%
+% "Zvolená architektura se v praxi osvědčila jako přehledná, rozšiřitelná a vhodná pro další rozvoj aplikace."
