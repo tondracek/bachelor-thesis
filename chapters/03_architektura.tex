@@ -1,39 +1,48 @@
 \chapter{Architektura kódu}
-Před začátkem implementace je důležité si rozmyslet a naplánovat architekturu kódu.
-Dobře navržená architektura nám může ušetřit spoustu času a námahy v budoucnu, například při přidávání nových funkcí nebo opravování a předělávání stávajícího kódu.
-Naopak špatně navržená architektura může vést k problémům, jako je těžko udržovatelný kód, problémy s testovatelností a obtížná spolupráce mezi vývojáři.
+Před zahájením implementace je důležité si rozmyslet a naplánovat architekturu kódu.
+Dobře navržená architektura nám může ušetřit spoustu času a námahy v budoucnu, například při přidávání nových funkcí nebo opravování stávajícího kódu.
+Zároveň přispívá ke zvýšení jeho čitelnosti a udržovatelnosti.
+Naopak špatně navržená architektura může vést k problémům, jako je těžko udržovatelný kód, složitá rozšiřitelnost, náročné zjišťování chyb a celkově pomalejší vývoj.
 
-% Nativní android aplikace
-% Využívá doporučený architektonický vzor MVVM (zdroj)
-% Inspirace principy Clean Architecture (zdroj) a Hexagonal Architecture (zdroj). - TODO: dle chatgpt prý nemám zmiňovat...
-% cíle architektury: čitelnost, oddělení odpovědností, rozšiřitelnost, opětovná použitelnost prvků
+Architektura aplikace byla navržena především s cílem jasně oddělit odpovědnosti jednotlivých částí kódu, čímž podporuje dosažení výše uvedených vlastností.
+Při návrhu byly převzaty vybrané principy běžně používané v moderních architektonických přístupech, které jsou popsány v následujících podkapitolách.
 
 
 \section{Architektonický vzor MVVM}
-% model-view-viewmodel
-% oddělení odpovědností
-% doporučený vzor pro nativní android aplikace
-%
-% podporované Android Frameworkem
-%  - lifecycle awareness
-%    - změny konfigurace (aplikace na pozadí, otočení obrazovky)
-%    - životní cyklus aktivit (onCreate, onResume, onPause)
-%  - hilt integrace (injekce závislostí, scoping, viewmodel store owner)
-%
-% reaktivní programování - Flow
-%
-% Ve zkratce:
-%  - role ViewModelu:
-%    - správa stavu obrazovky
-%    - reakce na uživatelské události
-%  - role View:
-%    - zobrazování dat
-%    - předávání uživatelských událostí ViewModelu
-%  - role Model:
-%    - reprezentace dat a doménové logiky
-%    - komunikace s repozitáři a datovými zdroji
+Jako základní architektonický vzor byla zvolena architektura Model-View-ViewModel (MVVM).\footfullcite{mvvm}
+Je to doporučený vzor pro vývoj nativních Android aplikací, který je podporován samotným Android Frameworkem a prosazován společností Google, která stojí za vývojem platformy Android.\footfullcite{android_recommended_architecture}
+V navrhované aplikaci je architektonický vzor MVVM využit k jasnému oddělení odpovědností mezi uživatelským rozhraním, logikou obrazovek a doménovou logikou.
+Vzor MVVM za tímto účelem rozděluje aplikaci do tří hlavních komponent: Model, View a ViewModel.
 
-% TODO: zmínit immutabilty princip?
+\textbf{View} představuje uživatelské rozhraní a je zodpovědné pouze za zobrazování dat a předávání uživatelských událostí.
+V této aplikaci je View realizováno pomocí frameworku Jetpack Compose a neobsahuje žádnou aplikační ani doménovou logiku, jak je doporučeno v architektonickém vzoru MVVM\@.
+
+\textbf{Model} reprezentuje data a doménovou logiku aplikace, včetně komunikace s repozitáři a datovými zdroji.
+Podle MVVM nesmí být nijak závislý na uživatelském rozhraní ani jeho konkrétní implementaci a nesmí obsahovat logiku týkající se zobrazení.
+V navrhované aplikaci tuto roli plní doménová vrstva, jejíž struktura a principy jsou podrobně popsány v sekci~\ref{sec:oddeleni-domenove-a-datove-vrstvy}.
+
+\textbf{ViewModel} slouží jako prostředník mezi View a Modelem.
+Je zodpovědný za správu stavu uživatelského rozhraní, reakci na uživatelské události a komunikaci s Modelem za účelem získání nebo aktualizace dat.
+
+ViewModel obsahuje aktuální stav zobrazení a vystavuje ho ve formě, kterou může View snadno sledovat a reagovat na jeho změny.
+V navrhované aplikaci jsou pro správu stavu obrazovek využívány asynchronní datové toky (Flow), do kterých při změně dat ViewModel publikuje nový stav jakožto neměnný (immutable\footfullcite{compose_ui_architecture}) objekt.
+View pak tento stav pozoruje a na jeho základě vykresluje uživatelské rozhraní.
+Naopak View zase předává uživatelské události ViewModelu, který na ně reaguje a případně aktualizuje stav nebo komunikuje s Modelem.
+Tomuto přístupu se říká \textbf{jednosměrný tok dat} (unidirectional data flow\footfullcite{android_recommended_architecture}) a přispívá k lepší předvídatelnosti a stabilitě aplikace.
+
+Ve ViewModelu se nachází pouze logika týkající se uživatelského rozhraní, ne však jeho samotné vykreslování.
+Doménová logika a správa dat jsou plně odděleny v Modelu.
+Stejně tak logika spojená s navigací mezi obrazovkami, zobrazení vyskakovacích oken či upozornění pro uživatele se nachází ve View, protože je závislá na konkrétní implementaci uživatelského rozhraní.
+
+ViewModely v této aplikaci nevykonávají žádné přímé akce nad uživatelským rozhraním, ale vystavují takzvané \textbf{efekty} (side-effects\footfullcite{android_side_effect}).
+Efekty jsou jednorázové události, které vyvolávají akce v uživatelském rozhraní, jako například právě zmíněná navigace nebo zobrazení vyskakovacích oken.
+View vystavované efekty interpretuje a na jejich základě provádí příslušné akce v uživatelském rozhraní.
+
+Jak bylo zmíněno výše, MVVM je přímo podporovaný Android Frameworkem.
+ViewModely jsou v Android Frameworku takzvaně lifecycle-aware, což znamená, že automaticky reagují na změny životního cyklu aplikace, například při změně konfigurace zařízení (otočení obrazovky) nebo při přechodu aplikace na pozadí.
+Díky tomu nedochází ke ztrátě stavu uživatelského rozhraní a k opakovanému načítání dat při těchto změnách.
+
+Zvolený způsob využití architektonického vzoru MVVM se v praxi osvědčil jako přehledný a umožnil jasné oddělení uživatelského rozhraní od doménové logiky aplikace.
 
 
 \section{Struktura projektu podle funkčních celků}
@@ -57,7 +66,7 @@ Naopak špatně navržená architektura může vést k problémům, jako je tě�
 % - možnost paralelního vývoje (možnost kompletně přepsat jednu feature bez vlivu na ostatní)
 
 
-\section{Oddělení doménové a datové vrstvy}
+\section{Oddělení doménové a datové vrstvy}\label{sec:oddeleni-domenove-a-datove-vrstvy}
 
 % Domain
 %  - doménové modely
@@ -69,6 +78,9 @@ Naopak špatně navržená architektura může vést k problémům, jako je tě�
 %  - implementace repozitářů
 %  - datové modely
 %  - práce s Firestore, Firebase Auth, Firebase Storage, ...
+
+% "Rozhraní repozitářů jsou definována v doménové vrstvě, zatímco jejich konkrétní implementace se nachází v datové vrstvě."
+% "Doménová logika je tak nezávislá na konkrétním způsobu ukládání nebo získávání dat."
 
 
 \section{Zpracování výsledků a chyb v doménové vrstvě}
@@ -92,7 +104,7 @@ Naopak špatně navržená architektura může vést k problémům, jako je tě�
 % 6. aktualizace StateFlow (respektive zpracování chyby)
 % 7. UI se automaticky přerenderuje
 
-% TODO: zmínit immutabilty princip?
+% zmínit immutabilty princip?
 
 
 \section{Vkládání závislostí (Dependency Injection)}
