@@ -46,24 +46,46 @@ Zvolený způsob využití architektonického vzoru MVVM se v praxi osvědčil j
 
 
 \section{Struktura projektu podle funkčních celků}
-% *Feature-based struktura projektu*
+Projekt je strukturován podle funkčních celků (feature-based struktura), kdy jednotlivé části aplikace odpovídají konkrétním oblastem domény nebo uživatelské funkcionality.
+Tento přístup umožňuje jasné oddělení odpovědností, lepší orientaci v kódu a omezuje provázanost mezi jednotlivými částmi aplikace.
 
-% každá feature obsahuje:
-% - domain
-% - data
-% - případně di
+Každý celek je v projektu organizován jako samostatná jednotka a typicky obsahuje následující vrstvy:
+\begin{itemize}
+    \item \textbf{domain} – doménové modely, use-case třídy a rozhraní repozitářů,
+    \item \textbf{data} – konkrétní implementace repozitářů a práce s datovými zdroji, mapování návratových hodnot do doménových výsledků (viz sekce~\ref{sec:domain_result}),
+    \item \textbf{di} – definice závislostí a jejich konfigurace pro daný funkční celek,
+    \item \textbf{sample} - ukázková data využívaná během testování a ladění aplikace.
+\end{itemize}
 
-% konkrétní features (+ vysvětlení):
-% - auth
-% - core - DomainResult (viz. \ref{sec:domain_result}), ...
-% - common
-% - shop, review, user, ...
-% - ui - dle obrazovek/samostatných celků
+Aplikace je rozdělena do několika hlavních funkčních celků.
+Mezi nejdůležitější patří například:
+\begin{itemize}
+    \item \textbf{auth} – správa registrace a přihlášení uživatelů,
+    \item \textbf{shop} – práce s obchody, jejich vytváření, úprava a zobrazování,
+    \item \textbf{review} – hodnocení a recenze obchodů,
+    \item \textbf{user} – správa uživatelských údajů,
+    \item \textbf{core} – logika jádra aplikace, architektonické abstrakce,
+    \item \textbf{common} – společné pomocné třídy a funkce.
+\end{itemize}
 
-% Zdůraznit přínos:
-% - lepší orientace v kódu
-% - omezení provázanosti
-% - možnost paralelního vývoje (možnost kompletně přepsat jednu feature bez vlivu na ostatní)
+Celek \textbf{shop} obsahuje především entitu \textit{Shop} a s ní související doménovou logiku.
+Ta je realizovaná pomocí samostatných use-case tříd pro vytváření, úpravu a mazání obchodů a různé možnosti zobrazování obchodů (všechny obchody podle vzdálenosti, nejbližších X obchodů, obchody daného uživatele, \ldots).
+K tomu tento celek obsahuje i zmiňované rozhraní repozitářů (v doménové vrstvě) a jejich implementace (v datové vrstvě) a ukázková data (v balíčku \textit{sample}) využívaná pro testování a náhled uživatelského rozhraní.
+
+Celek \textbf{common} obsahuje sdílenou logiku, která není přímo spojená s konkrétní doménou, ale je využívána v různých částech aplikace.
+Jedná se převážně o jednoduché bezstavové pomocné funkce a třídy.
+Patří sem například třídy pro práci s barvou nebo logika pro formátování dat, validaci, porovnávání textů apod.
+
+Celek \textbf{core} obsahuje logiku jádra aplikace, na které je závislá většina ostatních funkčních celků.
+Patří sem například abstrakce dat z repozitářů a doménových chyb operací (viz sekce~\ref{sec:domain_result}) nebo obecná rozhraní využívaná napříč aplikací, jako je kontrakt pro perzistentní entity.
+Tento celek není závislý na žádném jiném funkčním celku aplikace.
+Většina ostatních funkčních celků je naopak závislá na tomto celku, čímž je zajištěno, že sdílená logika je centralizována a jednotná.
+
+Uživatelské rozhraní je organizováno samostatně ve funkčním celku \textbf{app} v podsložce \textit{ui}, kde jsou jednotlivé prvky rozděleny podle obrazovek nebo samostatných částí uživatelského rozhraní (komponent).
+Kromě toho složka ui obsahuje také podsložky \textbf{ui/common}, která obsahuje sdílené prvky uživatelského rozhraní, a \textbf{ui/core}, která obsahuje základní komponenty a centrální logiku pro práci s uživatelským rozhraním (navigace a navigační bar, vyvolávání vyskakovacích oken, informační lišty apod.).
+Funkční celek \textbf{app} je jako jediný celek přímo závislý na platformě Android, zatímco ostatní funkční celky jsou nezávislé na konkrétní platformě a mohou být potenciálně znovu použity i v jiných typech aplikací.
+
+Jednotlivé funkční celky jsou v projektu realizovány jako samostatné Gradle moduly, což přispívá k lepší izolaci závislostí a zkrácení doby sestavení projektu.
 
 
 \section{Oddělení doménové a datové vrstvy}\label{sec:oddeleni-domenove-a-datove-vrstvy}
@@ -83,7 +105,7 @@ Zvolený způsob využití architektonického vzoru MVVM se v praxi osvědčil j
 % "Doménová logika je tak nezávislá na konkrétním způsobu ukládání nebo získávání dat."
 
 
-\section{Zpracování výsledků a chyb v doménové vrstvě}
+\section{Zpracování výsledků a chyb v doménové vrstvě}\label{sec:domain_result}
 % DomainResult a DomainError
 % princip...
 % výhody...
