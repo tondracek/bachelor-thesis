@@ -116,13 +116,25 @@ Toto rozdělení umožňuje snadnou výměnu nebo úpravu datových zdrojů bez 
 
 
 \section{Zpracování výsledků a chyb v doménové vrstvě}\label{sec:domain_result}
-% DomainResult a DomainError
-% princip...
-% výhody...
+V rámci návrhu architektury aplikace byl kladen důraz na jednotný a předvídatelný způsob práce s výsledky operací a chybovými stavy.
+Namísto používání výjimek napříč aplikační logikou bylo cílem reprezentovat výsledky volání, včetně chybových stavů, pomocí návratových hodnot.
+Díky tomu je zajištěno, že volající kód musí explicitně řešit všechny možné výsledky, včetně chyb, což přispívá k robustnější a předvídatelnější aplikaci.
 
-% Zdůrazni:
-%  - návratová hodnota use-casů a repozitářů
-%  - nutí volajícího explicitně řešit chyby
+Pro tento účel byl navržen typ \textbf{DomainResult}, který reprezentuje výsledek libovolné operace v doménové vrstvě.
+DomainResult může být buď úspěšný a obsahovat požadovaná data, nebo neúspěšný a obsahovat doménově orientovanou chybu (DomainError).
+Použití typu DomainResult je v této aplikaci jednotné napříč celou aplikační logikou.
+Rozhraní repozitářů i jednotlivé use-case třídy zpravidla vracejí výsledek operace ve formě DomainResult, čímž je zajištěno, že volající kód nemůže chybový stav ignorovat.
+
+Chybové stavy jsou v aplikaci reprezentovány pomocí typu \textbf{DomainError}.
+Jedná se o hierarchii doménově orientovaných chyb, které popisují význam chyby z pohledu aplikace, nikoli z pohledu konkrétní technologie nebo datového zdroje.
+Doménové chyby jsou členěny podle jednotlivých oblastí aplikace, například na chyby související s autentizací, správou obchodů nebo prací s fotografiemi.
+Tím je zajištěno, že chyby mají jasný význam v kontextu domény aplikace a mohou být jednoznačně interpretovány vyššími vrstvami aplikace, zejména ViewModely a uživatelským rozhraním.
+
+V datové vrstvě jsou technické chyby vznikající při komunikaci s datovými zdroji zachyceny a převedeny na doménově orientované chyby (DomainError), které jsou následně vráceny ve formě neúspěšného DomainResult.
+Úspěšná volání jsou vrácena jako úspěšný DomainResult obsahující požadovaná data.
+
+V doménové vrstvě se tyto výsledky dále zpracovávají, kombinují s výsledky jiných operací a slouží k řízení aplikačního toku na základě úspěšných i chybových stavů.
+Volajícímu kódu jsou data opět předány ve formě DomainResult, díky čemuž nedochází ke ztrátě informací o chybových stavech a je zajištěno jejich explicitní zpracování.
 
 
 \section{Tok dat v aplikaci}
