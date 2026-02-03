@@ -7,6 +7,10 @@ Naopak špatně navržená architektura může vést k problémům, jako je tě�
 Architektura aplikace byla navržena především s cílem jasně oddělit odpovědnosti jednotlivých částí kódu, čímž podporuje dosažení výše uvedených vlastností.
 Při návrhu byly převzaty vybrané principy běžně používané v moderních architektonických přístupech, které jsou popsány v následujících podkapitolách.
 
+V rámci této kapitoly je používán pojem \emph{doména aplikace}, kterým je v kontextu této práce myšlena oblast reálného světa, již aplikace modeluje a jejíž pravidla a procesy realizuje.
+Doménová logika pak představuje část aplikační logiky odpovědnou za implementaci těchto pravidel, nezávisle na konkrétních technologiích či uživatelském rozhraní.
+Toto pojetí vychází z principů doménově řízeného návrhu.\footfullcite{evans_ddd}
+
 
 \section{Architektonický vzor MVVM}
 Jako základní architektonický vzor byla zvolena architektura Model-View-ViewModel (MVVM).\footfullcite{mvvm}
@@ -51,7 +55,7 @@ Tento přístup umožňuje jasné oddělení odpovědností, lepší orientaci v
 
 Každý celek je v projektu organizován jako samostatná jednotka a typicky obsahuje následující vrstvy:
 \begin{itemize}
-    \item \textbf{domain} – doménové modely, use-case třídy a rozhraní repozitářů,
+    \item \textbf{domain} – doménové modely, use-case třídy a rozhraní repozitářů (viz sekce~\ref{sec:oddeleni-domenove-a-datove-vrstvy}),
     \item \textbf{data} – konkrétní implementace repozitářů a práce s datovými zdroji, mapování návratových hodnot do doménových výsledků (viz sekce~\ref{sec:domain_result}),
     \item \textbf{di} – definice závislostí a jejich konfigurace pro daný funkční celek,
     \item \textbf{sample} - ukázková data využívaná během testování a ladění aplikace.
@@ -89,20 +93,26 @@ Jednotlivé funkční celky jsou v projektu realizovány jako samostatné Gradle
 
 
 \section{Oddělení doménové a datové vrstvy}\label{sec:oddeleni-domenove-a-datove-vrstvy}
+Jedním ze základních principů architektury aplikace je oddělení doménové a datové vrstvy.\footfullcite{domain_data_layer_separation}
+Cílem tohoto rozdělení je zajistit, aby doménová logika aplikace nebyla závislá na konkrétní implementaci ukládání nebo získávání dat.
 
-% Domain
-%  - doménové modely
-%  - use case třídy
-%  - rozhraní repozitářů
-% "Komunikace s backendem probíhá přes rozhraní definovaná v doménové vrstvě."
+\textbf{Doménová vrstva} (domain layer) obsahuje veškerou logiku týkající se samotné domény aplikace.
+To zahrnuje definice doménových modelů, use-case třídy a rozhraní repozitářů.
+Doménové modely reprezentují klíčové entity domény aplikace, jako jsou například uživatelé, obchody nebo recenze.
+Jedná se o čisté datové třídy bez závislostí na konkrétních technologiích nebo knihovnách a obsahují pouze atributy potřebné pro reprezentaci dané entity v kontextu domény aplikace.
+V use-case třídách je konkrétní doménová logika implementována a představují hlavní vstupní bod pro její volání z ViewModelů.
+Jedná se často o komplexní nebo znovupoužitelnou logiku, jako je například validace dat, doménová pravidla, výpočty, koordinace více operací nad daty, nebo jen jednoduché zprostředkování volání repozitářů.
+Komunikace s backendem probíhá přes rozhraní repozitářů definovaných v doménové vrstvě.
+Rozhraní repozitářů byla umístěna do této vrstvy, protože tvoří hranici mezi doménovou logikou a datovými zdroji a výsledky jejich operací jsou orientovány na doménové modely a chyby.
 
-% Data
-%  - implementace repozitářů
-%  - datové modely
-%  - práce s Firestore, Firebase Auth, Firebase Storage, ...
+\textbf{Datová vrstva} (data layer) je zodpovědná za konkrétní implementaci repozitářů a práci s datovými zdroji, jako je například Firestore, Firebase Auth nebo Firebase Storage.
+Datová vrstva obsahuje datové modely, které reprezentují strukturu dat v konkrétních datových zdrojích.
+Datové modely se mohou lišit od doménových modelů, protože jsou přizpůsobeny specifickým požadavkům daného datového zdroje.
+V datové vrstvě tak probíhá získávání a ukládání dat, mapování datových modelů na doménové modely a naopak, a zpracování technických chyb vznikajících při komunikaci s datovými zdroji.
+Datová vrstva kromě základních operací zapouzdřuje také složitější způsoby práce s daty, které jsou závislé na konkrétním datovém zdroji, například stránkování výsledků nebo dotazy nad geografickými daty.
 
-% "Rozhraní repozitářů jsou definována v doménové vrstvě, zatímco jejich konkrétní implementace se nachází v datové vrstvě."
-% "Doménová logika je tak nezávislá na konkrétním způsobu ukládání nebo získávání dat."
+Díky definici rozhraní repozitářů v doménové vrstvě a jejich implementaci v datové vrstvě je závislost mezi těmito vrstvami jednosměrná a směřuje výhradně od doménové vrstvy k datové vrstvě.
+Toto rozdělení umožňuje snadnou výměnu nebo úpravu datových zdrojů bez nutnosti měnit doménovou logiku aplikace.
 
 
 \section{Zpracování výsledků a chyb v doménové vrstvě}\label{sec:domain_result}
