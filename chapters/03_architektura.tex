@@ -164,11 +164,19 @@ Kombinace jednosměrného toku dat, reaktivního zpracování stavu a explicitn�
 
 
 \section{Vkládání závislostí (Dependency Injection)}
-% Hilt
-% výhody DI
-%  - lepší testovatelnost
-%  - méně kódu pro vytváření závislostí
-%  - pro viewmodely, use-casy, repozitáře
+Pro řízení závislostí mezi jednotlivými částmi aplikace je využíván princip vkládání závislostí (Dependency Injection).\footfullcite{android_dependency_injection}
+Cílem tohoto přístupu je oddělit vytváření objektů od jejich používání, snížit provázanost jednotlivých tříd a zjednodušit testování aplikace.
+
+V aplikaci je pro Dependency Injection použit framework Hilt, který je oficiálně doporučovaným řešením pro platformu Android.\footfullcite{android_recommend_hilt}
+Hilt poskytuje automatickou správu životního cyklu objektů, integraci s ViewModely a snižuje množství boilerplate kódu potřebného pro konfiguraci závislostí.\footfullcite{android_hilt_overview}
+
+Pomocí Dependency Injection jsou do jednotlivých tříd vkládány jejich závislosti, například repozitáře do use-case tříd nebo use-case třídy do ViewModelů.
+Díky tomu nejsou třídy přímo závislé na konkrétních implementacích svých závislostí, ale pouze na jejich rozhraních.
+
+Závislosti jsou definovány v samostatných konfiguračních modulech, které určují, jaké konkrétní implementace mají být v aplikaci použity.
+Tento přístup umožňuje snadnou výměnu implementací, například při testování nebo při změně způsobu práce s datovými zdroji.
+
+Použití Dependency Injection v kombinaci s architekturou aplikace přispívá k lepší čitelnosti kódu, omezení provázanosti mezi vrstvami a jednodušší údržbě aplikace v budoucnu.
 
 
 \section{Shrnutí architektury}
