@@ -138,17 +138,29 @@ Volajícímu kódu jsou data opět předány ve formě DomainResult, díky čemu
 
 
 \section{Tok dat v aplikaci}
+Tok dat v aplikaci je navržen tak, aby byl jednoznačný, předvídatelný a snadno sledovatelný napříč jednotlivými vrstvami aplikace.
+Aplikace využívá princip jednosměrného toku dat, kdy data proudí od uživatelského rozhraní směrem k doménové a datové vrstvě a výsledky operací jsou následně předávány zpět do uživatelského rozhraní.
 
-% příklad toku dat:
-% 1. uživatelská akce v UI
-% 2. ViewModel zpracuje událost
-% 3. volání use-casu, doménová logika
-% 4. volání repozitáře
-% 5. výsledek jako DomainResult z repozitáře (respektive DomainError v případě chyby)
-% 6. aktualizace StateFlow (respektive zpracování chyby)
-% 7. UI se automaticky přerenderuje
+Typický tok dat v aplikaci probíhá následujícím způsobem:
+\begin{enumerate}
+    \item Uživatel vyvolá akci v uživatelském rozhraní, například kliknutím na tlačítko.
+    \item Uživatelská událost je předána ViewModelu, který zpracovává logiku dané obrazovky.
+    \item ViewModel na základě události zavolá odpovídající use-case třídu v doménové vrstvě.
+    \item Use-case provede doménovou logiku a v případě potřeby komunikuje s repozitářem.
+    \item Repozitář získá nebo uloží data prostřednictvím datové vrstvy a vrátí výsledek ve formě DomainResult.
+    \item Use-case zpracuje DomainResult a vrátí ho zpět ViewModelu.
+    \item ViewModel zpracuje výsledek operace a aktualizuje stav obrazovky.
+    \item Uživatelské rozhraní automaticky reaguje na změnu stavu a znovu se vykreslí.
+\end{enumerate}
 
-% zmínit immutabilty princip?
+ViewModel vystavuje stav uživatelského rozhraní pomocí reaktivních datových toků (StateFlow), které uživatelské rozhraní průběžně pozoruje.
+Díky tomu není nutné explicitně řídit aktualizaci uživatelského rozhraní – změna stavu automaticky vede k jeho přerenderování.
+
+Stav uživatelského rozhraní je v aplikaci reprezentován neměnnými (immutable) datovými objekty.
+Při změně stavu je vždy vytvořena nová instance stavu, nikoli modifikována stávající.
+Tento přístup zjednodušuje sledování změn, eliminuje vedlejší efekty a přispívá k lepší předvídatelnosti chování aplikace.
+
+Kombinace jednosměrného toku dat, reaktivního zpracování stavu a explicitního zpracování chyb pomocí DomainResult vytváří konzistentní a snadno udržovatelný model toku dat napříč celou aplikací.
 
 
 \section{Vkládání závislostí (Dependency Injection)}
