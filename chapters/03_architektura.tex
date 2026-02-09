@@ -180,9 +180,14 @@ Použití Dependency Injection v kombinaci s architekturou aplikace přispívá 
 
 
 \section{Shrnutí architektury}
-% architektura odpovídá rozsahu bakalářské práce
-% ověřena reálným provozem aplikace
-% umožnila úspěšnou implementaci a publikaci aplikace
-% zjednodušila vývoj, údržbu kódu, přidávání nových funkcí a opravy chyb
-%
-% "Zvolená architektura se v praxi osvědčila jako přehledná, rozšiřitelná a vhodná pro další rozvoj aplikace."
+Navržená architektura aplikace vychází z požadavků kladených na přehlednost, rozšiřitelnost a dlouhodobou udržovatelnost kódu.
+Jednotlivé architektonické principy byly zvoleny s ohledem na charakter aplikace, rozsah bakalářské práce a použité technologie.
+
+Použití architektonického vzoru MVVM umožnilo jasné oddělení uživatelského rozhraní, logiky obrazovek a doménové logiky aplikace.
+Feature-based struktura projektu přispěla k lepší orientaci v kódu a omezení provázanosti mezi jednotlivými funkčními celky.
+Oddělení doménové a datové vrstvy zajistilo nezávislost doménové logiky na konkrétní implementaci datových zdrojů.
+Abstrahování výsledků operací a chyb pomocí typu DomainResult přispělo k předvídatelnému toku dat napříč aplikací a vynutilo explicitní řešení chybových stavů.
+
+Zvolená architektura v praxi umožnila úspěšnou implementaci, průběžné ladění a následnou publikaci aplikace.
+Napomohla k přehledné realizaci jednotlivých funkčních celků, postupnému rozšiřování funkcionality a efektivnímu řešení chyb.
+Architektura tak poskytuje stabilní základ pro další rozvoj aplikace i mimo rámec této bakalářské práce.
