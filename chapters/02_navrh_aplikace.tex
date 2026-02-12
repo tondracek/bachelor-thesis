@@ -10,28 +10,45 @@ Závěrem je zdůvodněna volba použitých technologií, které tvoří základ
 
 \section{Specifikace požadavků}
 
-Tato kapitola se zabývá specifikací požadavků na navrhovanou aplikaci.
-Požadavky vymezují očekávané chování systému a jeho vlastnosti z~pohledu uživatelů i provozu aplikace.
+Tato kapitola specifikuje požadavky na navrhovanou mobilní aplikaci.
+Požadavky vymezují očekávané chování systému a jeho kvalitativní vlastnosti z~pohledu uživatelů i provozu aplikace.
+Specifikace tvoří základ pro návrh architektury a implementaci aplikace.
 
 \subsection{Funkční požadavky}
 
-Funkční požadavky popisují chování aplikace a funkce, které aplikace poskytuje svým uživatelům.
-Aplikace rozlišuje dva základní typy uživatelů – běžné návštěvníky aplikace a registrované uživatele.
+Funkční požadavky definují služby a funkce, které systém poskytuje svým uživatelům.
+Aplikace rozlišuje dva základní typy uživatelů: běžné návštěvníky aplikace a registrované uživatele.
 
 \begin{itemize}
-    \item Uživatel může zobrazit obchody v~mapovém nebo seznamovém zobrazení.
-    \item Uživatel může filtrovat zobrazené obchody podle kategorie, vzdálenosti a průměrného hodnocení.
-    \item Uživatel může zobrazit detail obchodu, včetně popisu, fotografií a kontaktních údajů.
-    \item Uživatel může vytvořit uživatelský účet.
-    \item Registrovaný uživatel může vytvářet nové obchody.
-    \item Registrovaný uživatel může upravovat a spravovat obchody, které vytvořil.
-    \item Registrovaný uživatel může upravovat své kontaktní údaje zobrazované u~jeho obchodů.
-    \item Registrovaný uživatel může ke svým obchodům přidávat název, popis, kategorie nabízených produktů, fotografie, nabídku produktů a otevírací dobu.
-    \item Registrovaný uživatel může vytvářet recenze obchodů ostatních uživatelů.
+    \item Prohlížení a vyhledávání obchodů
+    \begin{itemize}
+        \item Systém umožňuje zobrazit obchody v mapovém nebo seznamovém zobrazení.
+        \item Systém umožňuje filtrovat obchody podle kategorie, maximální vzdálenosti od aktuální polohy a minimálního průměrného hodnocení.
+        \item Systém umožňuje zobrazit detail obchodu, včetně popisu, fotografií, nabídky produktů, otevírací doby a kontaktních údajů.
+    \end{itemize}
+
+    \item Správa uživatelského účtu
+    \begin{itemize}
+        \item Systém umožňuje vytvoření uživatelského účtu.
+        \item Systém umožňuje přihlášení a odhlášení uživatele.
+        \item Systém umožňuje registrovanému uživateli upravovat své osobní a kontaktní údaje.
+    \end{itemize}
+
+    \item Správa obchodů
+    \begin{itemize}
+        \item Systém umožňuje registrovanému uživateli vytvářet nové obchody.
+        \item Systém umožňuje registrovanému uživateli upravovat a odstraňovat obchody, jejichž je vlastníkem.
+        \item Systém umožňuje registrovanému uživateli přidávat a upravovat u svých obchodů název, popis, kategorie produktů, fotografie, nabídku produktů a otevírací dobu.
+    \end{itemize}
+
+    \item Recenze
+    \begin{itemize}
+        \item Systém umožňuje registrovanému uživateli vytvářet recenze obchodů jiných uživatelů.
+    \end{itemize}
 \end{itemize}
 
-Aplikace neslouží jako e-shop a neumožňuje přímý nákup nebo objednávky.
-Jejím cílem je poskytnout prostředek pro prezentaci nabídky domácích producentů na mapě a umožnit zájemcům snadno vyhledat obchody v~jejich okolí.
+Aplikace neslouží jako e-shop a neumožňuje přímý nákup ani vytváření objednávek.
+Jejím cílem je poskytovat prostředek pro prezentaci nabídky domácích producentů a umožnit zájemcům snadno vyhledat obchody v~jejich okolí.
 
 \subsection{Nefunkční požadavky}
 
@@ -39,10 +56,10 @@ Nefunkční požadavky popisují vlastnosti aplikace, které se netýkají pří
 
 \begin{itemize}
     \item Aplikace je implementována jako nativní mobilní aplikace pro platformu Android a využívá nativní API zařízení.
-    \item Uživatelské rozhraní aplikace musí být přehledné a snadno použitelné i~pro méně technicky zdatné uživatele.
-    \item Aplikace musí umožňovat plynulé zobrazení mapy a obchodů bez výrazných prodlev.
-    \item Data uložená v~aplikaci musí být přístupná pouze oprávněným uživatelům.
-    \item Aplikace musí být navržena tak, aby bylo možné ji dále rozšiřovat o~další funkce.
+    \item Uživatelské rozhraní musí být přehledné, konzistentní a snadno použitelné i~pro méně technicky zdatné uživatele.
+    \item Systém musí poskytovat dostatečnou odezvu uživatelského rozhraní při práci s mapovým i seznamovým zobrazením obchodů a dalšími funkcemi aplikace.
+    \item Přístup k datům musí být omezen pouze na oprávněné uživatele prostřednictvím autentizace a řízení přístupových práv.
+    \item Architektura aplikace musí umožňovat další rozšiřování funkcionality bez zásadních zásahů do existujícího kódu.
 \end{itemize}
 
 
@@ -264,65 +281,6 @@ Uživatel má na výběr mezi dvěma způsoby zadání otevírací doby: jako pr
 
 Posledním krokem je shrnutí, kde může uživatel zkontrolovat všechny zadané údaje před vytvořením nebo úpravou obchodu.
 Tato obrazovka je téměř totožná jako obrazovka detailu obchodu, ale obsahuje navíc tlačítka \enquote{Předchozí} a \enquote{Potvrdit} (místo tlačítka \enquote{Další} jako v~předchozích krocích).
-
-\begin{figure}[htbp]
-
-    \centering
-    \begin{subfigure}[t]{0.24\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_01}
-        \caption{Krok 1: Název a poloha obchodu}
-        \label{fig:create-shop-step-01}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.24\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_02}
-        \caption{Krok 2: Obrázky a popis obchodu}
-        \label{fig:create-shop-step-02}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.24\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_03}
-        \caption{Krok 3: Kategorie produktů obchodu a nabídka produktů}
-        \label{fig:create-shop-step-03}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.24\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_04}
-        \caption{Krok 4: Otevírací doba obchodu – zpráva}
-        \label{fig:create-shop-step-04}
-    \end{subfigure}
-
-    \caption{Kroky vytváření a úpravy obchodu}
-    \label{fig:create-shop-steps}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}[t]{0.24\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{res/ui/create_flow/opening_hours_time}
-        \caption{Denní otevírací doba obchodu}
-        \label{fig:create-shop-opening-hours-time}
-    \end{subfigure}
-    \hspace{0.02\textwidth}
-    \begin{subfigure}[t]{0.24\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{res/ui/create_flow/add/edit_category}
-        \caption{Přidání / úprava kategorie obchodu}
-        \label{fig:create-shop-add-edit-category}
-    \end{subfigure}
-    \hspace{0.02\textwidth}
-    \begin{subfigure}[t]{0.24\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{res/ui/create_flow/add/edit_product}
-        \caption{Přidání / úprava položky nabídky obchodu}
-        \label{fig:create-shop-add-edit-product}
-    \end{subfigure}
-
-    \caption{Dodatečné prvky vytváření a úpravy obchodu}
-    \label{fig:create-shop-additional}
-\end{figure}
 
 
 \section{Výběr technologií}
