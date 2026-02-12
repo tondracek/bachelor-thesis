@@ -1,62 +1,62 @@
 \chapter{Architektura kódu}
 Před zahájením implementace je důležité si rozmyslet a naplánovat architekturu kódu.
-Dobře navržená architektura pomůže ušetřit spoustu času a námahy v budoucnu, například při přidávání nových funkcí nebo opravování stávajícího kódu.
+Dobře navržená architektura pomůže ušetřit spoustu času a námahy v~budoucnu, například při přidávání nových funkcí nebo opravování stávajícího kódu.
 Zároveň přispívá ke zvýšení jeho čitelnosti a udržovatelnosti.
-Naopak špatně navržená architektura může vést k problémům, jako je těžko udržovatelný kód, složitá rozšiřitelnost, náročné zjišťování chyb a celkově pomalejší vývoj.
+Naopak špatně navržená architektura může vést k~problémům, jako je těžko udržovatelný kód, složitá rozšiřitelnost, náročné zjišťování chyb a celkově pomalejší vývoj.
 
-Architektura aplikace byla navržena především s cílem jasně oddělit odpovědnosti jednotlivých částí kódu, čímž podporuje dosažení výše uvedených vlastností.
-Při návrhu byly převzaty vybrané principy běžně používané v moderních architektonických přístupech, které jsou popsány v následujících podkapitolách.
+Architektura aplikace byla navržena především s~cílem jasně oddělit odpovědnosti jednotlivých částí kódu, čímž podporuje dosažení výše uvedených vlastností.
+Při návrhu byly převzaty vybrané principy běžně používané v~moderních architektonických přístupech, které jsou popsány v~následujících podkapitolách.
 
-V rámci této kapitoly je používán pojem \emph{doména aplikace}, kterým je v kontextu této práce myšlena oblast reálného světa, kterou aplikace modeluje a jejíž pravidla a procesy realizuje.
+V~rámci této kapitoly je používán pojem \emph{doména aplikace}, kterým je v~kontextu této práce myšlena oblast reálného světa, kterou aplikace modeluje a jejíž pravidla a procesy realizuje.
 Doménová logika pak představuje část aplikační logiky odpovědnou za implementaci těchto pravidel, nezávisle na konkrétních technologiích či uživatelském rozhraní.
-Toto pojetí vychází z principů doménově řízeného návrhu.\footfullcite{evans_ddd}
+Toto pojetí vychází z~principů doménově řízeného návrhu.\footfullcite{evans_ddd}
 
 
 \section{Architektonický vzor MVVM}
 Jako základní architektonický vzor byla zvolena architektura Model-View-ViewModel (MVVM).\footfullcite{mvvm}
 Je to doporučený vzor pro vývoj nativních Android aplikací, který je podporován samotným Android Frameworkem a prosazován společností Google, která stojí za vývojem platformy Android.\footfullcite{android_recommended_architecture}
-V navrhované aplikaci je architektonický vzor MVVM využit k jasnému oddělení odpovědností mezi uživatelským rozhraním, logikou obrazovek a doménovou logikou.
+V~navrhované aplikaci je architektonický vzor MVVM využit k~jasnému oddělení odpovědností mezi uživatelským rozhraním, logikou obrazovek a doménovou logikou.
 Vzor MVVM za tímto účelem rozděluje aplikaci do tří hlavních komponent: Model, View a ViewModel.
 
 \textbf{View} představuje uživatelské rozhraní a je zodpovědné pouze za zobrazování dat a předávání uživatelských událostí.
-V této aplikaci je View realizováno pomocí frameworku Jetpack Compose a neobsahuje žádnou aplikační ani doménovou logiku.
+V~této aplikaci je View realizováno pomocí frameworku Jetpack Compose a neobsahuje žádnou aplikační ani doménovou logiku.
 
-\textbf{Model} reprezentuje data a doménovou logiku aplikace, včetně komunikace s repozitáři pro získávání dat.
+\textbf{Model} reprezentuje data a doménovou logiku aplikace, včetně komunikace s~repozitáři pro získávání dat.
 Podle MVVM nesmí být nijak závislý na uživatelském rozhraní ani jeho konkrétní implementaci a nesmí obsahovat logiku týkající se zobrazení.
-V navrhované aplikaci tuto roli plní doménová vrstva, jejíž struktura a principy jsou podrobně popsány v sekci~\ref{sec:oddeleni-domenove-a-datove-vrstvy}.
+V~navrhované aplikaci tuto roli plní doménová vrstva, jejíž struktura a principy jsou podrobně popsány v~sekci~\ref{sec:oddeleni-domenove-a-datove-vrstvy}.
 
 \textbf{ViewModel} slouží jako prostředník mezi View a Modelem.
-Je zodpovědný za správu stavu uživatelského rozhraní, reakci na uživatelské události a komunikaci s Modelem za účelem získání nebo aktualizace dat.
+Je zodpovědný za správu stavu uživatelského rozhraní, reakci na uživatelské události a komunikaci s~Modelem za účelem získání nebo aktualizace dat.
 
 ViewModel obsahuje aktuální stav uživatelského rozhraní a vystavuje ho ve formě, kterou může View snadno sledovat a reagovat na jeho změny.
-V navrhované aplikaci jsou pro správu stavu obrazovek využívány asynchronní datové toky, do kterých při změně dat ViewModel publikuje nový stav jakožto neměnný (immutable\footfullcite{compose_ui_architecture}) objekt.
+V~navrhované aplikaci jsou pro správu stavu obrazovek využívány asynchronní datové toky, do kterých při změně dat ViewModel publikuje nový stav jakožto neměnný (immutable\footfullcite{compose_ui_architecture}) objekt.
 View pak tento stav pozoruje a na jeho základě vykresluje uživatelské rozhraní.
-Naopak View zase předává uživatelské události (například kliknutí na tlačítko) ViewModelu, který na ně reaguje a případně aktualizuje stav nebo komunikuje s Modelem.
-Tomuto přístupu se říká \textbf{jednosměrný tok dat} (unidirectional data flow\footfullcite{android_recommended_architecture}) a přispívá k lepší předvídatelnosti a stabilitě aplikace.
+Naopak View zase předává uživatelské události (například kliknutí na tlačítko) ViewModelu, který na ně reaguje a případně aktualizuje stav nebo komunikuje s~Modelem.
+Tomuto přístupu se říká \textbf{jednosměrný tok dat} (unidirectional data flow\footfullcite{android_recommended_architecture}) a přispívá k~lepší předvídatelnosti a stabilitě aplikace.
 
 Ve ViewModelu se nachází pouze logika týkající se uživatelského rozhraní, ne však jeho samotné vykreslování.
-Doménová logika a správa dat jsou plně odděleny v Modelu.
-Stejně tak logika spojená s navigací mezi obrazovkami, zobrazení vyskakovacích oken či upozornění pro uživatele se nachází pouze ve View, protože je závislá na konkrétní implementaci uživatelského rozhraní.
+Doménová logika a správa dat jsou plně odděleny v~Modelu.
+Stejně tak logika spojená s~navigací mezi obrazovkami, zobrazení vyskakovacích oken či upozornění pro uživatele se nachází pouze ve View, protože je závislá na konkrétní implementaci uživatelského rozhraní.
 
-ViewModely v této aplikaci nevykonávají žádné přímé akce nad uživatelským rozhraním, ale vystavují takzvané \textbf{vedlejší efekty} (side effects\footfullcite{android_side_effect}).
-Efekty jsou jednorázové události, které vyvolávají akce v uživatelském rozhraní, jako například právě zmíněná navigace nebo zobrazení vyskakovacích oken.
-View vystavované efekty interpretuje a na jejich základě provádí příslušné akce v uživatelském rozhraní.
+ViewModely v~této aplikaci nevykonávají žádné přímé akce nad uživatelským rozhraním, ale vystavují takzvané \textbf{vedlejší efekty} (side effects\footfullcite{android_side_effect}).
+Efekty jsou jednorázové události, které vyvolávají akce v~uživatelském rozhraní, jako například právě zmíněná navigace nebo zobrazení vyskakovacích oken.
+View vystavované efekty interpretuje a na jejich základě provádí příslušné akce v~uživatelském rozhraní.
 
 Jak bylo zmíněno výše, MVVM je přímo podporovaný Android Frameworkem.
-ViewModely jsou v Android Frameworku takzvaně lifecycle-aware, což znamená, že automaticky reagují na změny životního cyklu aplikace, například při změně konfigurace zařízení (otočení obrazovky) nebo při přechodu aplikace na pozadí.
-Díky tomu nedochází ke ztrátě stavu uživatelského rozhraní a k opakovanému načítání dat při těchto změnách.\footfullcite{android_viewmodel_overview}
+ViewModely jsou v~Android Frameworku takzvaně lifecycle-aware, což znamená, že automaticky reagují na změny životního cyklu aplikace, například při změně konfigurace zařízení (otočení obrazovky) nebo při přechodu aplikace na pozadí.
+Díky tomu nedochází ke ztrátě stavu uživatelského rozhraní a k~opakovanému načítání dat při těchto změnách.\footfullcite{android_viewmodel_overview}
 
-Zvolený způsob využití architektonického vzoru MVVM se v praxi osvědčil jako přehledný a umožnil jasné oddělení uživatelského rozhraní od doménové logiky aplikace.
+Zvolený způsob využití architektonického vzoru MVVM se v~praxi osvědčil jako přehledný a umožnil jasné oddělení uživatelského rozhraní od doménové logiky aplikace.
 
 
 \section{Struktura projektu podle funkčních celků}
 Projekt je strukturován podle funkčních celků (feature-based struktura), kdy jednotlivé části aplikace odpovídají konkrétním oblastem domény nebo uživatelské funkcionality.
-Tento přístup umožňuje jasné oddělení odpovědností, lepší orientaci v kódu a omezuje provázanost mezi jednotlivými částmi aplikace.
+Tento přístup umožňuje jasné oddělení odpovědností, lepší orientaci v~kódu a omezuje provázanost mezi jednotlivými částmi aplikace.
 
-Každý celek je v projektu organizován jako samostatná jednotka a typicky obsahuje následující vrstvy:
+Každý celek je v~projektu organizován jako samostatná jednotka a typicky obsahuje následující vrstvy:
 \begin{itemize}
     \item \textbf{domain} – doménové modely, use-case třídy (třídy případů užití) a rozhraní repozitářů (viz sekce~\ref{sec:oddeleni-domenove-a-datove-vrstvy}),
-    \item \textbf{data} – konkrétní implementace repozitářů a práce s datovými zdroji, mapování návratových hodnot do doménových výsledků (viz sekce~\ref{sec:domain_result}),
+    \item \textbf{data} – konkrétní implementace repozitářů a práce s~datovými zdroji, mapování návratových hodnot do doménových výsledků (viz sekce~\ref{sec:domain_result}),
     \item \textbf{di} – definice závislostí a jejich konfigurace pro daný funkční celek,
     \item \textbf{sample} - ukázková data využívaná během testování a ladění aplikace.
 \end{itemize}
@@ -65,31 +65,31 @@ Aplikace je rozdělena do několika hlavních funkčních celků.
 Mezi nejdůležitější patří například:
 \begin{itemize}
     \item \textbf{auth} – správa registrace a přihlášení uživatelů,
-    \item \textbf{shop} – práce s obchody, jejich vytváření, úprava a zobrazování,
+    \item \textbf{shop} – práce s~obchody, jejich vytváření, úprava a zobrazování,
     \item \textbf{review} – hodnocení a recenze obchodů,
     \item \textbf{user} – správa uživatelských údajů,
     \item \textbf{core} – logika jádra aplikace, architektonické abstrakce,
     \item \textbf{common} – společné pomocné třídy a funkce.
 \end{itemize}
 
-Celek \textbf{shop} obsahuje především entitu \textit{Shop} a s ní související doménovou logiku.
+Celek \textbf{shop} obsahuje především entitu \textit{Shop} a s~ní související doménovou logiku.
 Ta je realizovaná pomocí samostatných use-case tříd pro vytváření, úpravu a mazání obchodů a různé možnosti zobrazování obchodů (všechny obchody podle vzdálenosti, nejbližších X obchodů, obchody daného uživatele, \ldots).
-K tomu tento celek obsahuje i zmiňované rozhraní repozitářů (v doménové vrstvě) a jejich implementace (v datové vrstvě) a ukázková data (v balíčku \textit{sample}) využívaná pro testování a náhled uživatelského rozhraní.
+K~tomu tento celek obsahuje i zmiňované rozhraní repozitářů (v~doménové vrstvě) a jejich implementace (v~datové vrstvě) a ukázková data (v~balíčku \textit{sample}) využívaná pro testování a náhled uživatelského rozhraní.
 
-Celek \textbf{common} obsahuje sdílenou logiku, která není přímo spojená s konkrétní doménou, ale je využívána v různých částech aplikace.
-Jedná se převážně o jednoduché bezstavové pomocné funkce a třídy.
-Patří sem například třídy pro práci s barvou nebo logika pro formátování dat, validaci, porovnávání textů apod.
+Celek \textbf{common} obsahuje sdílenou logiku, která není přímo spojená s~konkrétní doménou, ale je využívána v~různých částech aplikace.
+Jedná se převážně o~jednoduché bezstavové pomocné funkce a třídy.
+Patří sem například třídy pro práci s~barvou nebo logika pro formátování dat, validaci, porovnávání textů apod.
 
 Celek \textbf{core} obsahuje logiku jádra aplikace, na které je závislá většina ostatních funkčních celků.
-Patří sem například abstrakce dat z repozitářů a doménových chyb operací (viz sekce~\ref{sec:domain_result}) nebo obecná rozhraní využívaná napříč aplikací, jako je kontrakt pro perzistentní entity.
+Patří sem například abstrakce dat z~repozitářů a doménových chyb operací (viz sekce~\ref{sec:domain_result}) nebo obecná rozhraní využívaná napříč aplikací, jako je kontrakt pro perzistentní entity.
 Tento celek není závislý na žádném jiném funkčním celku aplikace.
 Většina ostatních funkčních celků je naopak závislá na tomto celku, čímž je zajištěno, že sdílená logika je centralizována a jednotná.
 
-Uživatelské rozhraní je organizováno samostatně ve funkčním celku \textbf{app} v podsložce \textit{ui}, kde jsou jednotlivé prvky rozděleny podle obrazovek nebo samostatných částí uživatelského rozhraní (komponent).
-Kromě toho složka ui obsahuje také podsložky \textbf{ui/common}, která obsahuje sdílené prvky uživatelského rozhraní, a \textbf{ui/core}, která obsahuje základní komponenty a centrální logiku pro práci s uživatelským rozhraním (navigace a navigační bar, vyvolávání vyskakovacích oken, informační lišty apod.).
-Funkční celek \textbf{app} je jako jediný celek přímo závislý na platformě Android, zatímco ostatní funkční celky jsou nezávislé na konkrétní platformě a mohou být potenciálně znovu použity i v jiných typech aplikací.
+Uživatelské rozhraní je organizováno samostatně ve funkčním celku \textbf{app} v~podsložce \textit{ui}, kde jsou jednotlivé prvky rozděleny podle obrazovek nebo samostatných částí uživatelského rozhraní (komponent).
+Kromě toho složka ui obsahuje také podsložky \textbf{ui/common}, která obsahuje sdílené prvky uživatelského rozhraní, a \textbf{ui/core}, která obsahuje základní komponenty a centrální logiku pro práci s~uživatelským rozhraním (navigace a navigační bar, vyvolávání vyskakovacích oken, informační lišty apod.).
+Funkční celek \textbf{app} je jako jediný celek přímo závislý na platformě Android, zatímco ostatní funkční celky jsou nezávislé na konkrétní platformě a mohou být potenciálně znovu použity i v~jiných typech aplikací.
 
-Jednotlivé funkční celky jsou v projektu realizovány jako samostatné Gradle moduly, což přispívá k lepší izolaci závislostí a zkrácení doby sestavení projektu.
+Jednotlivé funkční celky jsou v~projektu realizovány jako samostatné Gradle moduly, což přispívá k~lepší izolaci závislostí a zkrácení doby sestavení projektu.
 
 
 \section{Oddělení doménové a datové vrstvy}\label{sec:oddeleni-domenove-a-datove-vrstvy}
@@ -100,56 +100,56 @@ Cílem tohoto rozdělení je zajistit, aby doménová logika aplikace nebyla zá
 To zahrnuje definice doménových modelů, use-case třídy a rozhraní repozitářů.
 
 Doménové modely reprezentují klíčové entity domény aplikace, jako jsou například uživatelé, obchody nebo recenze.
-Jedná se o čisté datové třídy bez závislostí na konkrétních technologiích nebo knihovnách a obsahují pouze atributy potřebné pro reprezentaci dané entity v kontextu domény aplikace.
+Jedná se o~čisté datové třídy bez závislostí na konkrétních technologiích nebo knihovnách a obsahují pouze atributy potřebné pro reprezentaci dané entity v~kontextu domény aplikace.
 
-V use-case třídách je konkrétní doménová logika implementována a představují hlavní vstupní bod pro její volání z ViewModelů.
-Jedná se často o komplexní nebo znovupoužitelnou logiku, jako je například validace dat, doménová pravidla, výpočty, koordinace více operací nad daty, nebo naopak jen jednoduché zprostředkování volání repozitářů.
+V~use-case třídách je konkrétní doménová logika implementována a představují hlavní vstupní bod pro její volání z~ViewModelů.
+Jedná se často o~komplexní nebo znovupoužitelnou logiku, jako je například validace dat, doménová pravidla, výpočty, koordinace více operací nad daty, nebo naopak jen jednoduché zprostředkování volání repozitářů.
 
-Komunikace s backendem probíhá přes rozhraní repozitářů definovaných v doménové vrstvě.
+Komunikace s~backendem probíhá přes rozhraní repozitářů definovaných v~doménové vrstvě.
 Rozhraní repozitářů byla umístěna do této vrstvy, protože tvoří hranici mezi doménovou logikou a datovými zdroji a výsledky jejich operací jsou orientovány na doménové modely a chyby.
 
-\textbf{Datová vrstva} (data layer) je zodpovědná za konkrétní implementaci repozitářů a práci s externími datovými zdroji (cloudová databáze, autentizační služba apod.).
-Datová vrstva obsahuje datové modely, které reprezentují strukturu dat v konkrétních datových zdrojích.
+\textbf{Datová vrstva} (data layer) je zodpovědná za konkrétní implementaci repozitářů a práci s~externími datovými zdroji (cloudová databáze, autentizační služba apod.).
+Datová vrstva obsahuje datové modely, které reprezentují strukturu dat v~konkrétních datových zdrojích.
 Datové modely se mohou lišit od doménových modelů, protože jsou přizpůsobeny specifickým požadavkům daného datového zdroje.
-V datové vrstvě tak probíhá získávání a ukládání dat, mapování datových modelů na doménové modely a naopak, a zpracování technických chyb vznikajících při komunikaci s datovými zdroji.
-Datová vrstva kromě základních operací zapouzdřuje také složitější způsoby práce s daty, které jsou závislé na konkrétním datovém zdroji, například stránkování výsledků nebo dotazy nad geografickými daty.
+V~datové vrstvě tak probíhá získávání a ukládání dat, mapování datových modelů na doménové modely a naopak, a zpracování technických chyb vznikajících při komunikaci s~datovými zdroji.
+Datová vrstva kromě základních operací zapouzdřuje také složitější způsoby práce s~daty, které jsou závislé na konkrétním datovém zdroji, například stránkování výsledků nebo dotazy nad geografickými daty.
 
-Díky definici rozhraní repozitářů v doménové vrstvě a jejich implementaci v datové vrstvě je závislost mezi těmito vrstvami jednosměrná a směřuje výhradně od doménové vrstvy k datové vrstvě.
+Díky definici rozhraní repozitářů v~doménové vrstvě a jejich implementaci v~datové vrstvě je závislost mezi těmito vrstvami jednosměrná a směřuje výhradně od doménové vrstvy k~datové vrstvě.
 Toto rozdělení umožňuje snadnou výměnu nebo úpravu datových zdrojů bez nutnosti měnit doménovou logiku aplikace.
 
 
-\section{Zpracování výsledků a chyb v doménové vrstvě}\label{sec:domain_result}
-V rámci návrhu architektury aplikace byl kladen důraz na jednotný a předvídatelný způsob práce s výsledky operací a chybovými stavy.
+\section[Zpracování výsledků a chyb v doménové vrstvě]{Zpracování výsledků a chyb v~doménové vrstvě}\label{sec:domain_result}
+V~rámci návrhu architektury aplikace byl kladen důraz na jednotný a předvídatelný způsob práce s~výsledky operací a chybovými stavy.
 Namísto používání výjimek napříč aplikační logikou bylo cílem reprezentovat výsledky volání, včetně chybových stavů, pomocí návratových hodnot.
-Díky tomu je zajištěno, že volající kód musí explicitně řešit všechny možné výsledky, včetně chyb, což přispívá k robustnější a předvídatelnější aplikaci.
+Díky tomu je zajištěno, že volající kód musí explicitně řešit všechny možné výsledky, včetně chyb, což přispívá k~robustnější a předvídatelnější aplikaci.
 
-Pro tento účel byl navržen typ \textbf{DomainResult}, který reprezentuje výsledek libovolné operace v doménové vrstvě.
+Pro tento účel byl navržen typ \textbf{DomainResult}, který reprezentuje výsledek libovolné operace v~doménové vrstvě.
 DomainResult může být buď úspěšný a obsahovat požadovaná data, nebo neúspěšný a obsahovat doménově orientovanou chybu (DomainError).
-Použití typu DomainResult je v této aplikaci jednotné napříč celou aplikační logikou.
+Použití typu DomainResult je v~této aplikaci jednotné napříč celou aplikační logikou.
 Rozhraní repozitářů i jednotlivé use-case třídy zpravidla vracejí výsledek operace ve formě DomainResult, čímž je zajištěno, že volající kód nemůže chybový stav ignorovat.
 
-Chybové stavy jsou v aplikaci reprezentovány pomocí typu \textbf{DomainError}.
-Jedná se o hierarchii doménově orientovaných chyb, které popisují význam chyby z pohledu aplikace, nikoli z pohledu konkrétní technologie nebo datového zdroje.
-Doménové chyby jsou členěny podle jednotlivých oblastí aplikace, například na chyby související s autentizací, správou obchodů nebo prací s fotografiemi.
-Tím je zajištěno, že chyby mají jasný význam v kontextu domény aplikace a mohou být jednoznačně interpretovány vyššími vrstvami aplikace, zejména ViewModely a uživatelským rozhraním.
+Chybové stavy jsou v~aplikaci reprezentovány pomocí typu \textbf{DomainError}.
+Jedná se o~hierarchii doménově orientovaných chyb, které popisují význam chyby z~pohledu aplikace, nikoli z~pohledu konkrétní technologie nebo datového zdroje.
+Doménové chyby jsou členěny podle jednotlivých oblastí aplikace, například na chyby související s~autentizací, správou obchodů nebo prací s~fotografiemi.
+Tím je zajištěno, že chyby mají jasný význam v~kontextu domény aplikace a mohou být jednoznačně interpretovány vyššími vrstvami aplikace, zejména ViewModely a uživatelským rozhraním.
 
-V datové vrstvě jsou technické chyby vznikající při komunikaci s datovými zdroji zachyceny a převedeny na doménově orientované chyby (DomainError), které jsou následně vráceny ve formě neúspěšného DomainResult.
+V~datové vrstvě jsou technické chyby vznikající při komunikaci s~datovými zdroji zachyceny a převedeny na doménově orientované chyby (DomainError), které jsou následně vráceny ve formě neúspěšného DomainResult.
 Úspěšná volání jsou vrácena jako úspěšný DomainResult obsahující požadovaná data.
 
-V doménové vrstvě se tyto výsledky dále zpracovávají, kombinují s výsledky jiných operací a slouží k řízení aplikačního toku na základě úspěšných i chybových stavů.
-Volajícímu kódu jsou data opět předány ve formě DomainResult, díky čemuž nedochází ke ztrátě informací o chybových stavech a je zajištěno jejich explicitní zpracování.
+V~doménové vrstvě se tyto výsledky dále zpracovávají, kombinují s~výsledky jiných operací a slouží k~řízení aplikačního toku na základě úspěšných i chybových stavů.
+Volajícímu kódu jsou data opět předány ve formě DomainResult, díky čemuž nedochází ke ztrátě informací o~chybových stavech a je zajištěno jejich explicitní zpracování.
 
 
-\section{Tok dat v aplikaci}
-Tok dat v aplikaci je navržen tak, aby byl jednoznačný, předvídatelný a snadno sledovatelný napříč jednotlivými vrstvami aplikace.
-Aplikace využívá princip jednosměrného toku dat, kdy data proudí od uživatelského rozhraní směrem k doménové a datové vrstvě a výsledky operací jsou následně předávány zpět do uživatelského rozhraní.
+\section[Tok dat v aplikaci]{Tok dat v~aplikaci}
+Tok dat v~aplikaci je navržen tak, aby byl jednoznačný, předvídatelný a snadno sledovatelný napříč jednotlivými vrstvami aplikace.
+Aplikace využívá princip jednosměrného toku dat, kdy data proudí od uživatelského rozhraní směrem k~doménové a datové vrstvě a výsledky operací jsou následně předávány zpět do uživatelského rozhraní.
 
-Typický tok dat v aplikaci probíhá následujícím způsobem:
+Typický tok dat v~aplikaci probíhá následujícím způsobem:
 \begin{enumerate}
-    \item Uživatel vyvolá akci v uživatelském rozhraní, například kliknutím na tlačítko.
+    \item Uživatel vyvolá akci v~uživatelském rozhraní, například kliknutím na tlačítko.
     \item Uživatelská událost je předána ViewModelu, který zpracovává logiku dané obrazovky.
-    \item ViewModel na základě události zavolá odpovídající use-case třídu v doménové vrstvě.
-    \item Use-case třída provede doménovou logiku a v případě potřeby komunikuje s repozitářem.
+    \item ViewModel na základě události zavolá odpovídající use-case třídu v~doménové vrstvě.
+    \item Use-case třída provede doménovou logiku a v~případě potřeby komunikuje s~repozitářem.
     \item Repozitář získá nebo uloží data prostřednictvím datové vrstvy a vrátí výsledek ve formě DomainResult.
     \item Use-case třída zpracuje DomainResult a vrátí ho zpět ViewModelu.
     \item ViewModel zpracuje výsledek operace a aktualizuje stav uživatelského rozhraní.
@@ -157,11 +157,11 @@ Typický tok dat v aplikaci probíhá následujícím způsobem:
 \end{enumerate}
 
 ViewModel vystavuje stav uživatelského rozhraní pomocí reaktivních datových toků, které uživatelské rozhraní průběžně pozoruje.
-Díky tomu není nutné explicitně řídit aktualizaci uživatelského rozhraní – změna stavu automaticky vede k jeho přerenderování.
+Díky tomu není nutné explicitně řídit aktualizaci uživatelského rozhraní – změna stavu automaticky vede k~jeho přerenderování.
 
-Stav uživatelského rozhraní je v aplikaci reprezentován neměnnými (immutable) datovými objekty.
+Stav uživatelského rozhraní je v~aplikaci reprezentován neměnnými (immutable) datovými objekty.
 Při změně stavu je vždy vytvořena nová instance stavu, nikoli modifikována stávající.
-Tento přístup zjednodušuje sledování změn, eliminuje vedlejší efekty a přispívá k lepší předvídatelnosti chování aplikace.
+Tento přístup zjednodušuje sledování změn, eliminuje vedlejší efekty a přispívá k~lepší předvídatelnosti chování aplikace.
 
 Kombinace jednosměrného toku dat, reaktivního zpracování stavu a explicitního zpracování chyb pomocí DomainResult vytváří konzistentní a snadno udržovatelný model toku dat napříč celou aplikací.
 
@@ -170,27 +170,27 @@ Kombinace jednosměrného toku dat, reaktivního zpracování stavu a explicitn�
 Pro řízení závislostí mezi jednotlivými částmi aplikace je využíván princip vkládání závislostí (Dependency Injection).\footfullcite{android_dependency_injection}
 Cílem tohoto přístupu je oddělit vytváření objektů od jejich používání, snížit provázanost jednotlivých tříd a zjednodušit testování aplikace.
 
-V aplikaci je pro Dependency Injection použit framework Hilt, který je oficiálně doporučovaným řešením pro platformu Android.\footfullcite{android_recommend_hilt}
-Hilt poskytuje automatickou správu životního cyklu objektů, integraci s ViewModely a snižuje množství pomocného (boilerplate) kódu potřebného pro konfiguraci závislostí.\footfullcite{android_hilt_overview}
+V~aplikaci je pro Dependency Injection použit framework Hilt, který je oficiálně doporučovaným řešením pro platformu Android.\footfullcite{android_recommend_hilt}
+Hilt poskytuje automatickou správu životního cyklu objektů, integraci s~ViewModely a snižuje množství pomocného (boilerplate) kódu potřebného pro konfiguraci závislostí.\footfullcite{android_hilt_overview}
 
 Pomocí Dependency Injection jsou do jednotlivých tříd vkládány jejich závislosti, například repozitáře do use-case tříd nebo use-case třídy do ViewModelů.
 Díky tomu nejsou třídy přímo závislé na konkrétních implementacích svých závislostí, ale pouze na jejich rozhraních.
 
-Závislosti jsou definovány v samostatných konfiguračních modulech, které určují, jaké konkrétní implementace určité funkcionality mají být v aplikaci použity.
-Tento přístup umožňuje snadnou výměnu implementací, například při testování nebo při změně způsobu práce s datovými zdroji.
+Závislosti jsou definovány v~samostatných konfiguračních modulech, které určují, jaké konkrétní implementace určité funkcionality mají být v~aplikaci použity.
+Tento přístup umožňuje snadnou výměnu implementací, například při testování nebo při změně způsobu práce s~datovými zdroji.
 
-Použití Dependency Injection v kombinaci s architekturou aplikace přispívá k lepší čitelnosti kódu, omezení provázanosti mezi vrstvami a jednodušší údržbě aplikace v budoucnu.
+Použití Dependency Injection v~kombinaci s~architekturou aplikace přispívá k~lepší čitelnosti kódu, omezení provázanosti mezi vrstvami a jednodušší údržbě aplikace v~budoucnu.
 
 
 \section{Shrnutí architektury}
-Navržená architektura aplikace vychází z požadavků kladených na přehlednost, rozšiřitelnost a dlouhodobou udržovatelnost kódu.
-Jednotlivé architektonické principy byly zvoleny s ohledem na charakter aplikace, rozsah bakalářské práce a použité technologie.
+Navržená architektura aplikace vychází z~požadavků kladených na přehlednost, rozšiřitelnost a dlouhodobou udržovatelnost kódu.
+Jednotlivé architektonické principy byly zvoleny s~ohledem na charakter aplikace, rozsah bakalářské práce a použité technologie.
 
 Použití architektonického vzoru MVVM umožnilo jasné oddělení uživatelského rozhraní, logiky obrazovek a doménové logiky aplikace.
-Struktura projektu podle funkčních celků přispěla k lepší orientaci v kódu a omezení provázanosti mezi jednotlivými funkčními celky.
+Struktura projektu podle funkčních celků přispěla k~lepší orientaci v~kódu a omezení provázanosti mezi jednotlivými funkčními celky.
 Oddělení doménové a datové vrstvy zajistilo nezávislost doménové logiky na konkrétní implementaci datových zdrojů.
-Abstrahování výsledků operací a chyb pomocí typu DomainResult přispělo k předvídatelnému toku dat napříč aplikací a vynutilo explicitní řešení chybových stavů.
+Abstrahování výsledků operací a chyb pomocí typu DomainResult přispělo k~předvídatelnému toku dat napříč aplikací a vynutilo explicitní řešení chybových stavů.
 
-Zvolená architektura v praxi umožnila úspěšnou implementaci, průběžné ladění a následnou publikaci aplikace.
-Napomohla k přehledné realizaci jednotlivých funkčních celků, postupnému rozšiřování funkcionality a efektivnímu řešení chyb.
+Zvolená architektura v~praxi umožnila úspěšnou implementaci, průběžné ladění a následnou publikaci aplikace.
+Napomohla k~přehledné realizaci jednotlivých funkčních celků, postupnému rozšiřování funkcionality a efektivnímu řešení chyb.
 Architektura tak poskytuje stabilní základ pro další rozvoj aplikace i mimo rámec této bakalářské práce.
