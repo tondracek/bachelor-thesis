@@ -1,13 +1,13 @@
 \chapter{Architektura kódu}
 Před zahájením implementace je důležité si rozmyslet a naplánovat architekturu kódu.
-Dobře navržená architektura nám může ušetřit spoustu času a námahy v budoucnu, například při přidávání nových funkcí nebo opravování stávajícího kódu.
+Dobře navržená architektura pomůže ušetřit spoustu času a námahy v budoucnu, například při přidávání nových funkcí nebo opravování stávajícího kódu.
 Zároveň přispívá ke zvýšení jeho čitelnosti a udržovatelnosti.
 Naopak špatně navržená architektura může vést k problémům, jako je těžko udržovatelný kód, složitá rozšiřitelnost, náročné zjišťování chyb a celkově pomalejší vývoj.
 
 Architektura aplikace byla navržena především s cílem jasně oddělit odpovědnosti jednotlivých částí kódu, čímž podporuje dosažení výše uvedených vlastností.
 Při návrhu byly převzaty vybrané principy běžně používané v moderních architektonických přístupech, které jsou popsány v následujících podkapitolách.
 
-V rámci této kapitoly je používán pojem \emph{doména aplikace}, kterým je v kontextu této práce myšlena oblast reálného světa, již aplikace modeluje a jejíž pravidla a procesy realizuje.
+V rámci této kapitoly je používán pojem \emph{doména aplikace}, kterým je v kontextu této práce myšlena oblast reálného světa, kterou aplikace modeluje a jejíž pravidla a procesy realizuje.
 Doménová logika pak představuje část aplikační logiky odpovědnou za implementaci těchto pravidel, nezávisle na konkrétních technologiích či uživatelském rozhraní.
 Toto pojetí vychází z principů doménově řízeného návrhu.\footfullcite{evans_ddd}
 
@@ -19,32 +19,32 @@ V navrhované aplikaci je architektonický vzor MVVM využit k jasnému oddělen
 Vzor MVVM za tímto účelem rozděluje aplikaci do tří hlavních komponent: Model, View a ViewModel.
 
 \textbf{View} představuje uživatelské rozhraní a je zodpovědné pouze za zobrazování dat a předávání uživatelských událostí.
-V této aplikaci je View realizováno pomocí frameworku Jetpack Compose a neobsahuje žádnou aplikační ani doménovou logiku, jak je doporučeno v architektonickém vzoru MVVM\@.
+V této aplikaci je View realizováno pomocí frameworku Jetpack Compose a neobsahuje žádnou aplikační ani doménovou logiku.
 
-\textbf{Model} reprezentuje data a doménovou logiku aplikace, včetně komunikace s repozitáři a datovými zdroji.
+\textbf{Model} reprezentuje data a doménovou logiku aplikace, včetně komunikace s repozitáři pro získávání dat.
 Podle MVVM nesmí být nijak závislý na uživatelském rozhraní ani jeho konkrétní implementaci a nesmí obsahovat logiku týkající se zobrazení.
 V navrhované aplikaci tuto roli plní doménová vrstva, jejíž struktura a principy jsou podrobně popsány v sekci~\ref{sec:oddeleni-domenove-a-datove-vrstvy}.
 
 \textbf{ViewModel} slouží jako prostředník mezi View a Modelem.
 Je zodpovědný za správu stavu uživatelského rozhraní, reakci na uživatelské události a komunikaci s Modelem za účelem získání nebo aktualizace dat.
 
-ViewModel obsahuje aktuální stav zobrazení a vystavuje ho ve formě, kterou může View snadno sledovat a reagovat na jeho změny.
-V navrhované aplikaci jsou pro správu stavu obrazovek využívány asynchronní datové toky (Flow), do kterých při změně dat ViewModel publikuje nový stav jakožto neměnný (immutable\footfullcite{compose_ui_architecture}) objekt.
+ViewModel obsahuje aktuální stav uživatelského rozhraní a vystavuje ho ve formě, kterou může View snadno sledovat a reagovat na jeho změny.
+V navrhované aplikaci jsou pro správu stavu obrazovek využívány asynchronní datové toky, do kterých při změně dat ViewModel publikuje nový stav jakožto neměnný (immutable\footfullcite{compose_ui_architecture}) objekt.
 View pak tento stav pozoruje a na jeho základě vykresluje uživatelské rozhraní.
-Naopak View zase předává uživatelské události ViewModelu, který na ně reaguje a případně aktualizuje stav nebo komunikuje s Modelem.
+Naopak View zase předává uživatelské události (například kliknutí na tlačítko) ViewModelu, který na ně reaguje a případně aktualizuje stav nebo komunikuje s Modelem.
 Tomuto přístupu se říká \textbf{jednosměrný tok dat} (unidirectional data flow\footfullcite{android_recommended_architecture}) a přispívá k lepší předvídatelnosti a stabilitě aplikace.
 
 Ve ViewModelu se nachází pouze logika týkající se uživatelského rozhraní, ne však jeho samotné vykreslování.
 Doménová logika a správa dat jsou plně odděleny v Modelu.
-Stejně tak logika spojená s navigací mezi obrazovkami, zobrazení vyskakovacích oken či upozornění pro uživatele se nachází ve View, protože je závislá na konkrétní implementaci uživatelského rozhraní.
+Stejně tak logika spojená s navigací mezi obrazovkami, zobrazení vyskakovacích oken či upozornění pro uživatele se nachází pouze ve View, protože je závislá na konkrétní implementaci uživatelského rozhraní.
 
-ViewModely v této aplikaci nevykonávají žádné přímé akce nad uživatelským rozhraním, ale vystavují takzvané \textbf{efekty} (side-effects\footfullcite{android_side_effect}).
+ViewModely v této aplikaci nevykonávají žádné přímé akce nad uživatelským rozhraním, ale vystavují takzvané \textbf{vedlejší efekty} (side effects\footfullcite{android_side_effect}).
 Efekty jsou jednorázové události, které vyvolávají akce v uživatelském rozhraní, jako například právě zmíněná navigace nebo zobrazení vyskakovacích oken.
 View vystavované efekty interpretuje a na jejich základě provádí příslušné akce v uživatelském rozhraní.
 
 Jak bylo zmíněno výše, MVVM je přímo podporovaný Android Frameworkem.
 ViewModely jsou v Android Frameworku takzvaně lifecycle-aware, což znamená, že automaticky reagují na změny životního cyklu aplikace, například při změně konfigurace zařízení (otočení obrazovky) nebo při přechodu aplikace na pozadí.
-Díky tomu nedochází ke ztrátě stavu uživatelského rozhraní a k opakovanému načítání dat při těchto změnách.
+Díky tomu nedochází ke ztrátě stavu uživatelského rozhraní a k opakovanému načítání dat při těchto změnách.\footfullcite{android_viewmodel_overview}
 
 Zvolený způsob využití architektonického vzoru MVVM se v praxi osvědčil jako přehledný a umožnil jasné oddělení uživatelského rozhraní od doménové logiky aplikace.
 
@@ -55,7 +55,7 @@ Tento přístup umožňuje jasné oddělení odpovědností, lepší orientaci v
 
 Každý celek je v projektu organizován jako samostatná jednotka a typicky obsahuje následující vrstvy:
 \begin{itemize}
-    \item \textbf{domain} – doménové modely, use-case třídy a rozhraní repozitářů (viz sekce~\ref{sec:oddeleni-domenove-a-datove-vrstvy}),
+    \item \textbf{domain} – doménové modely, use-case třídy (třídy případů užití) a rozhraní repozitářů (viz sekce~\ref{sec:oddeleni-domenove-a-datove-vrstvy}),
     \item \textbf{data} – konkrétní implementace repozitářů a práce s datovými zdroji, mapování návratových hodnot do doménových výsledků (viz sekce~\ref{sec:domain_result}),
     \item \textbf{di} – definice závislostí a jejich konfigurace pro daný funkční celek,
     \item \textbf{sample} - ukázková data využívaná během testování a ladění aplikace.
@@ -98,14 +98,17 @@ Cílem tohoto rozdělení je zajistit, aby doménová logika aplikace nebyla zá
 
 \textbf{Doménová vrstva} (domain layer) obsahuje veškerou logiku týkající se samotné domény aplikace.
 To zahrnuje definice doménových modelů, use-case třídy a rozhraní repozitářů.
+
 Doménové modely reprezentují klíčové entity domény aplikace, jako jsou například uživatelé, obchody nebo recenze.
 Jedná se o čisté datové třídy bez závislostí na konkrétních technologiích nebo knihovnách a obsahují pouze atributy potřebné pro reprezentaci dané entity v kontextu domény aplikace.
+
 V use-case třídách je konkrétní doménová logika implementována a představují hlavní vstupní bod pro její volání z ViewModelů.
-Jedná se často o komplexní nebo znovupoužitelnou logiku, jako je například validace dat, doménová pravidla, výpočty, koordinace více operací nad daty, nebo jen jednoduché zprostředkování volání repozitářů.
+Jedná se často o komplexní nebo znovupoužitelnou logiku, jako je například validace dat, doménová pravidla, výpočty, koordinace více operací nad daty, nebo naopak jen jednoduché zprostředkování volání repozitářů.
+
 Komunikace s backendem probíhá přes rozhraní repozitářů definovaných v doménové vrstvě.
 Rozhraní repozitářů byla umístěna do této vrstvy, protože tvoří hranici mezi doménovou logikou a datovými zdroji a výsledky jejich operací jsou orientovány na doménové modely a chyby.
 
-\textbf{Datová vrstva} (data layer) je zodpovědná za konkrétní implementaci repozitářů a práci s datovými zdroji, jako je například Firestore, Firebase Auth nebo Firebase Storage.
+\textbf{Datová vrstva} (data layer) je zodpovědná za konkrétní implementaci repozitářů a práci s externími datovými zdroji (cloudová databáze, autentizační služba apod.).
 Datová vrstva obsahuje datové modely, které reprezentují strukturu dat v konkrétních datových zdrojích.
 Datové modely se mohou lišit od doménových modelů, protože jsou přizpůsobeny specifickým požadavkům daného datového zdroje.
 V datové vrstvě tak probíhá získávání a ukládání dat, mapování datových modelů na doménové modely a naopak, a zpracování technických chyb vznikajících při komunikaci s datovými zdroji.
@@ -146,14 +149,14 @@ Typický tok dat v aplikaci probíhá následujícím způsobem:
     \item Uživatel vyvolá akci v uživatelském rozhraní, například kliknutím na tlačítko.
     \item Uživatelská událost je předána ViewModelu, který zpracovává logiku dané obrazovky.
     \item ViewModel na základě události zavolá odpovídající use-case třídu v doménové vrstvě.
-    \item Use-case provede doménovou logiku a v případě potřeby komunikuje s repozitářem.
+    \item Use-case třída provede doménovou logiku a v případě potřeby komunikuje s repozitářem.
     \item Repozitář získá nebo uloží data prostřednictvím datové vrstvy a vrátí výsledek ve formě DomainResult.
-    \item Use-case zpracuje DomainResult a vrátí ho zpět ViewModelu.
-    \item ViewModel zpracuje výsledek operace a aktualizuje stav obrazovky.
+    \item Use-case třída zpracuje DomainResult a vrátí ho zpět ViewModelu.
+    \item ViewModel zpracuje výsledek operace a aktualizuje stav uživatelského rozhraní.
     \item Uživatelské rozhraní automaticky reaguje na změnu stavu a znovu se vykreslí.
 \end{enumerate}
 
-ViewModel vystavuje stav uživatelského rozhraní pomocí reaktivních datových toků (StateFlow), které uživatelské rozhraní průběžně pozoruje.
+ViewModel vystavuje stav uživatelského rozhraní pomocí reaktivních datových toků, které uživatelské rozhraní průběžně pozoruje.
 Díky tomu není nutné explicitně řídit aktualizaci uživatelského rozhraní – změna stavu automaticky vede k jeho přerenderování.
 
 Stav uživatelského rozhraní je v aplikaci reprezentován neměnnými (immutable) datovými objekty.
@@ -163,17 +166,17 @@ Tento přístup zjednodušuje sledování změn, eliminuje vedlejší efekty a p
 Kombinace jednosměrného toku dat, reaktivního zpracování stavu a explicitního zpracování chyb pomocí DomainResult vytváří konzistentní a snadno udržovatelný model toku dat napříč celou aplikací.
 
 
-\section{Vkládání závislostí (Dependency Injection)}
+\section{Vkládání závislostí}
 Pro řízení závislostí mezi jednotlivými částmi aplikace je využíván princip vkládání závislostí (Dependency Injection).\footfullcite{android_dependency_injection}
 Cílem tohoto přístupu je oddělit vytváření objektů od jejich používání, snížit provázanost jednotlivých tříd a zjednodušit testování aplikace.
 
 V aplikaci je pro Dependency Injection použit framework Hilt, který je oficiálně doporučovaným řešením pro platformu Android.\footfullcite{android_recommend_hilt}
-Hilt poskytuje automatickou správu životního cyklu objektů, integraci s ViewModely a snižuje množství boilerplate kódu potřebného pro konfiguraci závislostí.\footfullcite{android_hilt_overview}
+Hilt poskytuje automatickou správu životního cyklu objektů, integraci s ViewModely a snižuje množství pomocného (boilerplate) kódu potřebného pro konfiguraci závislostí.\footfullcite{android_hilt_overview}
 
 Pomocí Dependency Injection jsou do jednotlivých tříd vkládány jejich závislosti, například repozitáře do use-case tříd nebo use-case třídy do ViewModelů.
 Díky tomu nejsou třídy přímo závislé na konkrétních implementacích svých závislostí, ale pouze na jejich rozhraních.
 
-Závislosti jsou definovány v samostatných konfiguračních modulech, které určují, jaké konkrétní implementace mají být v aplikaci použity.
+Závislosti jsou definovány v samostatných konfiguračních modulech, které určují, jaké konkrétní implementace určité funkcionality mají být v aplikaci použity.
 Tento přístup umožňuje snadnou výměnu implementací, například při testování nebo při změně způsobu práce s datovými zdroji.
 
 Použití Dependency Injection v kombinaci s architekturou aplikace přispívá k lepší čitelnosti kódu, omezení provázanosti mezi vrstvami a jednodušší údržbě aplikace v budoucnu.
@@ -184,7 +187,7 @@ Navržená architektura aplikace vychází z požadavků kladených na přehledn
 Jednotlivé architektonické principy byly zvoleny s ohledem na charakter aplikace, rozsah bakalářské práce a použité technologie.
 
 Použití architektonického vzoru MVVM umožnilo jasné oddělení uživatelského rozhraní, logiky obrazovek a doménové logiky aplikace.
-Feature-based struktura projektu přispěla k lepší orientaci v kódu a omezení provázanosti mezi jednotlivými funkčními celky.
+Struktura projektu podle funkčních celků přispěla k lepší orientaci v kódu a omezení provázanosti mezi jednotlivými funkčními celky.
 Oddělení doménové a datové vrstvy zajistilo nezávislost doménové logiky na konkrétní implementaci datových zdrojů.
 Abstrahování výsledků operací a chyb pomocí typu DomainResult přispělo k předvídatelnému toku dat napříč aplikací a vynutilo explicitní řešení chybových stavů.
 
