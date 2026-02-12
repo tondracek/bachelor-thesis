@@ -2,14 +2,10 @@
 
 Tato kapitola se zabývá návrhem mobilní aplikace na základě výsledků provedené analýzy.
 Cílem návrhu je definovat funkční rozsah aplikace, její strukturu, uživatelské rozhraní a technologické řešení tak, aby odpovídaly potřebám cílových uživatelů a zvolenému zaměření aplikace.
-K tomuto byly využity standardní techniky softwarového inženýrství, zejména specifikace požadavků a návrhové diagramy.
+K tomuto byly využity standardní techniky softwarového inženýrství.
 
-Nejprve jsou specifikovány funkční a nefunkční požadavky, které vymezují chování a vlastnosti aplikace.
-Na jejich základě je dále vytvořen diagram případů užití znázorňující základní interakce mezi uživateli a aplikací.
-Struktura aplikace je následně popsána pomocí diagramu tříd, který zachycuje hlavní entity a jejich vzájemné vztahy.
-Součástí kapitoly je také návrh uživatelského rozhraní, jenž se zaměřuje na rozvržení obrazovek a způsob interakce s~uživatelem.
-Závěrečná část kapitoly se věnuje výběru technologií, které budou vyhovovat požadavkům aplikace a umožní její efektivní implementaci.
-% TODO: odstranit zmiňování co je v kapitole???
+Kapitola postupně představuje specifikaci funkčních a nefunkčních požadavků, návrhové diagramy a návrh uživatelského rozhraní.
+Závěrem je zdůvodněna volba použitých technologií, které tvoří základ implementace aplikace.
 
 
 \section{Specifikace požadavků}
@@ -71,7 +67,7 @@ Třetím aktérem je prodejce, který může vytvářet, upravovat a odstraňova
 V rámci správy obchodu může prodejce upravovat polohu obchodu na mapě, otevírací dobu, nabídku produktů a kategorie nabízených produktů.
 Všechny interakce prodejce vyžadují přihlášení.
 
-\begin{figure}[h] % [p] pro full page, [h] pro here
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{res/use_case_diagram}
     \caption{Diagram případů užití aplikace}
@@ -98,8 +94,8 @@ Přehled hlavních tříd a jejich vztahů je znázorněn na obrázku~\ref{fig:c
 Jednou ze základních entit je uživatel (User), který reprezentuje registrovaného uživatele aplikace.
 Uživatel je identifikován jednoznačným identifikátorem a obsahuje základní osobní údaje, profilový obrázek a kontaktní informace.
 Identifikátor je typu UUID, což zajišťuje jeho jedinečnost napříč celým systémem.
-Kontaktní údaje jsou modelovány samostatnou třídou \texttt{ContactInfo}, která je s uživatelem svázána kompozicí, jelikož bez existence uživatele nemají samostatný význam.
-Profilový obrázek je volitelný a je reprezentován hodnotovým objektem \texttt{ImageResource}, který uchovává odkaz na externě uložený obrazový soubor.
+Kontaktní údaje jsou modelovány samostatnou třídou \texttt{Contact\-Info}, která je s uživatelem svázána kompozicí, jelikož bez existence uživatele nemají samostatný význam.
+Profilový obrázek je volitelný a je reprezentován hodnotovým objektem \texttt{Image\-Resource}, který uchovává odkaz na externě uložený obrazový soubor.
 
 \subsection{Entita obchodu}
 Druhou klíčovou entitou je obchod (Shop), který reprezentuje obchod vytvořený registrovaným uživatelem, kde může nabízet své produkty.
@@ -110,19 +106,19 @@ Základní atributy jako název a popis jsou oba typu \texttt{String} a jsou vol
 
 Obchod je svázán s uživatelem prostřednictvím asociace, která vyjadřuje vlastnictví obchodu konkrétním uživatelem.
 
-Kategorie obchodu je reprezentována hodnotovým objektem \texttt{ShopCategory}, který obsahuje název kategorie a barvu pro vizuální odlišení.
+Kategorie obchodu je reprezentována hodnotovým objektem typu \texttt{Shop\-Category}, který obsahuje název kategorie a barvu pro vizuální odlišení.
 Vztah mezi obchodem a kategoriemi je modelován jako kompozice, protože kategorie jsou vlastněny konkrétním obchodem.
 Zakladatel obchodu si tak může zvolit libovolnou kombinaci názvu a barvy pro každou kategorii.
 Požadované filtrování obchodů podle kategorií bude realizováno pomocí normalizovaných názvů kategorií ze všech obchodů.
 
-Obrázky obchodu jsou reprezentovány jako seznam již zmiňovaných hodnotových objektů \texttt{ImageResource}.
+Obrázky obchodu jsou reprezentovány jako seznam již zmiňovaných hodnotových objektů \texttt{Image\-Resource}.
 
-Nabídka produktů je modelována hodnotovým objektem \texttt{Menu}, který obsahuje seznam položek nabídky typu \texttt{MenuItem}.
+Nabídka produktů je modelována hodnotovým objektem \texttt{Menu}, který obsahuje seznam položek nabídky typu \texttt{Menu\-Item}.
 Každá položka nabídky obsahuje název, volitelný popis, cenu a informaci o dostupnosti.
-Cena je reprezentována hodnotovým objektem \texttt{PriceLabel}, který uchovává cenu jako formátovaný řetězec.
+Cena je reprezentována hodnotovým objektem \texttt{Price\-Label}, který uchovává cenu jako formátovaný řetězec.
 Uživatel tak může cenu popsat vzhledem k měně a jednotce v jaké se produkt nabízí (například \enquote{150 Kč / kg}).
 
-Otevírací doba obchodu je reprezentována rozhraním \texttt{OpeningHours}, které má dvě implementace: \texttt{TimeOpeningHours} a \texttt{MessageOpeningHours}.
+Otevírací doba obchodu je reprezentována rozhraním \texttt{Opening\-Hours}, které má dvě implementace: \texttt{Time\-Opening\-Hours} a \texttt{Message\-Opening\-Hours}.
 První implementace uchovává otevírací dobu jako mapu dnů v týdnu na otevírací hodiny v případě, že producent je dostupný v pravidelných časech.
 Druhá implementace uchovává otevírací dobu jako volitelnou zprávu v~případě, že producent chce například uvést, aby ho zájemce nejdříve kontaktoval.
 
@@ -159,7 +155,7 @@ Těmi nejdůležitějšími barvami jsou ale barvy primární, sekundární, ter
 Primární, sekundární a terciární barvy jsou používány pro zvýraznění důležitých prvků uživatelského rozhraní, jako jsou tlačítka, ikony a další interakční prvky.
 Kontejnerové varianty těchto barev jsou používány pro větší plochy, které jsou třeba zvýraznit, jako jsou karty nebo větší tlačítka.\footfullcite{material3_color_roles}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{res/color_palette}
     \caption{Barevná paleta aplikace}
@@ -226,6 +222,7 @@ V záložce \enquote{Filtr vzdálenosti} může uživatel zvolit maximální vzd
 \end{figure}
 
 \begin{figure}
+    \captionsetup{size=small}
     \centering
     \includegraphics[width=\linewidth]{res/ui/filters}
     \caption{Dialog pro nastavení filtrů}
@@ -426,7 +423,7 @@ Klíčovým prvkem navrhované aplikace je mapové zobrazení okolních obchodů
 Pro implementaci mapových funkcí bylo nutné zvolit vhodnou mapovou službu, která by splňovala požadavky aplikace z hlediska funkcionality, výkonu, uživatelského zážitku a nákladů na provoz.
 Rozhodování probíhalo mezi třemi hlavními možnostmi: Google Maps, Mapbox a OpenStreetMap.
 
-Google Maps je nejpoužívanější mapová služba na světě a nabízí velmi rozsáhlou dokumentaci, snadnou integraci s platformou Android a frameworkem Jetpack Compose.\footfullcite{google_maps_benefits}
+Google Maps nabízí velmi rozsáhlou dokumentaci, snadnou integraci s platformou Android a frameworkem Jetpack Compose.\footfullcite{google_maps_integration}
 
 Mapbox představuje populární alternativu ke službě Google Maps.
 Poskytuje rovněž kvalitní dokumentaci a snadnou integraci s platformou Android a navíc nabízí vyšší míru přizpůsobitelnosti mapových stylů a lepší výkon při zobrazení většího množství značek na mapě.\footfullcite{mapbox_benefits}

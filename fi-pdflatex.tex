@@ -7,38 +7,39 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[
-  digital,     %% The `digital` option enables the default options for the
-               %% digital version of a document. Replace with `printed`
-               %% to enable the default options for the printed version
-               %% of a document.
+    digital,     %% The `digital` option enables the default options for the
+%% digital version of a document. Replace with `printed`
+%% to enable the default options for the printed version
+%% of a document.
 %%  color,       %% Uncomment these lines (by removing the %% at the
 %%               %% beginning) to use color in the printed version of your
 %%               %% document
-  oneside,     %% The `oneside` option enables one-sided typesetting,
-               %% which is preferred if you are only going to submit a
-               %% digital version of your thesis. Replace with `twoside`
-               %% for double-sided typesetting if you are planning to
-               %% also print your thesis. For double-sided typesetting,
-               %% use at least 120 g/m² paper to prevent show-through.
-  nosansbold,  %% The `nosansbold` option prevents the use of the
-               %% sans-serif type face for bold text. Replace with
-               %% `sansbold` to use sans-serif type face for bold text.
-  nocolorbold, %% The `nocolorbold` option disables the usage of the
-               %% blue color for bold text, instead using black. Replace
-               %% with `colorbold` to use blue for bold text.
-  lof,         %% The `lof` option prints the List of Figures. Replace
-               %% with `nolof` to hide the List of Figures.
-  lot,         %% The `lot` option prints the List of Tables. Replace
-               %% with `nolot` to hide the List of Tables.
+    oneside,     %% The `oneside` option enables one-sided typesetting,
+%% which is preferred if you are only going to submit a
+%% digital version of your thesis. Replace with `twoside`
+%% for double-sided typesetting if you are planning to
+%% also print your thesis. For double-sided typesetting,
+%% use at least 120 g/m² paper to prevent show-through.
+    nosansbold,  %% The `nosansbold` option prevents the use of the
+%% sans-serif type face for bold text. Replace with
+%% `sansbold` to use sans-serif type face for bold text.
+    nocolorbold, %% The `nocolorbold` option disables the usage of the
+%% blue color for bold text, instead using black. Replace
+%% with `colorbold` to use blue for bold text.
+    lof,         %% The `lof` option prints the List of Figures. Replace
+%% with `nolof` to hide the List of Figures.
+    lot,         %% The `lot` option prints the List of Tables. Replace
+%% with `nolot` to hide the List of Tables.
 ]{fithesis4}
+\pdfminorversion=7
 %% The following section sets up the locales used in the thesis.
 \usepackage[resetfonts]{cmap} %% We need to load the T2A font encoding
 \usepackage[T1,T2A]{fontenc}  %% to use the Cyrillic fonts with Russian texts.
 \usepackage[
-  main=czech, %% By using `czech` or `slovak` as the main locale
-                %% instead of `english`, you can typeset the thesis
-                %% in either Czech or Slovak, respectively.
-  english, german, czech, slovak %% The additional keys allow
+    main=czech, %% By using `czech` or `slovak` as the main locale
+%% instead of `english`, you can typeset the thesis
+%% in either Czech or Slovak, respectively.
+    english, czech, slovak %% The additional keys allow
 ]{babel}        %% foreign texts to be typeset as follows:
 %%
 %%   \begin{otherlanguage}{german}  ... \end{otherlanguage}
@@ -61,17 +62,17 @@
     keywords    = {Android, Jetpack Compose, Firebase, Mobile Application, \ldots},
     TeXkeywords = {Android, Jetpack Compose, Firebase, Mobile Application, \ldots},
     abstract    = {%
-      This is the abstract of my thesis, which can
+    This is the abstract of my thesis, which can
 
-      span multiple paragraphs.
+    span multiple paragraphs.
     },
     thanks      = {%
-      These are the acknowledgements for my thesis, which can
+    These are the acknowledgements for my thesis, which can
 
-      span multiple paragraphs.
+    span multiple paragraphs.
     },
     bib         = example.bib,
-    %% Remove the following line to use the JVS 2018 faculty logo.
+%% Remove the following line to use the JVS 2018 faculty logo.
     facultyLogo = fithesis-fi,
 }
 \usepackage{makeidx}      %% The `makeidx` package contains
@@ -85,14 +86,14 @@
 \usepackage{markdown} %% Lightweight markup
 \usepackage{listings} %% Source code highlighting
 \lstset{
-  basicstyle      = \ttfamily,
-  identifierstyle = \color{black},
-  keywordstyle    = \color{blue},
-  keywordstyle    = {[2]\color{cyan}},
-  keywordstyle    = {[3]\color{olive}},
-  stringstyle     = \color{teal},
-  commentstyle    = \itshape\color{magenta},
-  breaklines      = true,
+    basicstyle      = \ttfamily,
+    identifierstyle = \color{black},
+    keywordstyle    = \color{blue},
+    keywordstyle    = {[2]\color{cyan}},
+    keywordstyle    = {[3]\color{olive}},
+    stringstyle     = \color{teal},
+    commentstyle    = \itshape\color{magenta},
+    breaklines      = true,
 }
 \usepackage{floatrow} %% Putting captions above tables
 \floatsetup[table]{capposition=top}
@@ -102,26 +103,33 @@
 \usepackage{graphicx}
 \usepackage{placeins}
 \usepackage{subcaption}
+\usepackage{xurl}
+
+\usepackage{caption}
+\captionsetup{font=small}
+\captionsetup[subfigure]{font=small}
 
 \begin{document}
 
-\include{chapters/00_uvod}
-\include{chapters/01_analyza}
-\include{chapters/02_navrh_aplikace}
-\include{chapters/03_architektura}
-\include{chapters/04_implementace}
-\include{chapters/05_testovani}
-\include{chapters/06_vydani_nasazeni}
-\include{chapters/07_zaver}
+    \include{chapters/00_uvod}
+    \include{chapters/01_analyza}
+    \include{chapters/02_navrh_aplikace}
+    \include{chapters/03_architektura}
+    \include{chapters/04_implementace}
+    \include{chapters/05_testovani}
+    \include{chapters/06_vydani_nasazeni}
+    \include{chapters/07_zaver}
 
-  \printbibliography[heading=bibintoc] %% Print the bibliography.
-  \makeatletter\thesis@blocks@clear\makeatother
-  \phantomsection %% Print the index and insert it into the
-  \addcontentsline{toc}{chapter}{\indexname} %% table of contents.
-  \printindex
+    \printbibliography[heading=bibintoc] %% Print the bibliography.
+    \makeatletter\thesis@blocks@clear\makeatother
+    \phantomsection %% Print the index and insert it into the
+    \addcontentsline{toc}{chapter}{\indexname} %% table of contents.
+    \printindex
 
-\appendix %% Start the appendices.
-\chapter{An appendix}
-Here, you can insert the appendices of your thesis.
+    \appendix %% Start the appendices.
+
+
+    \chapter{An appendix}
+    Here, you can insert the appendices of your thesis.
 
 \end{document}
