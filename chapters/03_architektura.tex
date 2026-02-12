@@ -87,7 +87,7 @@ Většina ostatních funkčních celků je naopak závislá na tomto celku, čí
 
 Uživatelské rozhraní je organizováno samostatně ve funkčním celku \textbf{app} v~podsložce \textit{ui}, kde jsou jednotlivé prvky rozděleny podle obrazovek nebo samostatných částí uživatelského rozhraní (komponent).
 Kromě toho složka ui obsahuje také podsložky \textbf{ui/common}, která obsahuje sdílené prvky uživatelského rozhraní, a \textbf{ui/core}, která obsahuje základní komponenty a centrální logiku pro práci s~uživatelským rozhraním (navigace a navigační bar, vyvolávání vyskakovacích oken, informační lišty apod.).
-Funkční celek \textbf{app} je jako jediný celek přímo závislý na platformě Android, zatímco ostatní funkční celky jsou navrženy tak, aby jejich doménová logika nebyla pevně svázána s konkrétní platformou a mohla být při úpravách znovu použita i v~jiných typech aplikací.
+Funkční celek \textbf{app} je jako jediný celek přímo závislý na platformě Android, zatímco ostatní funkční celky jsou navrženy tak, aby jejich doménová logika nebyla pevně svázána s~konkrétní platformou a mohla být při úpravách znovu použita i v~jiných typech aplikací.
 
 Jednotlivé funkční celky jsou v~projektu realizovány jako samostatné Gradle moduly, což přispívá k~lepší izolaci závislostí a zkrácení doby sestavení projektu.
 
@@ -118,7 +118,7 @@ Díky definici rozhraní repozitářů v~doménové vrstvě a jejich implementac
 Toto rozdělení umožňuje snadnou výměnu nebo úpravu datových zdrojů bez nutnosti měnit doménovou logiku aplikace.
 
 
-\section[Zpracování výsledků a chyb v doménové vrstvě]{Zpracování výsledků a chyb v~doménové vrstvě}\label{sec:domain_result}
+\section[Zpracování výsledků a chyb v~doménové vrstvě]{Zpracování výsledků a chyb v~doménové vrstvě}\label{sec:domain_result}
 V~rámci návrhu architektury aplikace byl kladen důraz na jednotný a předvídatelný způsob práce s~výsledky operací a chybovými stavy.
 Namísto používání výjimek napříč aplikační logikou bylo cílem reprezentovat výsledky volání, včetně chybových stavů, pomocí návratových hodnot.
 Díky tomu je zajištěno, že volající kód musí explicitně řešit všechny možné výsledky, včetně chyb, což přispívá k~robustnější a předvídatelnější aplikaci.
@@ -140,7 +140,7 @@ V~doménové vrstvě se tyto výsledky dále zpracovávají, kombinují s~výsle
 Volajícímu kódu jsou data opět předány ve formě DomainResult, díky čemuž nedochází ke ztrátě informací o~chybových stavech a je zajištěno jejich explicitní zpracování.
 
 
-\section[Tok dat v aplikaci]{Tok dat v~aplikaci}
+\section[Tok dat v~aplikaci]{Tok dat v~aplikaci}
 Tok dat v~aplikaci je navržen tak, aby byl jednoznačný, předvídatelný a snadno sledovatelný napříč jednotlivými vrstvami aplikace.
 Aplikace využívá princip jednosměrného toku dat, kdy data proudí od uživatelského rozhraní směrem k~doménové a datové vrstvě a výsledky operací jsou následně předávány zpět do uživatelského rozhraní.
 

@@ -22,7 +22,7 @@ Aplikace rozlišuje dva základní typy uživatelů: běžné návštěvníky ap
 \begin{itemize}
     \item Prohlížení a vyhledávání obchodů
     \begin{itemize}
-        \item Systém umožňuje zobrazit obchody v mapovém nebo seznamovém zobrazení.
+        \item Systém umožňuje zobrazit obchody v~mapovém nebo seznamovém zobrazení.
         \item Systém umožňuje filtrovat obchody podle kategorie, maximální vzdálenosti od aktuální polohy a minimálního průměrného hodnocení.
         \item Systém umožňuje zobrazit detail obchodu, včetně popisu, fotografií, nabídky produktů, otevírací doby a kontaktních údajů.
     \end{itemize}
@@ -38,7 +38,7 @@ Aplikace rozlišuje dva základní typy uživatelů: běžné návštěvníky ap
     \begin{itemize}
         \item Systém umožňuje registrovanému uživateli vytvářet nové obchody.
         \item Systém umožňuje registrovanému uživateli upravovat a odstraňovat obchody, jejichž je vlastníkem.
-        \item Systém umožňuje registrovanému uživateli přidávat a upravovat u svých obchodů název, popis, kategorie produktů, fotografie, nabídku produktů a otevírací dobu.
+        \item Systém umožňuje registrovanému uživateli přidávat a upravovat u~svých obchodů název, popis, kategorie produktů, fotografie, nabídku produktů a otevírací dobu.
     \end{itemize}
 
     \item Recenze
@@ -57,32 +57,36 @@ Nefunkční požadavky popisují vlastnosti aplikace, které se netýkají pří
 \begin{itemize}
     \item Aplikace je implementována jako nativní mobilní aplikace pro platformu Android a využívá nativní API zařízení.
     \item Uživatelské rozhraní musí být přehledné, konzistentní a snadno použitelné i~pro méně technicky zdatné uživatele.
-    \item Systém musí poskytovat dostatečnou odezvu uživatelského rozhraní při práci s mapovým i seznamovým zobrazením obchodů a dalšími funkcemi aplikace.
-    \item Přístup k datům musí být omezen pouze na oprávněné uživatele prostřednictvím autentizace a řízení přístupových práv.
+    \item Systém musí poskytovat dostatečnou odezvu uživatelského rozhraní při práci s~mapovým i seznamovým zobrazením obchodů a dalšími funkcemi aplikace.
+    \item Přístup k~datům musí být omezen pouze na oprávněné uživatele prostřednictvím autentizace a řízení přístupových práv.
     \item Architektura aplikace musí umožňovat další rozšiřování funkcionality bez zásadních zásahů do existujícího kódu.
 \end{itemize}
 
 
 \section{Diagram případů užití}
-Diagram případů (anglicky Use Case Diagram) užití slouží k~přehlednému znázornění základních funkcí aplikace a interakcí mezi uživateli a systémem.
+Diagram případů užití (Use Case Diagram) slouží k~přehlednému znázornění základních funkcí aplikace a interakcí mezi uživateli a systémem.
 Diagram vychází ze specifikace funkčních požadavků a zachycuje chování aplikace z~pohledu jednotlivých typů uživatelů.
-Přehled aktérů a případů užití aplikace je znázorněn na obrázku~\ref{fig:use-case-diagram}.
+Přehled aktérů a případů užití je znázorněn na obrázku~\ref{fig:use-case-diagram}.
 
-V~rámci aplikace jsou rozlišeny tři základní role: obecného uživatele (User), zákazníka (Customer) a prodejce (Seller).
-Obecný uživatel představuje nadřazenou roli, ze které vycházejí specializované role zákazníka a prodejce.
-Tyto specializované role jsou rozděleny podle toho, jakým způsobem chce uživatel aplikaci využívat.
+V~rámci aplikace jsou rozlišeny tři základní role: obecný uživatel (User), zákazník (Customer) a prodejce (Seller).
+Role zákazníka a prodejce jsou modelovány jako specializace obecného uživatele pomocí vztahu generalizace.
+Společné případy užití jsou tak sdíleny všemi specializovanými rolemi.
+Tyto specializované role jsou rozděleny podle toho, jakým způsobem chce uživatel aplikaci využívat a co je jeho cílem při používání aplikace.
+Primárním cílem zákazníka je procházet obchody a jejich nabídku, zatímco primárním cílem prodejce je vytvářet a spravovat obchody a prezentovat svou nabídku zájemcům.
 
-Obecný uživatel zahrnuje možnosti registrace, přihlášení a odhlášení z~aplikace, které jsou přístupné všem uživatelům bez ohledu na jejich způsob využití aplikace.
-Umožňuje také úpravu osobních údajů.
-Tato možnost je přístupná jakémukoli přihlášenému uživateli.
+Obecný uživatel zahrnuje základní případy užití související s~registrací, přihlášením, odhlášením a úpravou uživatelského profilu.
+Případ užití úpravy profilu je dále rozšířen o konkrétní podřízené případy užití (například aktualizace jména, profilového obrázku nebo kontaktních údajů).
+Případy užití odhlášení a úpravy profilu jsou dostupné pouze přihlášeným uživatelům.
 
 Zákazník může procházet obchody v~mapovém nebo seznamovém zobrazení, zobrazovat detail obchodu a filtrovat obchody podle kategorií, vzdálenosti nebo hodnocení.
-Tyto filtry jsou v~diagramu modelovány jako rozšiřující případy užití nad základními způsoby procházení obchodů.
-Pokud je běžný uživatel přihlášen, může vytvářet recenze obchodů ostatních uživatelů.
+Funkce filtrování obchodů je modelována pomocí vztahu \textit{<<extend>>}, kdy jednotlivé typy filtrů (podle kategorií, vzdálenosti nebo hodnocení) rozšiřují základní případ užití procházení obchodů.
+Pokud je zákazník přihlášen, může vytvářet recenze obchodů ostatních uživatelů.
 
-Třetím aktérem je prodejce, který může vytvářet, upravovat a odstraňovat své obchody.
-V~rámci správy obchodu může prodejce upravovat polohu obchodu na mapě, otevírací dobu, nabídku produktů a kategorie nabízených produktů.
-Všechny interakce prodejce vyžadují přihlášení.
+Role prodejce zahrnuje případy užití související se správou obchodů.
+Případ užití správy obchodů je dále rozšířen o konkrétní operace, jako je aktualizace polohy, otevírací doby, správa nabídky produktů a kategorií.
+Tyto případy užití jsou rovněž podmíněny přihlášením uživatele.
+
+Případy užití vyžadující přihlášení jsou v diagramu označeny stereotypem <<requires login>>.
 
 \begin{figure}[htbp]
     \centering
@@ -281,6 +285,65 @@ Uživatel má na výběr mezi dvěma způsoby zadání otevírací doby: jako pr
 
 Posledním krokem je shrnutí, kde může uživatel zkontrolovat všechny zadané údaje před vytvořením nebo úpravou obchodu.
 Tato obrazovka je téměř totožná jako obrazovka detailu obchodu, ale obsahuje navíc tlačítka \enquote{Předchozí} a \enquote{Potvrdit} (místo tlačítka \enquote{Další} jako v~předchozích krocích).
+
+\begin{figure}[htbp]
+
+    \centering
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_01}
+        \caption{Krok 1: Název a poloha obchodu}
+        \label{fig:create-shop-step-01}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_02}
+        \caption{Krok 2: Obrázky a popis obchodu}
+        \label{fig:create-shop-step-02}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_03}
+        \caption{Krok 3: Kategorie produktů obchodu a nabídka produktů}
+        \label{fig:create-shop-step-03}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_04}
+        \caption{Krok 4: Otevírací doba obchodu – zpráva}
+        \label{fig:create-shop-step-04}
+    \end{subfigure}
+
+    \caption{Kroky vytváření a úpravy obchodu}
+    \label{fig:create-shop-steps}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/opening_hours_time}
+        \caption{Denní otevírací doba obchodu}
+        \label{fig:create-shop-opening-hours-time}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/add/edit_category}
+        \caption{Přidání / úprava kategorie obchodu}
+        \label{fig:create-shop-add-edit-category}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[t]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{res/ui/create_flow/add/edit_product}
+        \caption{Přidání / úprava položky nabídky obchodu}
+        \label{fig:create-shop-add-edit-product}
+    \end{subfigure}
+
+    \caption{Dodatečné prvky vytváření a úpravy obchodu}
+    \label{fig:create-shop-additional}
+\end{figure}
 
 
 \section{Výběr technologií}
