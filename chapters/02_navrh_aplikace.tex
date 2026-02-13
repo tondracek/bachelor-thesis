@@ -38,7 +38,7 @@ Aplikace rozlišuje dva základní typy uživatelů: běžné návštěvníky ap
     \begin{itemize}
         \item Systém umožňuje registrovanému uživateli vytvářet nové obchody.
         \item Systém umožňuje registrovanému uživateli upravovat a odstraňovat obchody, jejichž je vlastníkem.
-        \item Systém umožňuje registrovanému uživateli přidávat a upravovat u~svých obchodů název, popis, kategorie produktů, fotografie, nabídku produktů a otevírací dobu.
+        \item Systém umožňuje registrovanému uživateli přidávat a upravovat u~svých obchodů název, popis, kategorie obchodu, fotografie, nabídku produktů a otevírací dobu.
     \end{itemize}
 
     \item Recenze
@@ -101,7 +101,7 @@ Případy užití vyžadující přihlášení jsou v diagramu označeny stereot
 
 Diagram tříd (anglicky Class Diagram) popisuje strukturu aplikace z~pohledu hlavních entit, jejich atributů a vztahů mezi nimi.
 Diagram vychází ze specifikace funkčních požadavků a diagramu případů užití a slouží jako podklad pro návrh datového modelu a implementaci aplikační logiky.
-Modeluje základní entity tak, aby systém mohl plnit požadované funkce, zajišťoval konzistenci dat a umožňoval jejich efektivní správu do budoucna.
+Modeluje základní entity tak, aby systém mohl plnit požadované funkce a zajišťoval konzistenci dat.
 Přehled hlavních tříd a jejich vztahů je znázorněn na obrázku~\ref{fig:class-diagram}.
 
 \begin{figure}[p]
@@ -122,22 +122,23 @@ Profilový obrázek je volitelný a je reprezentován hodnotovým objektem \text
 Druhou klíčovou entitou je obchod (Shop), který reprezentuje obchod vytvořený registrovaným uživatelem, kde může nabízet své produkty.
 Obchod je také identifikován jednoznačným identifikátorem typu UUID\@.
 Obchod obsahuje atributy: id, název, popis, vlastník, seznam kategorií, obrázky, nabídku produktů, polohu a otevírací dobu.
-% TODO: zvýraznit výčet?
-Základní atributy jako název a popis jsou oba typu \texttt{String} a jsou volitelné.
+Základní atributy jako název a popis jsou oba typu \texttt{String} a popis je volitelný.
 
 Obchod je svázán s~uživatelem prostřednictvím asociace, která vyjadřuje vlastnictví obchodu konkrétním uživatelem.
 
 Kategorie obchodu je reprezentována hodnotovým objektem typu \texttt{Shop\-Category}, který obsahuje název kategorie a barvu pro vizuální odlišení.
 Vztah mezi obchodem a kategoriemi je modelován jako kompozice, protože kategorie jsou vlastněny konkrétním obchodem.
-Zakladatel obchodu si tak může zvolit libovolnou kombinaci názvu a barvy pro každou kategorii.
+Oproti možnosti modelovat kategorie jako samostatné entity sdílené mezi obchody poskytuje tento přístup větší flexibilitu jak při volbě názvu kategorie, tak i při volbě její barvy.
+Uživatel si tak může zvolit libovolnou kombinaci názvu a barvy kategorie.
 Požadované filtrování obchodů podle kategorií bude realizováno pomocí normalizovaných názvů kategorií ze všech obchodů.
 
 Obrázky obchodu jsou reprezentovány jako seznam již zmiňovaných hodnotových objektů \texttt{Image\-Resource}.
 
 Nabídka produktů je modelována hodnotovým objektem \texttt{Menu}, který obsahuje seznam položek nabídky typu \texttt{Menu\-Item}.
 Každá položka nabídky obsahuje název, volitelný popis, cenu a informaci o~dostupnosti.
-Cena je reprezentována hodnotovým objektem \texttt{Price\-Label}, který uchovává cenu jako formátovaný řetězec.
+Cena je reprezentována hodnotovým objektem \texttt{Price\-Label}, který uchovává cenu jako řetězec.
 Uživatel tak může cenu popsat vzhledem k~měně a jednotce v~jaké se produkt nabízí (například \enquote{150 Kč / kg}).
+Vzhledem k tomu, že aplikace neslouží k přímému nákupu ani k provádění filtrování či řazení podle ceny produktů, je cena modelována jako textový údaj určený pouze k informační prezentaci nabídky.
 
 Otevírací doba obchodu je reprezentována rozhraním \texttt{Opening\-Hours}, které má dvě implementace: \texttt{Time\-Opening\-Hours} a \texttt{Message\-Opening\-Hours}.
 První implementace uchovává otevírací dobu jako mapu dnů v~týdnu na otevírací hodiny v~případě, že producent je dostupný v~pravidelných časech.
@@ -149,7 +150,7 @@ Poloha obchodu je modelována hodnotovým objektem \texttt{Location}, který obs
 Poslední entitou je recenze (Review), která reprezentuje hodnocení obchodu uživatelem.
 Recenze je identifikována jednoznačným identifikátorem typu UUID a obsahuje atributy: id, autor, obchod, hodnocení a volitelný komentář.
 Recenze je svázána s~uživatelem prostřednictvím asociace, která vyjadřuje autora recenze.
-S~obchodem je recenze rovněž svázána asociací, jelikož recenze reprezentuje interakci mezi uživatelem a konkrétním obchodem, nikoli jeho vnitřní součást.
+S~obchodem je recenze rovněž svázána asociací, jelikož recenze reprezentuje interakci mezi uživatelem a konkrétním obchodem, nikoli vnitřní součást těchto entit.
 Přestože recenze bez existence obchodu ztrácí svůj praktický význam, není modelována jako kompozitní součást obchodu, protože má vlastní identitu a samostatný životní cyklus.
 
 
@@ -273,8 +274,8 @@ Pro fotografie má uživatel na výběr mezi přidáním ze svého zařízení n
 Fotografie může uživatel přidávat, mazat nebo měnit jejich pořadí.
 Pro popis obchodu je k~dispozici textové pole, kde uživatel může zadat libovolný dlouhý text.
 
-Ve třetím kroku uživatel přidává kategorie produktů obchodu a položky nabídky (obrázek~\ref{fig:create-shop-step-03}).
-Kategorie produktů jsou reprezentovány názvem a barvou, kterou si uživatel může zvolit z~předdefinované palety barev (obrázek~\ref{fig:create-shop-add-edit-category}).
+Ve třetím kroku uživatel přidává kategorie obchodu a položky nabídky (obrázek~\ref{fig:create-shop-step-03}).
+Kategorie jsou reprezentovány názvem a barvou, kterou si uživatel může zvolit z~předdefinované palety barev (obrázek~\ref{fig:create-shop-add-edit-category}).
 Názvy kategorií se uživatelovi doporučují na základě jejich četnosti v~existujících obchodech, aby uživatel mohl snadno vybrat nejpopulárnější kategorie a jeho obchod byl tak lépe dohledatelný.
 Položky nabídky produktů (Menu produktů) obsahují název, volitelný popis, cenu a informaci o~dostupnosti (obrázek~\ref{fig:create-shop-add-edit-product}).
 Po kliknutí na tlačítko \enquote{Přidat produkt} se zobrazí dialog pro zadání těchto údajů o~nové položce nabídky.
@@ -304,7 +305,7 @@ Tato obrazovka je téměř totožná jako obrazovka detailu obchodu, ale obsahuj
     \begin{subfigure}[t]{0.24\textwidth}
         \centering
         \includegraphics[width=\linewidth]{res/ui/create_flow/create_shop_03}
-        \caption{Krok 3: Kategorie produktů obchodu a nabídka produktů}
+        \caption{Krok 3: Kategorie obchodu a nabídka produktů}
         \label{fig:create-shop-step-03}
     \end{subfigure}\hfill
     \begin{subfigure}[t]{0.24\textwidth}
