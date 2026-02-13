@@ -155,22 +155,16 @@ Přestože recenze bez existence obchodu ztrácí svůj praktický význam, nen�
 
 
 \section{Návrh uživatelského rozhraní}
-% TODO: Jak a na kolika různých lidech plánujete testovat kvalitu UI?
-Návrh uživatelského rozhraní (UI) se zaměřuje na vytvoření přehledného a intuitivního prostředí pro uživatele aplikace.
-Cílem je zajistit, aby uživatelé mohli snadno a efektivně využívat funkce aplikace a dosahovat svých cílů, které vychází z~funkčních požadavků a diagramu případů užití.
-Návrh UI zahrnuje rozvržení obrazovek, navigační strukturu a interakční prvky.
-Při návrhu rozhraní je kladen důraz na konzistenci ovládacích prvků, díky čemuž se uživatel snadno zorientuje v~aplikaci, jasnou navigaci aplikací a minimalizaci počtu kroků potřebných k~provedení akcí.
+Návrh uživatelského rozhraní vychází z funkčních požadavků a diagramu případů užití.
+Cílem je vytvořit přehledné a konzistentní prostředí umožňující efektivní práci s aplikací.
 
 \subsection{Barevné schéma}
 Při návrhu byly využity principy Material Designu, které zajišťují jednotný a moderní vzhled aplikace.
 Material Design je designový systém vyvinutý společností Google, který poskytuje sadu doporučených postupů a komponent pro tvorbu uživatelských rozhraní.\footfullcite{material_design}
 
 Barevná paleta byla vygenerována pomocí nástroje Material Theme Builder, který generuje barevné schéma v~souladu s~principy Material Designu.\footfullcite{material_theme_builder}
-Po zadání primární barvy do nástroje nám vytvoří kompletní sadu barev pro světlé i tmavé téma aplikace.
-V~případě potřeby lze barvy dále upravovat, avšak pro základní návrh zajišťují tyto vygenerované barvy konzistentní a esteticky příjemný vzhled aplikace.
+Po zadání primární barvy do nástroje nám vytvoří kompletní sadu barev pro světlé i tmavé téma aplikace, které působí konzistentně a zajišťují dostatečný kontrast pro čitelnost textu a vizuální přitažlivost aplikace.
 Pro primární barvu byla zvolena tmavě zelená (\#3C6838), která evokuje přírodní potraviny a zemědělství.
-Ostatní barvy byly nástrojem Material Theme Builder vygenerovány na základě této primární barvy, aby se vzájemně doplňovaly.
-Zajišťují tak dostatečný kontrast pro čitelnost textu a vizuální přitažlivost aplikace.
 
 Významnou barvou v~Material Design paletě je barva \textit{surface}, která je používána jako pozadí pro většinu obrazovek aplikace (v~obrázku~\ref{fig:color-palette} je použita jako pozadí boxu \enquote{Světlý motiv}, respektive \enquote{Tmavý motiv}).
 Těmi nejdůležitějšími barvami jsou ale barvy primární, sekundární, terciární a jejich kontejnerové varianty (zobrazeny na~obrázku~\ref{fig:color-palette}).
@@ -186,30 +180,25 @@ Kontejnerové varianty těchto barev jsou používány pro větší plochy, kter
 
 \subsection{Rozvržení obrazovek}
 Návrh rozvržení obrazovek aplikace vychází z~funkčních požadavků a diagramu případů užití.
-Je důležité, aby uživatelské rozhraní bylo přehledné a intuitivní, což umožní uživatelům snadno najít a využít požadované funkce aplikace.
 
 Ve spodní části základních obrazovek se nachází \textbf{navigační lišta} (obrázky~\ref{fig:ui-overview}), která obsahuje tři ikony představující tři hlavní obrazovky aplikace: \enquote{Moje obchody}, \enquote{Úvodní obrazovka} a \enquote{Profil uživatele}.
 Díky ní může uživatel snadno navigovat mezi právě těmito základními obrazovkami aplikace.
-První ikona v~liště slouží pro navigaci na obrazovku se seznamem obchodů vytvořených uživatelem.
-Tato ikona se v~navigační liště zobrazuje pouze pokud je uživatel přihlášen.
-Druhá ikona slouží pro navigaci na úvodní obrazovku s~mapovým a seznamovým zobrazením obchodů.
-Třetí ikona slouží pro navigaci na obrazovku profilu uživatele.
-V~případě, že je uživatel přihlášen, je na této obrazovce možné upravit osobní údaje.
-V~opačném případě se zobrazí přihlašovací obrazovka, kde se může uživatel přihlásit nebo zaregistrovat nový účet.
+Sekce \enquote{Moje obchody} je dostupná pouze přihlášeným uživatelům a ikona pro tuto sekci se zobrazuje pouze pokud je uživatel přihlášen.
+Ikona \enquote{Profil uživatele} přesměruje uživatele na obrazovku profilu uživatele, nebo na obrazovku pro přihlášení v závislosti na tom, zda je uživatel přihlášen či nikoliv.
+Ikona \enquote{Úvodní obrazovka} přesměruje uživatele vždy na úvodní obrazovku, která je výchozím zobrazením aplikace.
 
 \textbf{Úvodní obrazovkou} aplikace je obrazovka, kde uživatel může zvolit mezi mapovým a seznamovým zobrazením obchodů.
 
 Výchozím zobrazením je mapové zobrazení, kde mapa ukazuje polohu uživatele a okolní obchody jako značky na mapě (obrázek~\ref{fig:map-view}).
-Při kliknutí na značku obchodu se zobrazí detail obchodu jako spodní panel, který obsahuje detaily obchodu (obrázek~\ref{fig:map-view-shop-detail}).
+Při kliknutí na značku obchodu se zobrazí spodní panel s detaily obchodu (obrázek~\ref{fig:map-view-shop-detail}).
 
 V~seznamovém zobrazení jsou obchody zobrazeny jako karty v~seznamu, které obsahují pouze základní informace o~obchodu, aby byly karty přehledné, ale zároveň obchod dostatečně popisovaly (obrázek~\ref{fig:list-view}).
 Zde se při kliknutí na kartu obchodu zobrazí detail obchodu na samostatné obrazovce (obrázek~\ref{fig:shop-detail}).
 
 Obě zobrazení mají společnou spodní nabídku, kde může uživatel přepínat mezi mapovým a seznamovým zobrazením a otevřít dialog pro filtry.
-Při kliknutí na tlačítko filtrů se zobrazí dialog, kde může uživatel zvolit jaký filtr chce upravit (kategorie, vzdálenost, hodnocení) a následně nastavit jeho hodnoty (obrázek~\ref{fig:filters}).
-V~záložce \enquote{Filtry kategorií} může uživatel přidat název kategorie, které chce zobrazit.
-Názvy jsou doporučovány na základě jejich četnosti v~existujících obchodech, aby uživatel mohl snadno vybrat nejčastější kategorie a podle již zadaných počátečních písmen.
-V~záložce \enquote{Filtr vzdálenosti} může uživatel zvolit maximální vzdálenost obchodů od své aktuální polohy pomocí posuvníku a v~záložce \enquote{Filtr hodnocení} může uživatel zvolit minimální průměrné hodnocení obchodů pomocí hvězdiček.
+
+Dialog filtrů obsahuje záložky pro nastavení: požadovaných kategorií obchodů, maximální vzdálenosti od aktuální polohy a minimálního průměrného hodnocení obchodů (obrázek~\ref{fig:filters}).
+V záložce filtru kategorií se názvy kategorií pro filtrování doporučují na základě jejich četnosti v~existujících obchodech, aby uživatel mohl snadno vybrat nejčastěji používané kategorie.
 
 \begin{figure}[htbp]
     \centering
@@ -259,33 +248,31 @@ Uživatel se zde také může odhlásit z~aplikace.
 Na obrazovce \textbf{Moje obchody} má uživatel přehled o~všech obchodech, které vytvořil.
 Obchody jsou zobrazeny jako karty v~seznamu, podobně jako v~seznamovém zobrazení na úvodní obrazovce.
 Každá karta má však navíc tlačítka pro úpravu a odstranění obchodu.
-Po kliknutí na tlačítko pro úpravu se spustí proces úpravy obchodu a po kliknutí na tlačítko pro odstranění se daný obchod smaže.
-K~tomu se ve spodní části obrazovky nachází tlačítko pro vytvoření nového obchodu.
-Po kliknutí na toto tlačítko se spustí proces vytváření nového obchodu.
+Tato obrazovka umožňuje uživateli smazat existující obchod nebo spustit proces vytváření nového či úpravy existujícího obchodu.
 
 \textbf{Proces vytváření a úpravy obchodu} je rozdělen do několika kroků a každý krok je zobrazen na samostatné obrazovce.
+Rozdělení procesu do více kroků bylo zvoleno s cílem snížit kognitivní zátěž uživatele.
+Místo velkého množství informací a vstupních polí na jedné obrazovce se tak jednotlivé prvky procesu rozdělí do menších, významově seskupených částí (jako jednotlivé obrazovky procesu).
 Uživatel může mezi těmito kroky libovolně navigovat pomocí dvou spodních tlačítek \enquote{Předchozí} a \enquote{Další}.
 
 V~prvním kroku uživatel zadává název a polohu obchodu na mapě (obrázek~\ref{fig:create-shop-step-01}).
 Jsou to kromě samotné nabídky nejvýznamnější údaje, které obchod popisují a kterých si zájemci všimnou jako první.
 
 V~druhém kroku uživatel přidává fotografie a popis obchodu (obrázek~\ref{fig:create-shop-step-02}).
-Pro fotografie má uživatel na výběr mezi přidáním ze svého zařízení nebo vyfocením nové fotografie pomocí fotoaparátu zařízení.
+Fotografie lze přidat ze zařízení nebo přímo pořídit pomocí fotoaparátu.
 Fotografie může uživatel přidávat, mazat nebo měnit jejich pořadí.
-Pro popis obchodu je k~dispozici textové pole, kde uživatel může zadat libovolný dlouhý text.
 
 Ve třetím kroku uživatel přidává kategorie obchodu a položky nabídky (obrázek~\ref{fig:create-shop-step-03}).
 Kategorie jsou reprezentovány názvem a barvou, kterou si uživatel může zvolit z~předdefinované palety barev (obrázek~\ref{fig:create-shop-add-edit-category}).
 Názvy kategorií se uživatelovi doporučují na základě jejich četnosti v~existujících obchodech, aby uživatel mohl snadno vybrat nejpopulárnější kategorie a jeho obchod byl tak lépe dohledatelný.
-Položky nabídky produktů (Menu produktů) obsahují název, volitelný popis, cenu a informaci o~dostupnosti (obrázek~\ref{fig:create-shop-add-edit-product}).
-Po kliknutí na tlačítko \enquote{Přidat produkt} se zobrazí dialog pro zadání těchto údajů o~nové položce nabídky.
 Každá položka nabídky je zobrazena jako karta v~seznamu a kromě zobrazení údajů obsahuje také tlačítka pro úpravu a odstranění položky nabídky.
+V této sekci se nachází také tlačítko pro přidání nové položky nabídky.
+Přidání nové nebo úprava stávající položky nabídky je realizována pomocí dialogu pro zadání všech potřebných údajů pro danou položku (obrázek~\ref{fig:create-shop-add-edit-product}).
 
 Ve čtvrtém kroku uživatel zadává otevírací dobu obchodu (obrázek~\ref{fig:create-shop-step-04}).
 Uživatel má na výběr mezi dvěma způsoby zadání otevírací doby: jako pravidelnou denní otevírací dobu (obrázek~\ref{fig:create-shop-opening-hours-time}), kde může uživatel ke každému dni v~týdnu zadat zprávu, kde popíše otevírací hodiny (například \enquote{9:00-11:00, 13:00-17:00}), nebo jako volitelnou zprávu, kde uživatel může zadat libovolný text (například \enquote{Kontaktujte mě předem telefonicky}).
 
 Posledním krokem je shrnutí, kde může uživatel zkontrolovat všechny zadané údaje před vytvořením nebo úpravou obchodu.
-Tato obrazovka je téměř totožná jako obrazovka detailu obchodu, ale obsahuje navíc tlačítka \enquote{Předchozí} a \enquote{Potvrdit} (místo tlačítka \enquote{Další} jako v~předchozích krocích).
 
 \begin{figure}[htbp]
 
