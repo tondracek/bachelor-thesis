@@ -336,21 +336,27 @@ Posledním krokem je shrnutí, kde může uživatel zkontrolovat všechny zadan�
 
 \section{Výběr technologií}
 Volba použitých technologií vychází z~požadavků aplikace a zohledňuje faktory jako je efektivita vývoje, uživatelský zážitek, škálovatelnost a údržba aplikace.
-Cílem je zvolit technologie vhodné pro vytvoření funkční, spolehlivé a uživatelsky přívětivé aplikace, která bude odpovídat potřebám cílových uživatelů a splňovat stanovené požadavky.
+Cílem je zvolit technologie vhodné pro implementaci navrženého řešení s ohledem na rozsah bakalářské práce a požadovanou funkčnost aplikace.
+Volba jednotlivých technologií je dále zdůvodněna.
 
 \subsection{Volba cílové platformy}
 Při volbě platformy pro vývoj aplikace se obvykle nabízejí tři hlavní možnosti: mobilní aplikace, webová aplikace a desktopová aplikace.
-Navrhovaná aplikace využívá funkce, jako jsou fotoaparát zařízení, galerie obrázků, zjišťování aktuální polohy uživatele a mapové zobrazení okolí.
-Aplikace je navržena tak, aby byla využitelná i mimo domov, například při cestování nebo návratu z~cesty, kdy uživatel potřebuje rychle vyhledat obchody v~okolí své aktuální polohy.
-Zároveň obchody v~aplikaci poskytují zájemcům kontaktní údaje na producenty, aby je mohli snadno kontaktovat například formou telefonního hovoru, SMS nebo odkazem na sociální sítě.
-V~praxi k~této interakci uživatelé ve většině případů využívají mobilní telefon, takže i zde je vhodnější mít aplikaci přímo na mobilním zařízení.
-Z~uvedených důvodů je nejvhodnější aplikační platformou mobilní aplikace.
-Webová aplikace by sice zajistila vyšší míru dostupnosti napříč zařízeními, avšak v~prostředí mobilních zařízení by ve srovnání s~nativní mobilní aplikací poskytovala méně vhodný uživatelský zážitek, jak z~hlediska výkonu, odezvy a použitelnosti, tak i z~hlediska přístupu k~nativním funkcím zařízení.
-V~České republice je nejrozšířenějším operačním systémem pro mobilní zařízení Android, a proto byla jako cílová platforma zvolena mobilní aplikace pro platformu Android.\footfullcite{android_market_share_cz}
 
-Alternativou k~nativnímu vývoji by bylo využití multiplatformních frameworků, jako jsou Flutter nebo React Native, které umožňují cílit na více platforem z~jednoho kódu.
-Tato řešení však přinášejí další vrstvu abstrakce a zvyšují složitost integrace s~nativními funkcemi zařízení, jako jsou práce s~mapami, polohou uživatele nebo fotoaparátem.\footfullcite{native_vs_cross_platform}
-Vzhledem k~zaměření práce výhradně na platformu Android, rozsahu bakalářské práce a důrazu na návrh uživatelského rozhraní, aplikační logiky a využití nativních funkcí zařízení bylo zvoleno \textbf{nativní řešení pro platformu Android}.
+Navrhovaná aplikace využívá funkce, jako jsou fotoaparát zařízení, galerie obrázků, zjišťování aktuální polohy uživatele a mapové zobrazení okolí.
+Aplikace je navržena tak, aby byla využitelná i mimo domov, například při cestování nebo návratu z~cesty, kdy může uživatel rychle vyhledat obchody v~okolí své aktuální polohy.
+Zároveň obchody v~aplikaci poskytují zájemcům kontaktní údaje na producenty, aby je mohli snadno kontaktovat například formou telefonního hovoru, SMS nebo odkazem na sociální sítě.
+Mobilní zařízení tak přirozeně podporuje jak různá použití aplikace, tak i následnou komunikaci s producenty.
+
+Desktopová aplikace tedy přirozeně neodpovídá charakteru navrhované aplikace.
+Pro mobilní zařízení se výběr platformy zužuje na nativní nebo multiplatformní mobilní aplikaci a webovou aplikaci optimalizovanou pro mobilní zařízení.
+
+Webová aplikace by sice zajistila širší dostupnost napříč zařízeními, avšak v~prostředí mobilních zařízení by ve srovnání s~nativní mobilní aplikací poskytovala méně vhodný uživatelský zážitek, jak z~hlediska výkonu a odezvy, tak i z~hlediska přístupu k~nativním funkcím zařízení.\footfullcite{native_vs_web_app}
+
+Další možností by bylo využití multiplatformních frameworků, jako jsou Flutter nebo React Native.
+Tato řešení však přidávají další vrstvu abstrakce a mohou zvyšovat složitost integrace s~nativními funkcemi zařízení, jako jsou práce s~mapami, polohou uživatele nebo fotoaparátem.\footfullcite{native_vs_cross_platform}
+
+S ohledem na zaměření práce výhradně na platformu Android, rozsah bakalářské práce i vyjmenované výhody bylo zvoleno nativní řešení pro Android.
+V~České republice je navíc právě Android nejrozšířenějším operačním systémem pro mobilní zařízení, a proto je tato platforma vhodnou volbou pro tuto aplikaci.\footfullcite{android_market_share_cz}
 
 \subsection{Programovací jazyk a UI framework}
 
