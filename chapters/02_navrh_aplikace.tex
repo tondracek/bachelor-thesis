@@ -137,10 +137,11 @@ Obrázky obchodu jsou reprezentovány jako seznam již zmiňovaných hodnotovýc
 Nabídka produktů je modelována hodnotovým objektem \texttt{Menu}, který obsahuje seznam položek nabídky typu \texttt{Menu\-Item}.
 Každá položka nabídky obsahuje název, volitelný popis, cenu a informaci o~dostupnosti.
 Cena je reprezentována hodnotovým objektem \texttt{Price\-Label}, který uchovává cenu jako řetězec.
-Uživatel tak může cenu popsat vzhledem k~měně a jednotce v~jaké se produkt nabízí (například \enquote{150 Kč / kg}).
+Uživatel tak může cenu popsat vzhledem k~měně a jednotce v~jaké se produkt nabízí (například \enquote{150~Kč/kg}).
 Vzhledem k tomu, že aplikace neslouží k přímému nákupu ani k provádění filtrování či řazení podle ceny produktů, je cena modelována jako textový údaj určený pouze k informační prezentaci nabídky.
 
 Otevírací doba obchodu je reprezentována rozhraním \texttt{Opening\-Hours}, které má dvě implementace: \texttt{Time\-Opening\-Hours} a \texttt{Message\-Opening\-Hours}.
+
 První implementace uchovává otevírací dobu jako mapu dnů v~týdnu na otevírací hodiny v~případě, že producent je dostupný v~pravidelných časech.
 Druhá implementace uchovává otevírací dobu jako volitelnou zprávu v~případě, že producent chce například uvést, aby ho zájemce nejdříve kontaktoval.
 
@@ -318,14 +319,14 @@ Posledním krokem je shrnutí, kde může uživatel zkontrolovat všechny zadan�
     \begin{subfigure}[t]{0.24\textwidth}
         \centering
         \includegraphics[width=\linewidth]{res/ui/create_flow/add/edit_category}
-        \caption{Přidání / úprava kategorie obchodu}
+        \caption{Přidání nebo úprava kategorie obchodu}
         \label{fig:create-shop-add-edit-category}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[t]{0.24\textwidth}
         \centering
         \includegraphics[width=\linewidth]{res/ui/create_flow/add/edit_product}
-        \caption{Přidání / úprava položky nabídky obchodu}
+        \caption{Přidání nebo úprava položky nabídky obchodu}
         \label{fig:create-shop-add-edit-product}
     \end{subfigure}
 
