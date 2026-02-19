@@ -387,47 +387,52 @@ Z~těchto důvodů byl zvolen Material Design 3, který poskytuje moderní a kon
 
 \subsection{Backendové řešení}
 Součástí návrhu aplikace bylo rozhodnutí o~vhodném backendovém řešení, které by odpovídalo rozsahu bakalářské práce, požadavkům aplikace a možnostem jednotlivce jako vývojáře.
-Pro realizaci backendové části aplikace bylo zvoleno řešení Firebase, které představuje plnohodnotné backendové řešení typu \textit{Backend-as-a-Service} (BaaS).
+Pro realizaci backendové části aplikace bylo zvoleno řešení Firebase.
 
-Firebase nabízí širokou škálu služeb, které dobře zapadají do potřeb navrhované aplikace.
-Mezi klíčové služby patří Firestore databáze pro ukládání dat, Firebase Autentizace pro správu uživatelských účtů, Firebase Storage pro ukládání souborů, jako jsou fotografie obchodů a profilové obrázky uživatelů a Firebase Crashlytics pro sledování chyb a výkonu aplikace.
-Výhodou použití Firebase je jeho snadná integrace s~platformou Android a jazykem Kotlin, protože Firebase poskytuje oficiální SDK a knihovny pro tyto technologie.\footfullcite{firebase_android_kotlin_support}
+Zvolené řešení Firebase představuje plnohodnotné backendové řešení typu \textbf{Backend-as-a-Service} (BaaS).\footfullcite{baas_definition}
+BaaS je model cloudové služby, který poskytuje vývojářům předpřipravené backendové služby.
+Mezi klíčové služby pro navrhovanou aplikaci poskytované platformou Firebase patří Firestore databáze pro ukládání dat a řízení přístupu k~datům pomocí bezpečnostních pravidel (security rules), Firebase Autentizace pro správu uživatelských účtů, Firebase Storage pro ukládání souborů, jako jsou fotografie obchodů a profilové obrázky uživatelů a Firebase Crashlytics pro sledování chyb a výkonu aplikace.
+
+Firebase zároveň využívá principy \textbf{serverless architektury}.\footfullcite{firebase_serverless}
+Serverless architektura znamená, že vývojář nepracuje přímo s~fyzickými nebo virtuálními servery, ale využívá cloudové služby, které automaticky spravují infrastrukturu a škálovatelnost.
+Poskytované služby se tak automaticky přizpůsobují aktuálnímu zatížení aplikace.
+Díky tomuto modelu nemusí vývojář řešit provozní aspekty backendu, jako je nasazení, škálovatelnost a údržba serveru.
+V~případě, že je potřeba implementovat vlastní logiku na straně serveru, Firebase nabízí službu \textbf{Cloud Functions}, která umožňuje spouštět backendový kód formou serverless funkcí v~reakci na definované události.
+
 Alternativním řešením by bylo vytvoření vlastního backendového serveru například pomocí frameworku Spring.
 Tento přístup by však vyžadoval značné množství času a úsilí.
 Kromě více implementační práce by bylo nutné řešit i provozní aspekty, jako je nasazení, škálovatelnost, bezpečnost a údržba serveru nebo i náklady na jeho provoz.
-Cílem této bakalářské práce je však zaměřit se na návrh aplikace a uživatelského rozhraní, vývoj aplikace a její nasazení.
+
 Zvolená architektura Firebase jako BaaS umožňuje soustředit se na vývoj aplikace, aniž by bylo nutné řešit především provozní aspekty.
-Zároveň je to řešení, které je velmi často využíváno startupy a menšími týmy pro rychlý vývoj aplikací s~nízkými či nulovými náklady na provoz.\footfullcite{firebase_benefits}
-Při BaaS řešení se náklady na provoz odvíjejí podle počtu uživatelů a využití služeb, což je výhodné pro aplikace s~menším počtem uživatelů.
+Náklady na provoz se totiž odvíjejí od počtu uživatelů a využití služeb, což je výhodné pro aplikace s~menším počtem uživatelů.
+Zároveň je to řešení, které je vhodné pro malé vývojové týmy, protože umožňuje rychlejší implementaci díky předpřipraveným službám.\footfullcite{firebase_benefits}
+S ohledem na realizaci aplikace jednotlivcem a rozsah bakalářské práce se jedná o vhodné řešení.
+Další výhodou použití Firebase je jeho snadná integrace s~platformou Android a jazykem Kotlin, protože Firebase poskytuje oficiální SDK a knihovny pro tyto technologie.\footfullcite{firebase_android_kotlin_support}
 
-Architektura aplikace je navržena tak, aby nebyla pevně svázána s~konkrétní implementací backendu.
-Komunikace s~backendem je realizována prostřednictvím abstrahovaných rozhraní, což umožňuje případnou budoucí náhradu zvoleného backendového řešení jinou technologií, například vlastním serverovým backendem.
+Nevýhodou řešení typu BaaS může být závislost na konkrétním poskytovateli služby (vendor lock-in) a omezené možnosti implementace komplexní serverové logiky.
+
+Při vhodném návrhu architektury lze tyto nevýhody minimalizovat.
+Architektura aplikace je navržena tak, aby nebyla pevně svázána s~konkrétní implementací datových zdrojů pomocí abstrahovaných rozhraní.
+To umožňuje případnou budoucí náhradu zvoleného backendového řešení jinou technologií, například vlastním serverovým backendem.
+Komplexní serverovou logiku lze v případě potřeby implementovat pomocí služby Cloud Functions.
+V navrhované aplikaci však taková logika není zásadní součástí systému, a proto je uvedené omezení akceptovatelné a nebrání realizaci navržené funkčnosti.
+
 Zvolené řešení Firebase tak odpovídá současnému rozsahu a cílům bakalářské práce, přičemž nevylučuje další rozvoj aplikace v~případě zvýšených nároků na backendovou logiku nebo škálovatelnost.
-
-\subsubsection{Backend as a Service a serverless architektura}
-Zvolené řešení Firebase představuje plnohodnotné backendové řešení typu \textbf{Backend-as-a-Service} (BaaS).
-BaaS je model cloudové služby, který poskytuje vývojářům předpřipravené backendové služby, jako jsou databáze, řízení přístupu k~datům pomocí bezpečnostních pravidel (security rules), autentizace uživatelů, ukládání souborů a další funkce.\footfullcite{baas_definition}
-
-Firebase zároveň využívá principy serverless architektury.\footfullcite{firebase_serverless}
-Serverless architektura znamená, že vývojář nepracuje přímo s~fyzickými nebo virtuálními servery, ale využívá cloudové služby, které automaticky spravují infrastrukturu a škálovatelnost.
-Poskytované služby se tak automaticky přizpůsobují aktuálnímu zatížení aplikace.
-Tento model umožňuje vývojářům soustředit se na vývoj aplikace, aniž by museli řešit provozní aspekty backendu, jako je nasazení, škálovatelnost a údržba serveru.
-V~případě, že je potřeba implementovat vlastní logiku na straně serveru, Firebase nabízí službu Cloud Functions, která umožňuje spouštět backendový kód formou serverless funkcí v~reakci na definované události.
 
 Firebase poskytuje jako databázové řešení dokumentově orientovanou NoSQL databázi \textbf{Cloud Firestore}.
 Tento typ databáze ukládá data ve formě dokumentů seskupených do kolekcí.\footfullcite{firestore_overview}
 
-Dokument je jednoduchý datový záznam, který obsahuje páry klíč-hodnota.\footfullcite{firestore_data_model}
-Hodnoty mohou být různých datových typů, včetně běžných typů (řetězce, čísla, boolean, \ldots), ale také složitějších typů, jako jsou pole nebo vnořené objekty.
-Dokumenty tak mohou reprezentovat komplexní datové struktury.
+Dokument je datový záznam, který obsahuje páry klíč-hodnota.\footfullcite{firestore_data_model}
+Hodnoty mohou být jednoduché i složené datové typy (například pole nebo vnořené objekty).
 Kolekce jsou skupiny dokumentů, které sdílejí společný kontext (například kolekce uživatelů, kolekce obchodů, kolekce recenzí).
 
-Dokumentově orientovaný přístup je vhodný zejména pro aplikace, které pracují s~hierarchickými daty.\footfullcite{nosql_vs_sql}
 V~navrhované aplikaci je datový model tvořen omezeným počtem hlavních entit, jako jsou obchody, uživatelé a recenze, které obsahují další vnořené nebo odvozené informace (například seznam kategorií, nabídku produktů, otevírací dobu nebo polohu obchodu).
-Firestore umožňuje ukládat tyto související informace přímo v~rámci jednoho dokumentu nebo v~podřízených kolekcích, což zjednodušuje práci s~daty a snižuje potřebu složitých spojení (joins), která jsou typická pro relační databáze.
+Firestore umožňuje ukládat tyto související informace přímo v~rámci jednoho dokumentu nebo v~podřízených kolekcích, což snižuje potřebu složitých spojení (joins), která jsou typická pro relační databáze.
 
-Další výhodou použití databáze Firestore je její automatická škálovatelnost a integrace s~ostatními službami Firebase.
 Databáze je navržena pro práci v~reálném čase a umožňuje efektivní synchronizaci dat mezi klientskou aplikací a backendem.
+Firestore SDK zároveň podporuje lokální offline cache dat na straně klienta a jejich automatickou synchronizaci při opětovném připojení k síti.
+Tato vlastnost je vhodná zejména pro mobilní aplikace, kde nelze vždy garantovat stabilní připojení k internetu.
+
 Společně s~bezpečnostními pravidly (security rules) je možné zajistit řízení přístupu k~datům na úrovni jednotlivých dokumentů podle přihlášeného uživatele.
 
 Zvolená databázová technologie tak odpovídá požadavkům aplikace z~hlediska struktury dat, výkonu, škálovatelnosti i vývoje.
