@@ -1,11 +1,46 @@
 \chapter{Implementace aplikace}
+Tato kapitola popisuje implementaci navržené architektury a klíčových částí aplikace.
+Vzhledem k rozsahu výsledného řešení se zaměřuje především na zásadní a pro tento systém specifické prvky, které mají největší význam z hlediska návrhu a struktury aplikace.
 
-% DomainResult a DomainError implementace?
-% UI implementace? - navigační graf, jinak UI velmi stručně
-% lazy loading a paginace?
-% Geografické dotazy do databáze?
-% Security rules?
-% Ještě něco? - všechno sem dát nemůžu
+Pozornost je věnována zejména implementaci reprezentace výsledků operací, práci s geografickými dotazy nad databází a stránkování jejich výsledků, správě stavu uživatelského rozhraní a bezpečnostním mechanismům.
+Vybrané části ilustrují, jak se návrhová rozhodnutí popsaná v předchozí kapitole promítla do konkrétní realizace aplikace.
 
 
-% 10-12 stran
+\section{Implementace doménové vrstvy}
+
+\subsection{Reprezentace výsledků operací}
+% sealed class, functional přístup
+
+\subsection{Implementace use-case tříd}
+% řetězení volání repozitářů, řízení běhu use casu
+
+
+\section{Implementace datové vrstvy}
+
+\subsection{Mapování datových modelů a zpracování chyb}
+% zachytávání výjimek při volání API a SDK a jejich převod na DomainResult a DomainError
+
+\subsection{Geografické dotazy a stránkování}
+% geohash
+
+\subsection{Kategorie obchodů v NoSQL databázi}
+% nemožnost joinů - samostatná entita a její aktualizování
+
+
+\section{Implementace uživatelského rozhraní}
+
+\subsection{Navigační graf aplikace}
+
+\subsection{Správa stavu a vedlejší efekty}
+
+
+\section{Bezpečnost a řízení přístupu}
+
+\subsection{Firebase Security Rules}
+
+\subsection{Validace dat a ochrana integrity}
+
+
+\section{Shrnutí implementační části}
+
+% 10-12 stran (TODO: smazat)
