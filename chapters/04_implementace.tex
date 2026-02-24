@@ -9,38 +9,67 @@ Vybrané části ilustrují, jak se návrhová rozhodnutí popsaná v předchoz�
 \section{Implementace doménové vrstvy}
 
 \subsection{Reprezentace výsledků operací}
-% sealed class, functional přístup
+% Sealed class - implementace třídy
+% Funkcionální styl zpracování výsledků
+% Hierarchie doménových chyb (+ převedení na lokalizované texty v UI)
 
 \subsection{Implementace use-case tříd}
-% řetězení volání repozitářů, řízení běhu use casu
+% řetězení volání repozitářů
+% řetězení výsledků (DomainResult)
+% orchestrace operací
+% izolace business logiky
 
 
 \section{Implementace datové vrstvy}
 
 \subsection{Mapování datových modelů a zpracování chyb}
-% zachytávání výjimek při volání API a SDK a jejich převod na DomainResult a DomainError
+% mapovaní entit do doménových modelů
+% jednotné zachytávání výjimek (z API a SKD, převod na DomainError)
+% mapování do DomainResult
 
 \subsection{Geografické dotazy a stránkování}
-% geohash
+% omezení Firestore (neumí radius query)
+% geohash princip a volba
+% ring partitioning (princip)
+%  - nepřesnost, ale deterministické rozdělení dat/stránkování
+% cursor-based paging
+% aproximace vzdálenosti
 
 \subsection{Kategorie obchodů v NoSQL databázi}
-% nemožnost joinů - samostatná entita a její aktualizování
+% denormalizace
+% absence joinů
+% popularity kolekce
+% Cloud Function
+% eventual consistency
 
 
 \section{Implementace uživatelského rozhraní}
 
 \subsection{Navigační graf aplikace}
+% type-safe navigace
+% vnořené grafy
 
 \subsection{Správa stavu a vedlejší efekty}
+% immutable state
+% "reducer pattern"
+% kombinace Flow
+% oddělení efektů
 
 
-\section{Bezpečnost a řízení přístupu}
+\section{Bezpečnostní model a řízení přístupu}
 
 \subsection{Firebase Security Rules}
-
-\subsection{Validace dat a ochrana integrity}
+% rules = kontrola autentizace a vlastnictví + strukturální validace (vstupy)
+% mapování identity kvůli oddělení user id a authId
+% shop: zákaz změny ownerId
+% review: zákaz self-review
+% category popularity: zákaz zápisu z klienta (jen cloud function)
 
 
 \section{Shrnutí implementační části}
+% Kolik modulů
+% Přibližná velikost codebase (moduly a soubory)
+% Vrstvení systému
+% Jak se návrh osvědčil při vývoji
 
 % 10-12 stran (TODO: smazat)
