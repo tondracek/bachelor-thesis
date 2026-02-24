@@ -60,6 +60,9 @@ Tento model může představovat bariéru pro drobné nebo příležitostné pro
 Analýza dostupných nástrojů ukázala, že existující řešení jsou zpravidla zaměřena buď na oficiálně registrované producenty, nebo na zprostředkování samotného prodeje prostřednictvím centralizované platformy.
 Jednoduchý nástroj umožňující drobným nebo domácím producentům samostatně vytvářet a spravovat prezentaci své nabídky s důrazem na mapové zobrazení a lokální dosah není v analyzovaných řešeních primárním cílem.
 
+Tabulka~\ref{tab:platform-matrix} shrnuje srovnání analyzovaných platforem podle vybraných kritérií.
+Hodnocení vyjadřuje přítomnost dané vlastnosti (\cmark), její částečné naplnění (\pmark) nebo její absenci (\xmark).
+
 Tato skutečnost naznačuje prostor pro návrh aplikace zaměřené na snadnou prezentaci lokální nabídky bez nutnosti složitého schvalovacího procesu či zapojení do centralizovaného prodejního systému určené především pro domácí producenty.
 
 \begin{table}[htbp]
@@ -94,10 +97,10 @@ Tato skutečnost naznačuje prostor pro návrh aplikace zaměřené na snadnou p
     & \cmark & \xmark & \xmark & \cmark & \cmark \\
 
     Nutnost schvalovacího procesu
-    & \cmark & \cmark & \xmark & \cmark & \xmark \\
+    & \cmark & \cmark & \xmark & \pmark\tnote{c} & \xmark \\
 
     Zprostředkování přímého prodeje
-    & \xmark & \cmark & \pmark\tnote{c} & \xmark & \xmark \\
+    & \xmark & \cmark & \pmark\tnote{d} & \xmark & \xmark \\
 
     Jednoduchá prezentace lokální nabídky
     & \pmark & \xmark & \xmark & \pmark & \cmark \\
@@ -107,9 +110,14 @@ Tato skutečnost naznačuje prostor pro návrh aplikace zaměřené na snadnou p
 
         \begin{tablenotes}
             \footnotesize
-            \item[a] Registrace je možná pouze po schválení provozovatelem projektu.
-            \item[b] Vstup do platformy podléhá kontrolnímu procesu a výběru producentů.
-            \item[c] Prodej probíhá formou jednotlivých inzerátů, nikoliv systematického tržiště.
+            \item[] \textbf{Legenda:}
+            \cmark~Ano,
+            \pmark~Částečně,
+            \xmark~Ne.
+            \item[a] Registrace probíhá formou žádosti o zařazení.
+            \item[b] Vstup do platformy podléhá schvalovacímu procesu.
+            \item[c] Založení profilu vyžaduje ověření podnikatelského subjektu.
+            \item[d] Prodej probíhá formou jednotlivých inzerátů, nikoli dlouhodobé nabídky.
         \end{tablenotes}
 
     \end{threeparttable}
