@@ -61,3 +61,57 @@ Analýza dostupných nástrojů ukázala, že existující řešení jsou zpravi
 Jednoduchý nástroj umožňující drobným nebo domácím producentům samostatně vytvářet a spravovat prezentaci své nabídky s důrazem na mapové zobrazení a lokální dosah není v analyzovaných řešeních primárním cílem.
 
 Tato skutečnost naznačuje prostor pro návrh aplikace zaměřené na snadnou prezentaci lokální nabídky bez nutnosti složitého schvalovacího procesu či zapojení do centralizovaného prodejního systému určené především pro domácí producenty.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Hodnotící matice podpory drobných producentů}
+    \label{tab:platform-matrix}
+
+    \begin{threeparttable}
+
+        \begin{tabularx}{\textwidth}{
+                >{\raggedright\arraybackslash}p{4cm}
+            *{5}{>{\centering\arraybackslash}X}
+        }
+    \toprule
+    \textbf{Kritérium}
+    & \textbf{Farmáři z regionu}
+    & \textbf{Scuk.cz}
+    & \textbf{Facebook}
+    & \textbf{Google Maps}
+    & \textbf{Navrhovaná aplikace} \\
+    \midrule
+
+    Samostatná registrace producenta
+    & \pmark\tnote{a} & \pmark\tnote{b} & \cmark & \cmark & \cmark \\
+
+    Zaměření na drobné producenty
+    & \pmark & \pmark & \xmark & \xmark & \cmark \\
+
+    Mapové zobrazení jako primární prvek
+    & \cmark & \xmark & \xmark & \cmark & \cmark \\
+
+    Nutnost schvalovacího procesu
+    & \cmark & \cmark & \xmark & \cmark & \xmark \\
+
+    Zprostředkování přímého prodeje
+    & \xmark & \cmark & \pmark\tnote{c} & \xmark & \xmark \\
+
+    Jednoduchá prezentace lokální nabídky
+    & \pmark & \xmark & \xmark & \pmark & \cmark \\
+
+    \bottomrule
+        \end{tabularx}
+
+        \begin{tablenotes}
+            \footnotesize
+            \item[a] Registrace je možná pouze po schválení provozovatelem projektu.
+            \item[b] Vstup do platformy podléhá kontrolnímu procesu a výběru producentů.
+            \item[c] Prodej probíhá formou jednotlivých inzerátů, nikoliv systematického tržiště.
+        \end{tablenotes}
+
+    \end{threeparttable}
+
+\end{table}
