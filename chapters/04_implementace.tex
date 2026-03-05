@@ -92,6 +92,10 @@ class CreateShopUC @Inject constructor(
 
 
 \section{Implementace datové vrstvy}
+Datová vrstva zajišťuje komunikaci aplikace s externími datovými zdroji.
+Mezi hlavní datové zdroje patří databáze Cloud Firestore, úložiště souborů Firebase Storage a autentizační služba Firebase Authentication.
+
+Implementace datové vrstvy zahrnuje především mapování datových entit na doménové modely, zpracování chyb vznikajících při komunikaci s datovými zdroji a realizaci konkrétních operací nad těmito zdroji.
 
 \subsection{Mapování datových modelů a zpracování chyb}
 % mapovaní entit do doménových modelů
