@@ -15,6 +15,42 @@ Obsahuje zejména doménové modely realizované jako neměnné datové třídy,
 % Sealed class - implementace třídy
 % Funkcionální styl zpracování výsledků
 % Hierarchie doménových chyb (+ převedení na lokalizované texty v UI)
+Výsledky operací v doménové vrstvě jsou reprezentovány pomocí generického typu \texttt{Domain\-Result<T>}, implementovaného jako \textit{sealed interface} s dvěma implementacemi: \texttt{Success<T>} a \texttt{Failure} (ukázka~\ref{lst:domain-result-code}).
+Generický parametr \texttt{T} představuje typ úspěšného výsledku.
+
+Implementace \texttt{Success<T>} obsahuje jediný atribut \texttt{data} typu \texttt{T}, který reprezentuje úspěšný výsledek operace.
+Naopak \texttt{Failure} obsahuje atribut \texttt{error} typu \texttt{Domain\-Error}, který reprezentuje konkrétní doménově specifickou chybu, a volitelný atribut \texttt{cause} typu \texttt{Throwable}, který může nést původní výjimku z nižších vrstev (například pro logování chyb).
+
+\begin{lstlisting}[language=Kotlin, caption={Implementace typu DomainResult}, label={lst:domain-result-code}]
+sealed interface DomainResult<out T> {
+
+    data class Success<T>(val data: T) : DomainResult<T>
+
+    data class Failure(
+        val error: DomainError,
+        val cause: Throwable? = null
+    ) : DomainResult<Nothing>
+}
+\end{lstlisting}
+
+Pro práci s výsledky operací jsou nad typem \texttt{Domain\-Result} pomocné metody a funkce umožňující transformaci úspěšných výsledků, řetězení operací, nebo reagování na úspěch či neúspěch pomocí předaných lambda funkcí (ukázka~\ref{lst:domain-result-helpers}).
+Například funkce \texttt{mapSuccess} umožňuje transformovat úspěšný výsledek z typu \texttt{T} na jiný typ \texttt{R}, ale v případě neúspěchu zachovává původní chybu.
+Nebo metoda \texttt{withSuccess}, která umožňuje provést zadanou akci pouze v případě úspěchu, zatímco \texttt{withFailure} umožňuje reagovat pouze na neúspěch.
+
+\begin{lstlisting}[language=Kotlin, caption={Pomocné metody a funkce pro práci s DomainResult}, label={lst:domain-result-helpers}]
+inline fun <T, R> DomainResult<T>.mapSuccess(transform: (T) -> R): DomainResult<R> = when (this) {
+    is Success -> Success(transform(data))
+    is Failure -> this
+}
+
+suspend fun withSuccess(block: suspend (T) -> Unit): DomainResult<T> = apply {
+    if (this is Success) block(this.data)
+}
+\end{lstlisting}
+
+Chybové stavy jsou reprezentovány hierarchií typů implementujících rozhraní \texttt{DomainError}.
+Jednotlivé skupiny podtypů odpovídají konkrétním oblastem aplikace, například autentizaci uživatele, práci s obchody nebo práci s fotografiemi.
+Ve vrstvě uživatelského rozhraní jsou tyto chyby následně mapovány na lokalizované texty, které mohou být zobrazeny uživateli ať už jako součást UI komponenty nebo vyskakovací dialog.
 
 \subsection{Implementace use-case tříd}\label{subsec:use-case-impl}
 % řetězení volání repozitářů
