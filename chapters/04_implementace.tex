@@ -45,7 +45,7 @@ suspend fun withSuccess(block: suspend (T) -> Unit): DomainResult<T> = apply {
 }
 \end{lstlisting}
 
-Chybové stavy jsou reprezentovány hierarchií typů implementujících rozhraní \texttt{DomainError}.
+Chybové stavy jsou reprezentovány hierarchií typů implementujících rozhraní \texttt{Domain\-Error}.
 Jednotlivé skupiny podtypů odpovídají konkrétním oblastem aplikace, například autentizaci uživatele, práci s obchody nebo práci s fotografiemi.
 Ve vrstvě uživatelského rozhraní jsou tyto chyby následně mapovány na lokalizované texty, které mohou být zobrazeny uživateli ať už jako součást UI komponenty nebo vyskakovací dialog.
 
@@ -98,9 +98,15 @@ Mezi hlavní datové zdroje patří databáze Cloud Firestore, úložiště soub
 Implementace datové vrstvy zahrnuje především mapování datových entit na doménové modely, zpracování chyb vznikajících při komunikaci s datovými zdroji a realizaci konkrétních operací nad těmito zdroji.
 
 \subsection{Mapování datových modelů a zpracování chyb}
-% mapovaní entit do doménových modelů
-% jednotné zachytávání výjimek (z API a SKD, převod na DomainError)
-% mapování do DomainResult
+Datová vrstva pracuje s datovými entitami, jejichž struktura odpovídá způsobu uložení dat v konkrétním datovém zdroji (například dokumenty v Cloud Firestore).
+Tyto entity jsou po načtení převáděny na doménové modely, které jsou používány v doménové vrstvě a odpovídají návrhu domény aplikace.
+Při zápisu dat do datového zdroje jsou naopak doménové modely převáděny na odpovídající datové entity.
+
+Při komunikaci s datovými zdroji mohou vznikat různé chyby, například síťové problémy, nedostatečná oprávnění nebo neexistující data.
+Tyto chyby jsou v datové vrstvě zachyceny a převedeny na konkrétní typy implementující rozhraní \texttt{Domain\-Error}.
+Například při vytváření obchodu může dojít k chybě způsobené nedostatečnými oprávněními.
+Taková chyba je zachycena a převedena například na typ \texttt{ShopError.CreationFailed} a vrácena do doménové vrstvy jako atribut neúspěšného \texttt{Domain\-Result}.
+V případě úspěchu je vrácen úspěšný \texttt{Domain\-Result} obsahující relevantní data (například ID nově vytvořeného obchodu).
 
 \subsection{Geografické dotazy a stránkování}
 % omezení Firestore (neumí radius query)
