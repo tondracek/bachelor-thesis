@@ -110,13 +110,6 @@ Tato hodnota je následně vrácena do doménové vrstvy jako atribut neúspěš
 V případě úspěchu je vrácen úspěšný \texttt{Domain\-Result} obsahující relevantní data (například ID nově vytvořeného obchodu).
 
 \subsection{Geografické dotazy a stránkování}
-% omezení Firestore (neumí radius query)
-% geohash princip a volba
-% ring partitioning (princip)
-%  - nepřesnost, ale deterministické rozdělení dat/stránkování
-% cursor-based paging
-% aproximace vzdálenosti
-
 Aplikace umožňuje zobrazovat obchody v okolí aktuální polohy uživatele.
 V aplikaci jsou dvě možná zobrazení – zobrazení na mapě a zobrazení jako seznam.
 Pokud by bylo v databázi velké množství obchodů, bylo by neefektivní načítat všechny obchody zároveň, a proto bylo nutné implementovat stránkování výsledků.
@@ -139,14 +132,14 @@ Důležité je to, že toto řešení, přestože není geometricky přesné, za
 Každý obchod tedy svojí polohou patří právě do jednoho prstence a díky tomu při načítání dat nevznikají žádné duplicity ani vynechané záznamy, což je zásadní pro správné fungování stránkování.
 
 Po načtení stránky obchodů z databáze do aplikace jsou jednotlivé obchody v rámci této stránky lokálně seřazeny podle skutečné geografické vzdálenosti od uživatele, což alespoň částečně zvyšuje přesnost seřazení obchodů podle vzdálenosti.
-Řazení obchodů napříč načtenými stránkami však není použito, protože by to vyžadovalo načítat všechny obchody najednou, což by bylo neefektivní.
+Řazení obchodů napříč jednotlivými stránkami však není použito, protože by to vyžadovalo načítat všechny obchody najednou, což by bylo neefektivní.
 
 Při načítání jednotlivých stránek obchodů se využívá kurzor (\textit{cursor-based paging}), který umožňuje načítat další stránku dat od místa, kde skončilo načítání předchozí stránky.
 Stránka je z praktických důvodů omezena jak prstencem, tak maximálním počtem záznamů, aby se nenačítalo nekontrolovatelné množství dat v případě, že v oblasti definované prstencem je velké množství obchodů.
 Kurzor tak obsahuje jak informaci o tom, ze kterého prstence máme načítat, tak informaci o posledním načteném geohashi.
 
 V případě, že načteme maximální počet obchodů z prstence \textit{A} (kvůli omezení maximálního počtu záznamů) a zjistíme, že v prstenci \textit{A} je ještě více obchodů k načtení, uložíme do kurzoru geohash posledního načteného obchodu a pokračujeme v načítání další stránky stále z prstence \textit{A}, ale vynecháním obchodů s hodnotou geohashe menší než je geohash uložený v kurzoru (již načtené obchody z aktuálního prstence).
-Teprve až načteme všechny obchody z prstence \textit{A}, nastavíme v kurzoru prstenec \textit{B} a hodnotu posledního geohashe na \texttt{null} a tím načítáme z následujícího prstence \textit{B}.
+Teprve až načteme všechny obchody z prstence \textit{A}, nastavíme v kurzoru prstenec \textit{B} a hodnotu posledního načteného geohashe na \texttt{null} a tím načítáme z následujícího prstence \textit{B}.
 
 \begin{figure}[h]
     \centering
@@ -212,7 +205,7 @@ Teprve až načteme všechny obchody z prstence \textit{A}, nastavíme v kurzoru
     ] {};
 
     \end{tikzpicture}
-    \caption{Princip stránkování obchodů podle vzdálenosti pomocí geohashových prstenců a kurzoru}
+    \caption{Princip stránkování obchodů podle vzdálenosti pomocí geohashových prstenců a kurzorového stránkování}
     \label{fig:geo-paging-diagram}
 \end{figure}
 
