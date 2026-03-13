@@ -110,9 +110,6 @@ Tato hodnota je následně vrácena do doménové vrstvy jako atribut neúspěš
 V případě úspěchu je vrácen úspěšný \texttt{Domain\-Result} obsahující relevantní data (například ID nově vytvořeného obchodu).
 
 \subsection{Geografické dotazy a stránkování}
-%TODO: mám se na diagram odkázat někde?
-%TODO: přidat zdroje k geohashům (+ možná ke cursor based paging?)
-%TODO: zvýraznit zásadní pojmy (tučně, kurzivou apod.)?
 Aplikace umožňuje zobrazovat obchody v okolí aktuální polohy uživatele.
 V aplikaci jsou dvě možná zobrazení – zobrazení na mapě a zobrazení jako seznam.
 Pokud by bylo v databázi velké množství obchodů, bylo by neefektivní načítat všechny obchody zároveň, a proto bylo nutné implementovat stránkování výsledků.
@@ -122,12 +119,33 @@ Je tedy potřeba implementovat stránkování, které bude načítat obchody pos
 Stránkování je přitom nutné realizovat na straně databáze, aby se minimalizovalo množství dat přenášených přes síť.
 Cloud Firestore však neposkytuje přímou podporu pro geografické dotazy v závislosti na vzdálenosti od určitého bodu.
 
-Pro realizaci geografického vyhledávání je proto použita technika založená na tzv. \textit{geohash}.
+Pro realizaci geografického vyhledávání je proto použita technika založená na tzv. \textit{geohash}\footfullcite{firebase_geohash}.
 Geohash představuje způsob kódování geografické polohy do řetězce znaků, který zachovává prostorovou blízkost bodů.
 Body nacházející se blízko sebe mají podobný geohashový prefix, což umožňuje provádět prostorové dotazy pomocí rozsahových dotazů nad tímto polem.
 
 Pro rozdělení obchodů do stránek jsou definovány tzv. \textit{prstence} (\textit{Distance\-Rings}), které obsahují maximální a minimální vzdálenost od uživatele.
-Na základě těchto hodnot se generuje množina rozsahů geohashových hodnot pro daný prstenec.
+Na základě těchto hodnot se generuje množina rozsahů geohashových hodnot pro daný prstenec (ukázka~\ref{fig:distance-rings}).
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}[t]{0.34\textwidth}
+        \vspace{0pt}
+        \centering
+        \includegraphics[width=\linewidth]{res/distance-rings}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.64\textwidth}
+        \vspace{0pt}
+        \begin{itemize}[topsep=0pt,itemsep=2pt]
+            \item \textbf{x} – aktuální poloha uživatele
+            \item \textbf{zelený (vnitřní) obdélník} – rozsah prvního prstence (do 3 km)
+            \item \textbf{červené (vnější) čtyři obdélníky} – rozsahy druhého prstence (3--8 km)
+        \end{itemize}
+    \end{minipage}
+
+    \caption{Ilustrační příklad rozsahů generovaných pro jednotlivé prstence}
+    \label{fig:distance-rings}
+\end{figure}
 
 Rozsah geohashových hodnot je definován počáteční a koncovou geohashovou hodnotou.
 Tento rozsah tedy popisuje obdélník v geografickém prostoru.
@@ -141,14 +159,16 @@ Důležité je ale především to, že toto řešení, přestože není geometr
 Každý obchod tedy svojí polohou patří právě do jednoho prstence a díky tomu při načítání dat nevznikají žádné duplicity ani vynechané záznamy, což je zásadní pro správné fungování stránkování.
 
 Po načtení stránky obchodů z databáze do aplikace jsou jednotlivé obchody v rámci této stránky lokálně seřazeny podle skutečné geografické vzdálenosti od uživatele, což alespoň částečně zvyšuje přesnost seřazení obchodů podle vzdálenosti.
-Řazení obchodů napříč jednotlivými stránkami však není použito, protože by to vyžadovalo načítat všechny obchody najednou, což by bylo neefektivní.
+Řazení obchodů napříč jednotlivými stránkami však není možné, protože by to vyžadovalo načítat všechny obchody najednou, což by bylo neefektivní.
 
 Při načítání jednotlivých stránek obchodů se využívá kurzor (\textit{cursor-based paging}), který umožňuje načítat další stránku dat od místa, kde skončilo načítání předchozí stránky.
-Stránka je z praktických důvodů omezena jak prstencem, tak maximálním počtem záznamů, aby se nenačítalo nekontrolovatelné množství dat v případě, že v oblasti definované prstencem je velké množství obchodů.
+Stránka je z praktických důvodů omezena jak prstencem, tak maximálním počtem záznamů, aby se nenačítalo nekontrolovatelné množství dat v případě, že v oblasti definované prstencem existuje velké množství obchodů.
 Kurzor tak obsahuje jak informaci o tom, ze kterého prstence máme načítat, tak informaci o posledním načteném geohashi.
 
 V případě, že načteme maximální počet obchodů z prstence \textit{A} (kvůli omezení maximálního počtu záznamů) a zjistíme, že v prstenci \textit{A} je ještě více obchodů k načtení, uložíme do kurzoru geohash posledního načteného obchodu a pokračujeme v načítání další stránky stále z prstence \textit{A}, ale vynecháním obchodů s hodnotou geohashe menší než je geohash uložený v kurzoru (již načtené obchody z aktuálního prstence).
 Teprve až načteme všechny obchody z prstence \textit{A}, nastavíme v kurzoru prstenec \textit{B} a hodnotu posledního načteného geohashe na \texttt{null} a tím načítáme z následujícího prstence \textit{B}.
+
+Celkový postup stránkování obchodů pomocí prstenců a kurzoru je znázorněn na obrázku~\ref{fig:geo-paging-diagram}.
 
 \begin{figure}[h]
     \centering
@@ -217,6 +237,8 @@ Teprve až načteme všechny obchody z prstence \textit{A}, nastavíme v kurzoru
     \caption{Princip stránkování obchodů podle vzdálenosti pomocí geohashových prstenců a kurzorového stránkování}
     \label{fig:geo-paging-diagram}
 \end{figure}
+
+\FloatBarrier
 
 \subsection{Kategorie obchodů v NoSQL databázi}
 % denormalizace
