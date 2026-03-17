@@ -270,6 +270,20 @@ Tyto prvky jsou klíčové zejména pro aplikace s větším počtem obrazovek a
 \subsection{Navigační graf aplikace}
 % type-safe navigace
 % vnořené grafy
+Navigace v aplikaci je implementována pomocí navigační knihovny Jetpack Compose Navigation.\footfullcite{compose_navigation}
+Pro zajištění bezpečnosti a přehlednosti je každá destinace v navigačním grafu reprezentována jako konkrétní datová třída, která implementuje společné rozhraní \texttt{Route} pro zajištění typové bezpečnosti.
+
+Navigační graf je strukturován hierarchicky, přičemž obsahuje čtyři hlavní vnořené grafy: \textit{auth}, \textit{profile}, \textit{home} a \textit{my\-shops}.
+
+Každý z těchto podgrafů obsahuje destinace, které jsou relevantní pro danou oblast aplikace.
+Podgraf \textit{auth} obsahuje destinace pro přihlašování a registraci a je přístupný pouze pro nepřihlášené uživatele.
+Podgraf \textit{profile} obsahuje destinace pro zobrazení a úpravu profilu a je přístupný pouze pro přihlášené uživatele.
+Podgraf \textit{home} obsahuje jedinou destinaci pro zobrazení mapy a seznamu obchodů a podgraf \textit{my\-shops} obsahuje destinaci pro zobrazení seznamu obchodů vytvořených přihlášeným uživatelem.
+Mezi těmito podgrafy je v uživatelském rozhraní možné přecházet pomocí spodní navigace, která byla již popsána v sekci~\ref{subsec:ui-layout}.
+Při přepínání mezi podgrafy je zachováván jejich navigační stav, což umožňuje uživateli plynule pokračovat v práci bez ztráty kontextu.
+
+Mimo to obsahuje navigační graf destinace, které nespadají pod žádné z těchto podgrafů, například destinaci pro zobrazení detailu obchodu.
+Tyto destinace jsou globální a mohou být navigovány z různých částí aplikace.
 
 \subsection{Správa stavu a vedlejší efekty}
 % immutable state
