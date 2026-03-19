@@ -285,8 +285,6 @@ Při přepínání mezi podgrafy je zachováván jejich navigační stav, což u
 Mimo to obsahuje navigační graf destinace, které nespadají pod žádné z těchto podgrafů, například destinaci pro zobrazení detailu obchodu.
 Tyto destinace jsou globální a mohou být navigovány z různých částí aplikace.
 
-%TODO: zdroj pro Reducer pattern
-
 \subsection{Správa stavu a vedlejší efekty}
 Ve frameworku Jetpack Compose je uživatelské rozhraní definováno jako funkce, která na základě vstupního stavu deklaruje výslednou podobu UI\@.\footfullcite{compose_mental_model}
 Tyto funkce jsou zpravidla navrženy jako čisté a neobsahují vedlejší efekty.
@@ -303,7 +301,7 @@ Hodnoty tohoto toku dat jsou pozorovány v UI, které se při každé změně st
 Interakce uživatele s uživatelským rozhraním (například kliknutí na tlačítka nebo zadávání textu) jsou reprezentovány jako události (\texttt{Event}).
 Ty jsou pomocí volání funkcí předávány z UI do ViewModelu, který je zpracovává a na základě nich aktualizuje stav zobrazení.
 Aktualizace stavu je provedena pomocí vytvoření nové instance stavu vycházející pouze z předchozího stavu a přijaté události.
-Tento přístup je inspirován vzorem \textit{Reducer pattern}.
+Tento přístup je inspirován vzorem \textit{Reducer pattern}.\footfullcite{redux_reducer_pattern}
 
 V reakci na zpracování události mohou také vznikat vedlejší efekty, které jsou od samotného stavu odděleny a reprezentovány samostatným tokem událostí.
 Tím je zajištěno, že stav zůstává čistou reprezentací UI\@.
