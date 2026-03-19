@@ -1,7 +1,6 @@
 \chapter{Vybrané ukázky implementace}
 
 \begin{lstlisting}[language=Kotlin, caption={Ukázka implementace ViewModelu pro vytvoření obchodu}, label={lst:create-shop-vm}]
-@HiltViewModel
 class CreateShopViewModel @Inject constructor(
     private val createShop: CreateShopUC,
 ) : BaseViewModel<CreateShopEffect>() {
