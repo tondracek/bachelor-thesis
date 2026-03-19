@@ -121,6 +121,7 @@
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit}
 
 \usepackage{enumitem}
+\usepackage{hyperref}
 
 \begin{document}
 
@@ -139,10 +140,8 @@
     \addcontentsline{toc}{chapter}{\indexname} %% table of contents.
     \printindex
 
-    \appendix %% Start the appendices.
+    \appendix
+    \include{appendix/create_shop_viewmodel}
 
-
-    \chapter{An appendix}
-    Here, you can insert the appendices of your thesis.
 
 \end{document}

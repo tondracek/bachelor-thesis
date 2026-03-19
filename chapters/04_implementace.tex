@@ -285,11 +285,31 @@ Při přepínání mezi podgrafy je zachováván jejich navigační stav, což u
 Mimo to obsahuje navigační graf destinace, které nespadají pod žádné z těchto podgrafů, například destinaci pro zobrazení detailu obchodu.
 Tyto destinace jsou globální a mohou být navigovány z různých částí aplikace.
 
+%TODO: zdroj pro Reducer pattern
+
 \subsection{Správa stavu a vedlejší efekty}
-% immutable state
-% "reducer pattern"
-% kombinace Flow
-% oddělení efektů
+Ve frameworku Jetpack Compose je uživatelské rozhraní definováno jako funkce, která na základě vstupního stavu deklaruje výslednou podobu UI\@.\footfullcite{compose_mental_model}
+Tyto funkce jsou zpravidla navrženy jako čisté a neobsahují vedlejší efekty.
+Vedlejší efekty, jako jsou navigace nebo zobrazení dialogů, jsou řešeny mimo samotnou definici UI, typicky ve ViewModelu.
+
+Stav uživatelského rozhraní je reprezentován jako neměnná datová třída, která obsahuje všechny informace potřebné pro vykreslení dané komponenty.
+Tento stav je předáván jako vstupní parametr do UI funkce a podoba UI komponenty je deklarativně odvozena z tohoto stavu.
+Aktualizace uživatelského rozhraní se provádí automaticky na základě změny tohoto stavu, což automaticky vyvolá rekompozici dané UI komponenty s novými daty.
+
+ViewModel spravuje stav zobrazení, zpracovává uživatelské události a komunikuje s doménovou vrstvou prostřednictvím use-case tříd.
+Stav zobrazení je ve ViewModelu vystaven pomocí reaktivního datového toku \texttt{State\-Flow}, který uchovává aktuální hodnotu stavu a umožňuje pozorování jeho změn.
+Hodnoty tohoto toku dat jsou pozorovány v UI, které se při každé změně stavu automaticky aktualizuje.
+
+Interakce uživatele s uživatelským rozhraním (například kliknutí na tlačítka nebo zadávání textu) jsou reprezentovány jako události (\texttt{Event}).
+Ty jsou pomocí volání funkcí předávány z UI do ViewModelu, který je zpracovává a na základě nich aktualizuje stav zobrazení.
+Aktualizace stavu je provedena pomocí vytvoření nové instance stavu vycházející pouze z předchozího stavu a přijaté události.
+Tento přístup je inspirován vzorem \textit{Reducer pattern}.
+
+V reakci na zpracování události mohou také vznikat vedlejší efekty, které jsou od samotného stavu odděleny a reprezentovány samostatným tokem událostí.
+Tím je zajištěno, že stav zůstává čistou reprezentací UI\@.
+Vedlejší efekty jsou zpracovávány jednorázově ve vrstvě propojující ViewModel a samotné UI komponenty, například pro navigaci nebo zobrazení zpráv uživateli.
+
+Ukázka~\ref{lst:create-shop-vm} demonstruje implementaci ViewModelu pro vytvoření obchodu a implementaci správy stavu, vedlejších efektů a zpracování událostí v tomto ViewModelu.
 
 
 \section{Bezpečnostní model a řízení přístupu}
