@@ -311,6 +311,15 @@ Ukázka~\ref{lst:create-shop-vm} demonstruje implementaci ViewModelu pro vytvoř
 
 
 \section{Bezpečnostní model a řízení přístupu}
+Bezpečnost aplikace je zajištěna kombinací autentizačních mechanismů a pravidel řízení přístupu definovaných na úrovni backendu.
+
+\subsection{Autentizace uživatelů}
+Autentizace uživatelů je realizována pomocí služby Firebase Authentication, která poskytuje různé metody přihlášení (například e-mail a Google účet).
+Po úspěšném přihlášení získává aplikace unikátní identifikátor uživatele (\texttt{uid}), který představuje identitu uživatele v rámci autentizační služby.
+Tento identifikátor je uložen v dokumentu uživatele v databázi jako samostatný atribut a slouží k propojení autentizační identity (\texttt{uid}) s doménovým identifikátorem uživatele, který je reprezentován nezávislým identifikátorem (\texttt{id}).
+
+Samotná autentizace řeší pouze ověření identity uživatele.
+Oprávnění k přístupu k datům jsou následně řízena pomocí bezpečnostních pravidel databáze popsaných v následující sekci.
 
 \subsection{Firebase Security Rules}
 % rules = kontrola autentizace a vlastnictví + strukturální validace (vstupy)
