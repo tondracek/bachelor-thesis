@@ -360,9 +360,13 @@ U každé kolekce se pro operace zápisu kontroluje autentizace uživatele a vla
 
 
 \section{Shrnutí implementační části}
-% Kolik modulů
-% Přibližná velikost codebase (moduly a soubory)
-% Vrstvení systému
-% Jak se návrh osvědčil při vývoji
+Výsledná implementace je rozdělena do osmi funkčních modulů (deseti včetně sdílených modulů \textit{core} a \textit{common}), které odpovídají jednotlivým částem domény a dodržují principy architektury navržené v předchozí kapitole.
 
-% 10-12 stran (TODO: smazat)
+Aplikace obsahuje přibližně 15\,000 řádků zdrojového kódu ve více než 300 souborech.
+Během implementace se ukázalo, že navržená architektura umožnila lepší organizaci kódu a efektivní implementaci jednotlivých funkcionalit i přes narůstající velikost projektu.
+
+Napříč datovou a doménovou vrstvou se při implementaci velmi osvědčila reprezentace výsledků operací a chyb pomocí typu \texttt{Domain\-Result}.
+To přispělo k vyšší robustnosti aplikace a výrazně omezilo výskyt neočekávaných chyb způsobených zapomenutím zpracování chybových stavů.
+
+Ve vrstvě uživatelského rozhraní se ukázalo, že oddělení stavu zobrazení a vedlejších efektů ve ViewModelu umožnilo čistší a přehlednější implementaci UI\@.
+Explicitní reprezentace událostí, například vstupů od uživatele, a inspirace vzorem \textit{Reducer pattern} v některých ViewModelech přispěly k lepší přehlednosti kódu a jasnějšímu oddělení jednotlivých odpovědností.
