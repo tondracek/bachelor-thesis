@@ -1,0 +1,190 @@
+\chapter{Vybrané ukázky implementace}
+
+
+\section{Implementace uživatelského rozhraní}
+
+\begin{lstlisting}[language=Kotlin, caption={Ukázka implementace ViewModelu pro vytvoření obchodu}, label={lst:create-shop-vm}]
+class CreateShopViewModel @Inject constructor(
+    private val createShop: CreateShopUC,
+) : BaseViewModel<CreateShopEffect>() {
+
+    private val _step = MutableStateFlow(ShopFlowStep.Initial)
+    private val _input = MutableStateFlow(ShopInput.Empty)
+    private val _isSubmitting = MutableStateFlow(false)
+
+    val state: StateFlow<ShopFlowState> =
+        combine(_step, _input, _isSubmitting) { step, input, isSubmitting ->
+            when {
+                isSubmitting -> ShopFlowState.Loading
+                else -> ShopFlowState.Editing(step = step, input = input)
+            }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = ShopFlowState.Loading,
+        )
+
+    private fun submitShop() = viewModelScope.launch {
+        _isSubmitting.update { true }
+        val shopInput: ShopInput = _input.value
+
+        when (val result = createShop(shopInput)) {
+            is DomainResult.Success -> {
+                emitEffect(CreateShopEffect.ShowCreatedSuccessfully)
+                emitEffect(CreateShopEffect.ExitShopCreation)
+            }
+
+            is DomainResult.Failure ->
+                emitEffect(CreateShopEffect.ShowError(result.error))
+        }
+        _isSubmitting.update { false }
+    }
+
+    private fun requestCreateFlowExit() = viewModelScope.launch {
+        emitEffect(CreateShopEffect.RequestExitShopCreationConfirmation)
+    }
+
+    fun onShopFormEvent(event: ShopFormEvent) =
+        _input.update { ShopFormEvent.applyEvent(it, event) }
+
+    fun onShopFlowEvent(event: ShopFlowEvent) = when (event) {
+        ShopFlowEvent.GoToNextStep -> _step.update { it.next() }
+        ShopFlowEvent.GoToPreviousStep -> _step.update { it.previous() }
+        ShopFlowEvent.Submit -> submitShop()
+        ShopFlowEvent.ExitShopFlow -> requestCreateFlowExit()
+    }
+}
+\end{lstlisting}
+
+
+\section{Implementace bezpečnostních pravidel}
+
+\begin{lstlisting}[caption={Ukázka pravidel pro Firestore}, label={lst:firestore-rules}]
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    //
+    // Helper function:
+    // Maps domain User ID (UUID) → Firebase Auth UID
+    //
+    function getUserAuthId(userId) {
+      let userDoc = get(/databases/$(database)/documents/user/$(userId));
+      return userDoc.data.firebaseId;
+    }
+
+    match /user/{userId} {
+
+      // Anyone can read user profiles
+      allow read: if true;
+
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.firebaseId
+        && isValidUser(request.resource.data);
+
+      // Only this user (via firebaseId) may modify their profile
+      allow update: if request.auth != null
+        && request.auth.uid == resource.data.firebaseId
+        && isValidUser(request.resource.data);
+
+      // No client-side delete
+      allow delete: if false;
+
+      function isValidUser(data) {
+        return data.id == userId
+          && data.firebaseId is string
+          && data.name is string
+          && (data.profilePicture == null || data.profilePicture is string)
+          && data.contactInfo is map;
+      }
+    }
+
+    match /shop/{shopId} {
+
+      // Public read access
+      allow read: if true;
+
+      // Anyone logged in can create a shop for themselves
+      allow create: if request.auth != null
+        && request.resource.data.ownerId is string
+        && request.auth.uid == getUserAuthId(request.resource.data.ownerId)
+        && isValidShop(request.resource.data);
+
+      // Only the owner may update their shop
+      allow update: if request.auth != null
+        && request.auth.uid == getUserAuthId(resource.data.ownerId)
+        && request.auth.uid == getUserAuthId(request.resource.data.ownerId)
+        && isValidShop(request.resource.data)
+        && request.resource.data.ownerId == resource.data.ownerId;
+
+
+      // Only the owner may delete their shop
+      allow delete: if request.auth != null
+        && request.auth.uid == getUserAuthId(resource.data.ownerId);
+
+      function isValidShop(data) {
+        return data.id is string
+          && data.ownerId is string
+          && data.name is string
+          && data.description is string
+          && data.categories is list
+          && data.images is list
+          && data.menu is map
+          && data.location is map
+          && data.openingHours is map;
+      }
+    }
+
+    match /shop/{shopId}/review/{userId} {
+      // public read
+      allow read: if true;
+
+      // vytvoření recenze
+      allow create: if request.auth != null
+        && request.auth.uid == getUserAuthId(userId)
+        && isValidReview(request.resource.data)
+        && !isOwnShop(shopId, request.auth.uid);
+
+      // update not implemented
+      allow update: if false;
+
+      // delete jen autor
+      allow delete: if request.auth != null
+        && request.auth.uid == getUserAuthId(userId);
+
+      function isValidReview(data) {
+        return data.userId == userId
+          && data.shopId == shopId
+          && data.id is string
+          && data.rating is int
+          && data.rating >= 0
+          && data.rating <= 5
+          && (data.comment == null || data.comment is string)
+          && (
+            !('createdAt' in data) ||
+            data.createdAt is timestamp
+          );
+      }
+
+      function isOwnShop(shopId, authUid) {
+        let shop = get(/databases/$(database)/documents/shop/$(shopId));
+        let ownerAuthUid = getUserAuthId(shop.data.ownerId);
+        return ownerAuthUid == authUid;
+      }
+    }
+
+    // deprecated
+    // collectionGroup("review")
+    match /{path=**}/review/{reviewId} {
+      allow read: if true;
+    }
+
+    match /category_popularity/{catId} {
+
+      allow read: if true;
+      // Only cloud functions handle write
+      allow write: if false;
+    }
+  }
+}
+\end{lstlisting}

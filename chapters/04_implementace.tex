@@ -313,20 +313,50 @@ Ukázka~\ref{lst:create-shop-vm} demonstruje implementaci ViewModelu pro vytvoř
 \section{Bezpečnostní model a řízení přístupu}
 Bezpečnost aplikace je zajištěna kombinací autentizačních mechanismů a pravidel řízení přístupu definovaných na úrovni backendu.
 
-\subsection{Autentizace uživatelů}
+\subsection{Autentizace uživatelů}\label{subsec:authentication}
 Autentizace uživatelů je realizována pomocí služby Firebase Authentication, která poskytuje různé metody přihlášení (například e-mail a Google účet).
 Po úspěšném přihlášení získává aplikace unikátní identifikátor uživatele (\texttt{uid}), který představuje identitu uživatele v rámci autentizační služby.
-Tento identifikátor je uložen v dokumentu uživatele v databázi jako samostatný atribut a slouží k propojení autentizační identity (\texttt{uid}) s doménovým identifikátorem uživatele, který je reprezentován nezávislým identifikátorem (\texttt{id}).
+Tento identifikátor je uložen v dokumentu uživatele v databázi jako samostatný atribut z důvodu propojení autentizační identity (\texttt{uid}) s doménovým identifikátorem uživatele.
+Doménový identifikátor uživatele je reprezentován nezávislým identifikátorem (\texttt{id}).
 
 Samotná autentizace řeší pouze ověření identity uživatele.
 Oprávnění k přístupu k datům jsou následně řízena pomocí bezpečnostních pravidel databáze popsaných v následující sekci.
 
 \subsection{Firebase Security Rules}
-% rules = kontrola autentizace a vlastnictví + strukturální validace (vstupy)
-% mapování identity kvůli oddělení user id a authId
-% shop: zákaz změny ownerId
-% review: zákaz self-review
-% category popularity: zákaz zápisu z klienta (jen cloud function)
+Řízení přístupu k datům je realizováno pomocí bezpečnostních pravidel databáze Cloud Firestore, která jsou vyhodnocována na straně serveru při každém požadavku.
+Tím je zajištěno, že omezení přístupu nelze obejít úpravou klientské aplikace nebo zachycením a úpravou síťové komunikace.
+
+Pro každou kolekci v databázi jsou nastavena zvlášť pravidla pro vytváření, čtení, aktualizaci a mazání dokumentů.
+Operace čtení je pro většinu kolekcí povolena bez omezení, protože se nejedná o citlivá data a v aplikaci si je mohou zobrazit i nepřihlášení uživatelé.
+
+Pro \textbf{operaci vytvoření} jsou pro většinu kolekcí nastavena pravidla, která kontrolují, zda je uživatel autentizován (příhlášen) a zda jsou data ve správném formátu.
+Navíc pro dokumenty, které obsahují odkaz na uživatele jako svého vlastníka, například formou atributu \texttt{owner\-Id}, je kontrolováno, zda tento atribut odpovídá identifikátoru přihlášeného uživatele.
+Tím je zajištěno, že uživatel nemůže vytvořit dokument, který by patřil jinému uživateli.
+Pro kolekci \texttt{review} je navíc přidáno pravidlo, které zakazuje uživatelům vytvářet recenze pro své vlastní obchody, aby se zabránilo zneužívání systému recenzí.
+
+V požadavku zaslaném klientskou aplikací se nachází pouze autentizační identifikátor uživatele (\texttt{uid}) (popsáno v předchozí sekci~\ref{subsec:authentication}), který je oddělen od doménového identifikátoru uživatele (\texttt{id}).
+Pro \textbf{porovnání vlastnictví dokumentu}, které je nejčastěji reprezentováno například atributem \texttt{owner\-Id}, je tedy potřeba provést mapování mezi těmito dvěma identifikátory.
+V rámci bezpečnostních pravidel je proto implementována funkce, která na základě doménového identifikátoru uživatele získá odpovídající autentizační identifikátor (\texttt{uid}) z kolekce uživatelů v databázi a porovná jej s identifikátorem přihlášeného uživatele v požadavku.
+Tímto způsobem se ověří, zda je vlastníkem dokumentu skutečně přihlášený uživatel, aniž by bylo nutné ukládat v dokumentu autentizační identifikátor, který je závislý na implementaci autentizační služby.
+Díky tomu je možné v případě potřeby změnit autentizační službu bez nutnosti upravovat strukturu dat v databázi.
+
+\textbf{Operace aktualizace} dokumentů je pro většinu kolekcí povolena pouze pro vlastníka dokumentu, přičemž je kontrolováno, že vlastník dokumentu zůstává nezměněn.
+Stejně jako u pravidel pro vytváření dokumentů je kontrolováno, že aktualizovaná data jsou ve správném formátu a uživatel je autentizován.
+Pro kolekci \texttt{review} není operace aktualizace implementována, protože úprava recenze není v aplikaci povolena.
+
+\textbf{Operace mazání} dokumentů je opět pro většinu kolekcí povolena pouze pro vlastníka dokumentu, přičemž je kontrolováno, zda je uživatel autentizován.
+
+Speciálním případem jsou pravidla pro kolekci \texttt{category\-popu\-la\-ri\-ty}, kde jsou všechny operace kromě čtení zakázána, protože tyto dokumenty jsou vytvářeny na straně serveru pomocí Firebase Cloud Functions, nikoliv požadavky z klientské aplikace.
+
+Kolekce recenzí je v databázi strukturována jako podkolekce uvnitř každého dokumentu obchodu.
+Jednotlivé dokumenty recenzí jsou následně v této podkolekci identifikovány pomocí ID uživatele, který recenzi vytvořil.
+Tímto je zajištěno pravidlo, že každý uživatel může vytvořit pouze jednu recenzi pro každý obchod.
+Při pokusu o vytvoření další recenze pro stejný obchod bude požadavek zamítnut, protože dokument s daným ID již existuje.
+
+Bezpečnostní pravidla databáze jsou demonstrována v ukázce~\ref{lst:firestore-rules}.
+
+Pro ukládání souborů, jako jsou fotografie, je využívána služba Firebase Storage, která má vlastní bezpečnostní pravidla fungující na stejném principu jako pravidla pro databázi.
+U každé kolekce se pro operace zápisu kontroluje autentizace uživatele a vlastnictví entity, ke které se soubor vztahuje (například obchod, ke kterému fotografie patří).
 
 
 \section{Shrnutí implementační části}
