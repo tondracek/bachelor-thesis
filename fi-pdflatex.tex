@@ -76,7 +76,7 @@
     facultyLogo = fithesis-fi,
 }
 \usepackage{makeidx}      %% The `makeidx` package contains
-\makeindex                %% helper commands for index typesetting.
+%\makeindex                %% helper commands for index typesetting. TODO: uncomment
 %% These additional packages are used within the document:
 \usepackage{paralist} %% Compact list environments
 \usepackage{amsmath}  %% Mathematics
@@ -123,6 +123,10 @@
 \usepackage{enumitem}
 \usepackage{hyperref}
 
+\usepackage{xcolor}
+
+\input{res/lang/kotlin}
+
 \begin{document}
 
     \include{chapters/00_uvod}
@@ -136,9 +140,9 @@
 
     \printbibliography[heading=bibintoc] %% Print the bibliography.
     \makeatletter\thesis@blocks@clear\makeatother
-    \phantomsection %% Print the index and insert it into the
-    \addcontentsline{toc}{chapter}{\indexname} %% table of contents.
-    \printindex
+%    \phantomsection %% Print the index and insert it into the
+%    \addcontentsline{toc}{chapter}{\indexname} %% table of contents.
+%    \printindex TODO: uncomment
 
     \appendix
     \include{appendix/implementation_examples}

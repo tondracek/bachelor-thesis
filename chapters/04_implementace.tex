@@ -185,22 +185,23 @@ Celkový postup stránkování obchodů pomocí prstenců a kurzoru je znázorn�
 
     \node (ring) [process, below of=start] {Určení aktuálního prstence\\podle cursor.ringIndex};
 
-    \node (ranges) [process, below of=ring, yshift=0.25cm] {Vygenerování geohashových rozsahů};
+    \node (ranges) [process, below=of ring, yshift=1.1cm] {Vygenerování geohashových rozsahů};
 
-    \node (load) [process, below of=ranges, yshift=0.25cm] {Načtení obchodů z~databáze\\podle geohashových rozsahů a cursor.lastGeohash};
+    \node (load) [process, below=of ranges, yshift=1.1cm] {Načtení obchodů z~databáze\\podle geohashových rozsahů a cursor.lastGeohash};
 
-    \node (decision) [decision, below of=load, yshift=-1cm] {Jsou v~tomto prstenci\\další výsledky?};
+    \node (decision) [decision, below=of load, yshift=1.1cm] {Jsou v~tomto prstenci\\další výsledky?};
 
-    \node (yescursor) [process, below left of=decision, xshift=-1cm, yshift=-1cm] {cursor =\\(ringIndex, lastGeohash)};
+    \node (yescursor) [process, align=center, below left= 0.75cm and -1.2cm of decision] {cursor =\\(ringIndex, lastGeohash)};
 
-    \node (nocursor) [process, below right of=decision, xshift=1cm, yshift=-1cm] {cursor =\\(ringIndex + 1, null)};
+    \node (nocursor) [process, align=center, below right= 0.75cm and -1.2cm of decision] {cursor =\\(ringIndex + 1, null)};
 
-    \node (sort) [process, below of=decision, yshift=-2cm] {Seřazení stránky podle vzdálenosti};
+    \node (sort) [process, below=of decision] {Seřazení stránky podle vzdálenosti};
 
-    \node (return) [process, below of=sort, yshift=0.5cm] {Vrácení stránky a nového kurzoru};
+    \node (return) [process, below=of sort, yshift=1.1cm] {Vrácení stránky a nového kurzoru};
 
-    \node (next) [decision, below of=return, yshift=-0.5cm] {Je požadována\\další stránka?};
-    \node (end) [startstop, below right of=next, xshift=1cm, yshift=-0.5cm] {Konec};
+    \node (next) [decision, below=of return, yshift=1.1cm] {Je požadována\\další stránka?};
+
+    \node (end) [startstop, below right=of next, yshift=0.5cm] {Konec};
 
     % arrows
     \draw [arrow] (start) -- (ring);
@@ -219,8 +220,8 @@ Celkový postup stránkování obchodů pomocí prstenců a kurzoru je znázorn�
 
     \draw [arrow] (next) -- node[anchor=west] {Ne} (end);
     \draw [arrow] (next.west)
-    -- ++(-2.7, 0)
-    -- ++(0, 13.3)
+    -- ++(-3.2, 0)
+    -- ++(0, 13.38)
     -- (ring.west)
     node[pos=0.25, anchor=south] {Ano};
 
