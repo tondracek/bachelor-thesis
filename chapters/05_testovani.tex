@@ -1,7 +1,7 @@
 \chapter{Testování aplikace}
 Testování aplikace bylo zaměřeno na ověření správnosti implementace, stability aplikace a odhalení chyb vznikajících při běžném i méně obvyklém použití.
 
-V průběhu vývoje byly využity různé přístupy k testování, od automatizovaných jednotkových testů přes manuální testování až po možnost sledování chyb v reálném provozu pomocí nástrojů třetích stran.
+V průběhu vývoje byly využity různé přístupy k testování, od automatizovaných jednotkových testů přes manuální testování až po sledování chyb v reálném provozu pomocí nástrojů třetích stran.
 
 
 \section{Jednotkové testy}
@@ -17,13 +17,9 @@ Testy pomohly odhalit například chyby v mapování doménových chyb, kdy use-
 
 
 \section{Firebase crashlytics}
+Pro sledování chyb v reálném provozu aplikace je využívána služba Firebase Crashlytics, která umožňuje automatické zaznamenávání pádů aplikace.
 
-
-\section{Unit testy}
-
-\subsection{Core feature}
-
-\subsection{Shop feature}
+Crashlytics poskytuje detailní informace o vzniklých chybách, jako jsou informace o zařízení, verze aplikace nebo konkrétní zdroj chyby ve zdrojovém kódu, což umožňuje rychle identifikovat příčinu problému a následně jej opravit.
 
 
 \section{Manuální testování}
