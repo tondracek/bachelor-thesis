@@ -1,4 +1,19 @@
 \chapter{Testování aplikace}
+Testování aplikace bylo zaměřeno na ověření správnosti implementace, stability aplikace a odhalení chyb vznikajících při běžném i méně obvyklém použití.
+
+V průběhu vývoje byly využity různé přístupy k testování, od automatizovaných jednotkových testů přes manuální testování až po možnost sledování chyb v reálném provozu pomocí nástrojů třetích stran.
+
+
+\section{Jednotkové testy}
+Pro ověření správnosti aplikační logiky byly využity jednotkové testy, zaměřené především na doménovou vrstvu, zejména use-case třídy.
+
+Testy byly navrženy tak, aby ověřovaly chování jednotlivých use-case tříd nezávisle na konkrétní implementaci datových zdrojů.
+Díky oddělení doménové a datové vrstvy bylo možné testovat use-case třídy pomocí mockovaných repozitářů, což umožnilo simulovat různé scénáře, včetně chybových stavů.
+
+Největší část testů je zaměřena na funkční celky \texttt{core} a \texttt{shop},
+které obsahují klíčové funkce aplikace.
+
+Testy pomohly odhalit například chyby v mapování doménových chyb, kdy use-case třídy po některých úpravách vracely nepřesné nebo příliš obecné chyby (například obecnou chybu pro práci s obchody namísto chyby chybějící autentizace uživatele).
 
 
 \section{Firebase crashlytics}
