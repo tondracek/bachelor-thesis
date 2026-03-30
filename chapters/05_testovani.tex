@@ -25,11 +25,24 @@ Tento nástroj je určen především pro použití v produkčním prostředí, 
 
 
 \section{Manuální testování}
-% testovací scénáře -> nalezené chyby v konkrétním scénáři, které jsem opravil
-% například:
-%  - navigace - navigace zpět po přihlášení vedla na přihlašovací obrazovku - správný navigační graf
-%  - reset mapy při přechodu na recenze obchodu
-%  - přídání confirm dialogů
+Manuální testování bylo zaměřeno na ověření funkčnosti aplikace z pohledu běžného uživatele a na odhalení chyb, které se nemusí projevit při jednotkovém testování.
+
+Testování probíhalo formou procházení jednotlivých scénářů použití aplikace, například registrace a přihlášení uživatele, vytváření a úprava obchodů, prohlížení obchodů na mapě a práce s recenzemi.
+
+Během tohoto testování bylo odhaleno několik chyb a nedostatků v chování aplikace.
+Například při přechodu zpět po úspěšném přihlášení docházelo k návratu na přihlašovací obrazovku, přestože je již uživatel přihlášen.
+Tento problém byl způsoben nevhodnou strukturou navigačního grafu a byl opraven rozdělením části navigace do dvou podgrafů: autentizačního a profilového (tato finální podoba je popsána v kapitole implementace).
+Jakmile je tedy uživatel po přihlášení přesměrován do profilového podgrafu, nemůže se již systémovou navigací zpět vrátit do autentizačního grafu.
+
+Dalším nalezeným problémem bylo neočekávané resetování mapy do výchozího stavu.
+K tomu docházelo po přechodu do recenzí obchodu ze spodního dialogu v mapovém zobrazení obchodů a následném návratu zpět.
+Tento problém byl vyřešen uložením aktuálně vybraného obchodu a jeho automatickým znovuzvolením při návratu zpět z obrazovky recenzí daného obchodu.
+
+Na základě manuálního testování byly také přidány potvrzovací dialogy pro destruktivní operace, jako je například smazání nebo úprava obchodu.
+Tyto akce bylo možné původně provést jedním kliknutím na tlačítko, což zvyšovalo pravděpodobnost nechtěné akce.
+Po úpravě se před provedením takové akce zobrazí potvrzovací dialog, který umožňuje potvrdit nebo zrušit danou akci.
+
+Manuální testování tak přispělo nejen k odhalení chyb, ale i ke zlepšení použitelnosti aplikace z pohledu koncového uživatele.
 
 
 \section{Testování na uživatelích}
