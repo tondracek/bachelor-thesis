@@ -12,17 +12,20 @@ class CreateShopViewModel @Inject constructor(
     private val _input = MutableStateFlow(ShopInput.Empty)
     private val _isSubmitting = MutableStateFlow(false)
 
-    val state: StateFlow<ShopFlowState> =
-        combine(_step, _input, _isSubmitting) { step, input, isSubmitting ->
-            when {
-                isSubmitting -> ShopFlowState.Loading
-                else -> ShopFlowState.Editing(step = step, input = input)
-            }
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = ShopFlowState.Loading,
-        )
+    val state: StateFlow<ShopFlowState> = combine(
+        _step,
+        _input,
+        _isSubmitting
+    ) { step, input, isSubmitting ->
+        when {
+            isSubmitting -> ShopFlowState.Loading
+            else -> ShopFlowState.Editing(step, input)
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = ShopFlowState.Loading,
+    )
 
     private fun submitShop() = viewModelScope.launch {
         _isSubmitting.update { true }
@@ -59,7 +62,7 @@ class CreateShopViewModel @Inject constructor(
 
 \section{Implementace bezpečnostních pravidel}
 
-\begin{lstlisting}[caption={Ukázka pravidel pro Firestore}, label={lst:firestore-rules}]
+\begin{lstlisting}[language=FirestoreRules, caption={Ukázka pravidel pro Firestore}, label={lst:firestore-rules}]
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {

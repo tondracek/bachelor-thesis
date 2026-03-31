@@ -1,0 +1,19 @@
+\lstdefinelanguage{FirestoreRules}{
+    morekeywords={
+        rules\_version, service, match, allow, if, function, return,
+        let, true, false, null, in
+    },
+    keywordstyle=\bfseries,
+    sensitive=true,
+    comment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    commentstyle=\itshape\color{gray},
+    stringstyle=,
+    morestring=[b]',
+    emph={
+        request, resource, data, auth, uid,
+        get, exists,
+        string, int, list, map, timestamp
+    },
+    emphstyle=\bfseries
+}
