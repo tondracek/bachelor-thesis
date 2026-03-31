@@ -18,6 +18,7 @@ Generický parametr \texttt{T} představuje typ úspěšného výsledku.
 Implementace \texttt{Success<T>} obsahuje jediný atribut \texttt{data} typu \texttt{T}, který reprezentuje úspěšný výsledek operace.
 Naopak \texttt{Failure} obsahuje atribut \texttt{error} typu \texttt{Domain\-Error}, který reprezentuje konkrétní doménově specifickou chybu, a volitelný atribut \texttt{cause} typu \texttt{Throwable}, který může nést původní výjimku z~nižších vrstev (například pro logování chyb).
 
+\needspace{8\baselineskip}
 \begin{lstlisting}[language=Kotlin, caption={Implementace typu DomainResult}, label={lst:domain-result-code}]
 sealed interface DomainResult<out T> {
 
@@ -34,6 +35,7 @@ Pro práci s~výsledky operací jsou nad typem \texttt{Domain\-Result} definová
 Například funkce \texttt{mapSuccess} umožňuje transformovat úspěšný výsledek z~typu \texttt{T} na jiný typ \texttt{R}, ale v~případě neúspěchu zachovává původní chybu.
 Nebo metoda \texttt{withSuccess}, která umožňuje provést zadanou akci pouze v~případě úspěchu, zatímco \texttt{withFailure} umožňuje reagovat pouze na neúspěch.
 
+\needspace{7\baselineskip}
 \begin{lstlisting}[language=Kotlin, caption={Pomocné metody a funkce pro práci s~DomainResult}, label={lst:domain-result-helpers}]
 inline fun <T, R> DomainResult<T>.mapSuccess(transform: (T) -> R): DomainResult<R> = when (this) {
     is Success -> Success(transform(data))
