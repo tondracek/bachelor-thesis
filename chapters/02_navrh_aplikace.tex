@@ -165,17 +165,17 @@ Návrh uživatelského rozhraní vychází z~funkčních požadavků a diagramu 
 Cílem je vytvořit přehledné a konzistentní prostředí umožňující efektivní práci s~aplikací.
 
 \subsection{Barevné schéma}
-Při návrhu byly využity principy Material Designu \parencite{material_design}, které zajišťují jednotný a moderní vzhled aplikace.
+Při návrhu byly využity principy Material Designu~\parencite{material_design}, které zajišťují jednotný a moderní vzhled aplikace.
 Material Design je designový systém vyvinutý společností Google, který poskytuje sadu doporučených postupů a komponent pro tvorbu uživatelských rozhraní.
 
-Barevná paleta byla vygenerována pomocí nástroje Material Theme Builder, který generuje barevné schéma v~souladu s~principy Material Designu \parencite{material_theme_builder}.
+Barevná paleta byla vygenerována pomocí nástroje Material Theme Builder, který generuje barevné schéma v~souladu s~principy Material Designu~\parencite{material_theme_builder}.
 Po zadání primární barvy do nástroje nám vytvoří kompletní sadu barev pro světlé i tmavé téma aplikace, které působí konzistentně a zajišťují dostatečný kontrast pro čitelnost textu a vizuální přitažlivost aplikace.
 Pro primární barvu byla zvolena tmavě zelená (\#3C6838), která evokuje přírodní potraviny a zemědělství.
 
 Významnou barvou v~Material Design paletě je barva \textit{surface}, která je používána jako pozadí pro většinu obrazovek aplikace (na~obrázku~\ref{fig:color-palette} je použita jako pozadí boxu \enquote{Světlý motiv}, respektive \enquote{Tmavý motiv}).
 Těmi nejdůležitějšími barvami jsou ale barvy primární, sekundární, terciární a jejich kontejnerové varianty (zobrazeny na~obrázku~\ref{fig:color-palette}).
 Primární, sekundární a terciární barvy jsou používány pro zvýraznění důležitých prvků uživatelského rozhraní, jako jsou tlačítka, ikony a další interakční prvky.
-Kontejnerové varianty těchto barev jsou používány pro větší plochy, které jsou třeba zvýraznit, jako jsou karty nebo větší tlačítka \parencite{material3_color_roles}.
+Kontejnerové varianty těchto barev jsou používány pro větší plochy, které jsou třeba zvýraznit, jako jsou karty nebo větší tlačítka~\parencite{material3_color_roles}.
 
 \begin{figure}[htbp]
     \centering
@@ -360,18 +360,18 @@ Mobilní zařízení tak přirozeně podporuje jak různá použití aplikace, t
 Desktopová aplikace tedy přirozeně neodpovídá charakteru navrhované aplikace.
 Pro mobilní zařízení se výběr platformy zužuje na nativní nebo multiplatformní mobilní aplikaci a webovou aplikaci optimalizovanou pro mobilní zařízení.
 
-Webová aplikace by sice zajistila širší dostupnost napříč zařízeními, avšak v~prostředí mobilních zařízení by ve srovnání s~nativní mobilní aplikací poskytovala méně vhodný uživatelský zážitek, jak z~hlediska výkonu a odezvy, tak i z~hlediska přístupu k~nativním funkcím zařízení \parencite{native_vs_web_app}.
+Webová aplikace by sice zajistila širší dostupnost napříč zařízeními, avšak v~prostředí mobilních zařízení by ve srovnání s~nativní mobilní aplikací poskytovala méně vhodný uživatelský zážitek, jak z~hlediska výkonu a odezvy, tak i z~hlediska přístupu k~nativním funkcím zařízení~\parencite{native_vs_web_app}.
 
 Další možností by bylo využití multiplatformních frameworků, jako jsou Flutter nebo React Native.
-Tato řešení však přidávají další vrstvu abstrakce a mohou zvyšovat složitost integrace s~nativními funkcemi zařízení, jako jsou práce s~mapami, polohou uživatele nebo fotoaparátem \parencite{native_vs_cross_platform}.
+Tato řešení však přidávají další vrstvu abstrakce a mohou zvyšovat složitost integrace s~nativními funkcemi zařízení, jako jsou práce s~mapami, polohou uživatele nebo fotoaparátem~\parencite{native_vs_cross_platform}.
 
 S~ohledem na zaměření práce výhradně na platformu Android, rozsah bakalářské práce i vyjmenované výhody bylo zvoleno nativní řešení pro Android.
-V~České republice je navíc právě Android nejrozšířenějším operačním systémem pro mobilní zařízení, a proto je tato platforma vhodnou volbou pro tuto aplikaci \parencite{android_market_share_cz}.
+V~České republice je navíc právě Android nejrozšířenějším operačním systémem pro mobilní zařízení, a proto je tato platforma vhodnou volbou pro tuto aplikaci~\parencite{android_market_share_cz}.
 
 \subsection{Programovací jazyk a UI framework}
 
 Pro vývoj mobilní aplikace pro platformu Android bylo nutné zvolit vhodný programovací jazyk a framework pro tvorbu uživatelského rozhraní.
-V~současnosti patří mezi nejčastěji používané kombinace pro vývoj nativních Android aplikací Java s~XML, Kotlin s~XML a Kotlin s~frameworkem Jetpack Compose \parencite{compose_vs_xml, kotlin_vs_java_android}.
+V~současnosti patří mezi nejčastěji používané kombinace pro vývoj nativních Android aplikací Java s~XML, Kotlin s~XML a Kotlin s~frameworkem Jetpack Compose~\parencite{compose_vs_xml, kotlin_vs_java_android}.
 
 Jako programovací jazyk byl zvolen Kotlin, který je moderním a oficiálně doporučovaným jazykem pro vývoj Android aplikací.
 Ve srovnání s~jazykem Java nabízí Kotlin kratší a čitelnější syntaxi, lepší podporu moderních programovacích paradigmat a vyšší bezpečnost typů díky práci s~nulovatelností (null-safety).
@@ -384,14 +384,14 @@ Zvolená kombinace jazyka Kotlin a frameworku Jetpack Compose představuje moder
 
 \subsection{Designový systém}
 Designový systém aplikace ovlivňuje vzhled, dojem z~aplikace a snadnost jejího používání.
-Pro mobilní aplikaci pro platformu Android se v~praxi využívají většinou dvě hlavní možnosti: Material Design 3 nebo vlastní designový systém \parencite{android_design_system_options}.
+Pro mobilní aplikaci pro platformu Android se v~praxi využívají většinou dvě hlavní možnosti: Material Design 3 nebo vlastní designový systém~\parencite{android_design_system_options}.
 
 Vlastní designový systém by zahrnoval vytvoření veškerých vlastních komponent, barevného schématu a vzorů pro uživatelské rozhraní.
 Tento přístup je velmi časově náročný a vyžaduje značné úsilí při návrhu i při implementaci.
-Použití vlastního designového systému je vhodné řešení především pro velké společnosti, které chtějí, aby jejich aplikace vzhledově a stylově odpovídala značce produktu či společnosti \parencite{custom_design_system_benefits}.
+Použití vlastního designového systému je vhodné řešení především pro velké společnosti, které chtějí, aby jejich aplikace vzhledově a stylově odpovídala značce produktu či společnosti~\parencite{custom_design_system_benefits}.
 
 Další možností pro Android aplikace je využití Material Designu, což je designový systém vyvinutý společností Google.
-Pro vývoj nových aplikací je doporučováno využití nejnovější verze Material Design 3, která přináší moderní vzhled, lepší podporu pro tmavý režim a vestavěné komponenty a vzory pro lepší uživatelský zážitek \parencite{material_design_3_recommendation}.
+Pro vývoj nových aplikací je doporučováno využití nejnovější verze Material Design 3, která přináší moderní vzhled, lepší podporu pro tmavý režim a vestavěné komponenty a vzory pro lepší uživatelský zážitek~\parencite{material_design_3_recommendation}.
 
 Z~těchto důvodů byl zvolen Material Design 3, který poskytuje moderní a konzistentní vzhled aplikace a zároveň usnadňuje vývoj uživatelského rozhraní díky předpřipraveným komponentám a vzorům.
 
@@ -399,11 +399,11 @@ Z~těchto důvodů byl zvolen Material Design 3, který poskytuje moderní a kon
 Součástí návrhu aplikace bylo rozhodnutí o~vhodném backendovém řešení, které by odpovídalo rozsahu bakalářské práce, požadavkům aplikace a možnostem jednotlivce jako vývojáře.
 Pro realizaci backendové části aplikace bylo zvoleno řešení Firebase.
 
-Zvolené řešení Firebase představuje plnohodnotné backendové řešení typu \textbf{Backend-as-a-Service} (BaaS) \parencite{baas_definition}.
+Zvolené řešení Firebase představuje plnohodnotné backendové řešení typu \textbf{Backend-as-a-Service} (BaaS)~\parencite{baas_definition}.
 BaaS je model cloudové služby, který poskytuje vývojářům předpřipravené backendové služby.
 Mezi klíčové služby pro navrhovanou aplikaci poskytované platformou Firebase patří Firestore databáze pro ukládání dat a řízení přístupu k~datům pomocí bezpečnostních pravidel (security rules), Firebase Autentizace pro správu uživatelských účtů, Firebase Storage pro ukládání souborů, jako jsou fotografie obchodů a profilové obrázky uživatelů a Firebase Crashlytics pro sledování chyb a výkonu aplikace.
 
-Firebase zároveň využívá principy \textbf{serverless architektury} \parencite{firebase_serverless}.
+Firebase zároveň využívá principy \textbf{serverless architektury}~\parencite{firebase_serverless}.
 Serverless architektura znamená, že vývojář nepracuje přímo s~fyzickými nebo virtuálními servery, ale využívá cloudové služby, které automaticky spravují infrastrukturu a škálovatelnost.
 Poskytované služby se tak automaticky přizpůsobují aktuálnímu zatížení aplikace.
 Díky tomuto modelu nemusí vývojář řešit provozní aspekty backendu, jako je nasazení, škálovatelnost a údržba serveru.
@@ -415,9 +415,9 @@ Kromě více implementační práce by bylo nutné řešit i provozní aspekty, 
 
 Zvolená architektura Firebase jako BaaS umožňuje soustředit se na vývoj aplikace, aniž by bylo nutné řešit především provozní aspekty.
 Náklady na provoz se totiž odvíjejí od počtu uživatelů a využití služeb, což je výhodné pro aplikace s~menším počtem uživatelů.
-Zároveň je to řešení, které je vhodné pro malé vývojové týmy, protože umožňuje rychlejší implementaci díky předpřipraveným službám \parencite{firebase_benefits}.
+Zároveň je to řešení, které je vhodné pro malé vývojové týmy, protože umožňuje rychlejší implementaci díky předpřipraveným službám~\parencite{firebase_benefits}.
 S~ohledem na realizaci aplikace jednotlivcem a rozsah bakalářské práce se jedná o~vhodné řešení.
-Další výhodou použití Firebase je jeho snadná integrace s~platformou Android a jazykem Kotlin, protože Firebase poskytuje oficiální SDK a knihovny pro tyto technologie \parencite{firebase_android_kotlin_support}.
+Další výhodou použití Firebase je jeho snadná integrace s~platformou Android a jazykem Kotlin, protože Firebase poskytuje oficiální SDK a knihovny pro tyto technologie~\parencite{firebase_android_kotlin_support}.
 
 Nevýhodou řešení typu BaaS může být závislost na konkrétním poskytovateli služby (vendor lock-in) a omezené možnosti implementace komplexní serverové logiky.
 
@@ -430,9 +430,9 @@ V~navrhované aplikaci však taková logika není zásadní součástí systému
 Zvolené řešení Firebase tak odpovídá současnému rozsahu a cílům bakalářské práce, přičemž nevylučuje další rozvoj aplikace v~případě zvýšených nároků na backendovou logiku nebo škálovatelnost.
 
 Firebase poskytuje jako databázové řešení dokumentově orientovanou NoSQL databázi \textbf{Cloud Firestore}.
-Tento typ databáze ukládá data ve formě dokumentů seskupených do kolekcí \parencite{firestore_overview}.
+Tento typ databáze ukládá data ve formě dokumentů seskupených do kolekcí~\parencite{firestore_overview}.
 
-Dokument je datový záznam, který obsahuje páry klíč-hodnota \parencite{firestore_data_model}.
+Dokument je datový záznam, který obsahuje páry klíč-hodnota~\parencite{firestore_data_model}.
 Hodnoty mohou být jednoduché i složené datové typy (například pole nebo vnořené objekty).
 Kolekce jsou skupiny dokumentů, které sdílejí společný kontext (například kolekce uživatelů, kolekce obchodů, kolekce recenzí).
 
@@ -453,14 +453,14 @@ Klíčovým prvkem navrhované aplikace je mapové zobrazení okolních obchodů
 Pro implementaci mapových funkcí bylo nutné zvolit vhodnou mapovou službu, která by splňovala požadavky aplikace z~hlediska funkcionality, výkonu, uživatelského zážitku a nákladů na provoz.
 Rozhodování probíhalo mezi třemi hlavními možnostmi: Google Maps, Mapbox a OpenStreetMap.
 
-Google Maps nabízí velmi rozsáhlou dokumentaci a snadnou integraci s~platformou Android a frameworkem Jetpack Compose \parencite{google_maps_integration}.
+Google Maps nabízí velmi rozsáhlou dokumentaci a snadnou integraci s~platformou Android a frameworkem Jetpack Compose~\parencite{google_maps_integration}.
 Omezením je však menší míra přizpůsobení mapového vzhledu a absence vestavěných nástrojů pro efektivní práci s~větším množstvím zobrazovaných prvků zároveň bez využití externích nástrojů.
 
 Mapbox představuje populární alternativu ke službě Google Maps.
-Poskytuje rovněž kvalitní dokumentaci a snadnou integraci s~platformou Android a navíc nabízí vyšší míru přizpůsobitelnosti mapových stylů a lepší výkon při zobrazení většího množství značek na mapě \parencite{mapbox_benefits}.
+Poskytuje rovněž kvalitní dokumentaci a snadnou integraci s~platformou Android a navíc nabízí vyšší míru přizpůsobitelnosti mapových stylů a lepší výkon při zobrazení většího množství značek na mapě~\parencite{mapbox_benefits}.
 
 OpenStreetMap je open source projekt, který poskytuje volně dostupná mapová data.
-Jeho hlavní výhodou je otevřenost a absence licenčních poplatků, avšak ve srovnání s~komerčními řešeními neposkytuje ucelené SDK pro platformu Android a jeho integrace je zpravidla složitější \parencite{openstreetmap_about}.
+Jeho hlavní výhodou je otevřenost a absence licenčních poplatků, avšak ve srovnání s~komerčními řešeními neposkytuje ucelené SDK pro platformu Android a jeho integrace je zpravidla složitější~\parencite{openstreetmap_about}.
 
 V~průběhu vývoje aplikace byla jako hlavní mapová služba zvolena platforma Mapbox, a to především z~důvodu vyšší přizpůsobitelnosti mapového vzhledu a lepšího výkonu při práci s~větším množstvím zobrazovaných obchodů.
 Služba Google Maps je v~aplikaci využita pouze okrajově pro vybrané funkce, kde byla její integrace jednodušší a dostatečná.
