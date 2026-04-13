@@ -1,9 +1,13 @@
 \chapter{Vydání a nasazení aplikace}
+Před vydáním aplikace bylo nutné provést její přípravu pro produkční prostředí.
+Ta zahrnovala zejména nahrazení testovacích API klíčů produkčními a vytvoření produkčního sestavení aplikace, které zahrnuje optimalizovaný kód a omezení ladicích nástrojů.
+Součástí procesu sestavení je také podepsání aplikace pomocí privátního release klíče, což je nezbytné pro její distribuci.
 
-% Příprava aplikace k vydání
-% Podepisování a build konfigurace
-% Publikace na Google Play
-% Monitoring a údržba a aktualizace po vydání
-% Shrnutí
+Aplikace byla publikována prostřednictvím platformy Google Play, která umožňuje její distribuci koncovým uživatelům.
+Publikace zahrnovala vytvoření záznamu aplikace na Google Play, který obsahuje informace o~aplikaci, jako je její název, popis, kategorie, omezení regionů vydání, věkové omezení nebo ukázkové obrázky, a samozřejmě samotnou podepsanou aplikaci ve formátu AAB (Android App Bundle)~\parencite{android_app_bundle}.
+Součástí publikace je také dostupná stránka se zásadami ochrany osobních údajů, která reflektuje požadavky GDPR.\footnote{\url{https://developerthomas.cz/privacy_policy/my_farmer.html}}
 
-% 2-3 strany
+Po vydání aplikace je důležité zajistit její další sledování a údržbu.
+K~tomu slouží například nástroje pro monitoring chyb, jako je Firebase Crashlytics (viz sekce~\ref{sec:crashlytics}), které umožňují identifikovat problémy vznikající v~reálném provozu.
+
+Aplikace je nyní pro uživatele plně dostupná v~obchodě Google Play \footnote{\url{https://play.google.com/store/apps/details?id=com.tondracek.myfarmer}} a je stále možné ji pravidelně aktualizovat a sledovat její výkon a chování.
