@@ -14,7 +14,7 @@ Toto pojetí vychází z~principů doménově řízeného návrhu~\parencite{eva
 
 \section{Architektonický vzor MVVM}\label{sec:mvvm}
 Jako základní architektonický vzor byla zvolena architektura Model-View-ViewModel (MVVM)~\parencite{mvvm}.
-Je to doporučený vzor pro vývoj nativních Android aplikací, který je podporován samotným Android Frameworkem a prosazován společností Google, která stojí za vývojem platformy Android~\parencite{android_recommended_architecture}.
+Je to doporučený vzor pro vývoj nativních Android aplikací, který je podporován samotným Android frameworkem a prosazován společností Google, která stojí za vývojem platformy Android~\parencite{android_recommended_architecture}.
 V~navrhované aplikaci je architektonický vzor MVVM využit k~jasnému oddělení odpovědností mezi uživatelským rozhraním, logikou obrazovek a doménovou logikou.
 Vzor MVVM za tímto účelem rozděluje aplikaci do tří hlavních komponent: Model, View a ViewModel.
 
@@ -42,8 +42,8 @@ ViewModely v~této aplikaci nevykonávají žádné přímé akce nad uživatels
 Efekty jsou jednorázové události, které vyvolávají akce v~uživatelském rozhraní, jako například právě zmíněná navigace nebo zobrazení vyskakovacích oken.
 View vystavované efekty interpretuje a na jejich základě provádí příslušné akce v~uživatelském rozhraní.
 
-Jak bylo zmíněno výše, MVVM je přímo podporovaný Android Frameworkem.
-ViewModely jsou v~Android Frameworku takzvaně lifecycle-aware, což znamená, že automaticky reagují na změny životního cyklu aplikace, například při změně konfigurace zařízení (otočení obrazovky) nebo při přechodu aplikace na pozadí.
+Jak bylo zmíněno výše, MVVM je přímo podporovaný Android frameworkem.
+ViewModely jsou v~Android frameworku takzvaně lifecycle-aware, což znamená, že automaticky reagují na změny životního cyklu aplikace, například při změně konfigurace zařízení (otočení obrazovky) nebo při přechodu aplikace na pozadí.
 Díky tomu nedochází ke ztrátě stavu uživatelského rozhraní a k~opakovanému načítání dat při těchto změnách~\parencite{android_viewmodel_overview}.
 
 Zvolený způsob využití architektonického vzoru MVVM se v~praxi osvědčil jako přehledný a umožnil jasné oddělení uživatelského rozhraní od doménové logiky aplikace.
