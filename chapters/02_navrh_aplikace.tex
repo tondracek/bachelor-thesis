@@ -322,21 +322,24 @@ Volba jednotlivých technologií je dále zdůvodněna.
 \subsection{Volba cílové platformy}
 Při volbě platformy pro vývoj aplikace se obvykle nabízejí tři hlavní možnosti: mobilní aplikace, webová aplikace a desktopová aplikace.
 
+Hlavními kritérii pro výběr platformy byly především přístup k~nativním funkcím zařízení, možnost použití aplikace na mobilních zařízeních i mimo domov a kvalita uživatelského zážitku v~mobilním prostředí.
+
 Navrhovaná aplikace využívá funkce, jako jsou fotoaparát zařízení, galerie obrázků, zjišťování aktuální polohy uživatele a mapové zobrazení okolí.
 Aplikace je navržena tak, aby byla využitelná i mimo domov, například při cestování nebo návratu z~cesty, kdy může uživatel rychle vyhledat obchody v~okolí své aktuální polohy.
 Zároveň obchody v~aplikaci poskytují zájemcům kontaktní údaje na producenty, aby je mohli snadno kontaktovat například formou telefonního hovoru, SMS nebo odkazem na sociální sítě.
-Mobilní zařízení tak přirozeně podporuje jak různá použití aplikace, tak i následnou komunikaci s~producenty.
+Mobilní zařízení tak přirozeně podporuje jak samotné použití aplikace, tak i následnou komunikaci s~producenty.
 
-Desktopová aplikace tedy přirozeně neodpovídá charakteru navrhované aplikace.
+Desktopová aplikace tedy neodpovídá charakteru navrhované aplikace.
 Pro mobilní zařízení se výběr platformy zužuje na nativní nebo multiplatformní mobilní aplikaci a webovou aplikaci optimalizovanou pro mobilní zařízení.
 
-Webová aplikace by sice zajistila širší dostupnost napříč zařízeními, avšak v~prostředí mobilních zařízení by ve srovnání s~nativní mobilní aplikací poskytovala méně vhodný uživatelský zážitek, jak z~hlediska výkonu a odezvy, tak i z~hlediska přístupu k~nativním funkcím zařízení~\parencite{native_vs_web_app}.
+Webová aplikace by sice zajistila širší dostupnost napříč zařízeními, avšak v~prostředí mobilních zařízení by ve srovnání s~nativní mobilní aplikací poskytovala méně vhodný uživatelský zážitek, a to jak z~hlediska výkonu a odezvy, tak i z~hlediska přístupu k~nativním funkcím zařízení~\parencite{horn_native_vs_web_app, ibm_native_vs_web_app, aws_native_vs_web_app}.
 
-Další možností by bylo využití multiplatformních frameworků, jako jsou Flutter nebo React Native.
+Další možností je využití multiplatformních frameworků, jako jsou Flutter nebo React Native.
 Tato řešení však přidávají další vrstvu abstrakce a mohou zvyšovat složitost integrace s~nativními funkcemi zařízení, jako jsou práce s~mapami, polohou uživatele nebo fotoaparátem~\parencite{native_vs_cross_platform}.
 
-S~ohledem na zaměření práce výhradně na platformu Android, rozsah bakalářské práce i vyjmenované výhody bylo zvoleno nativní řešení pro Android.
-V~České republice je navíc právě Android nejrozšířenějším operačním systémem pro mobilní zařízení, a proto je tato platforma vhodnou volbou pro tuto aplikaci~\parencite{android_market_share_cz}.
+Na základě uvedených kritérií bylo zvoleno nativní řešení pro platformu Android, které poskytuje přímý přístup k~nativním funkcím zařízení a zároveň zajišťuje kvalitní uživatelský zážitek v~mobilním prostředí.
+
+V~České republice je navíc Android nejrozšířenějším operačním systémem pro mobilní zařízení, což dále podporuje vhodnost této volby~\parencite{android_market_share_cz}.
 
 \subsection{Programovací jazyk a UI framework}
 
