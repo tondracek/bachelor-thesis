@@ -1,8 +1,8 @@
 \chapter{Návrh aplikace}
 
 Tato kapitola se zabývá návrhem mobilní aplikace na základě výsledků provedené analýzy.
-Cílem návrhu je definovat funkční rozsah aplikace, její strukturu, uživatelské rozhraní a technologické řešení tak, aby odpovídaly potřebám cílových uživatelů a zvolenému zaměření aplikace.
-K~tomuto byly využity standardní techniky softwarového inženýrství.
+Cílem návrhu je definovat funkční rozsah aplikace, její strukturu, uživatelské rozhraní a technologické řešení tak, aby odpovídaly potřebám cílových uživatelů a zaměření aplikace.
+K~tomu byly využity standardní techniky softwarového inženýrství.
 
 Kapitola postupně představuje specifikaci funkčních a nefunkčních požadavků, návrhové diagramy a návrh uživatelského rozhraní.
 Závěrem je zdůvodněna volba použitých technologií, které tvoří základ implementace aplikace.
@@ -10,7 +10,7 @@ Závěrem je zdůvodněna volba použitých technologií, které tvoří základ
 
 \section{Specifikace požadavků}
 
-Tato kapitola specifikuje požadavky na navrhovanou mobilní aplikaci.
+Tato část specifikuje požadavky na navrhovanou mobilní aplikaci.
 Požadavky vymezují očekávané chování systému a jeho kvalitativní vlastnosti z~pohledu uživatelů i provozu aplikace.
 Specifikace tvoří základ pro návrh architektury a implementaci aplikace.
 
@@ -123,7 +123,7 @@ Profilový obrázek je volitelný a je reprezentován hodnotovým objektem \text
 Druhou klíčovou entitou je obchod (Shop), který reprezentuje obchod vytvořený registrovaným uživatelem, kde může nabízet své produkty.
 Obchod je také identifikován jednoznačným identifikátorem typu UUID\@.
 Obchod obsahuje atributy: id, název, popis, vlastník, seznam kategorií, obrázky, nabídku produktů, polohu a otevírací dobu.
-Základní atributy jako název a popis jsou oba typu \texttt{String} a popis je volitelný.
+Základní atributy jako název a popis jsou typu \texttt{String} a popis je volitelný.
 
 Obchod je svázán s~uživatelem prostřednictvím asociace, která vyjadřuje vlastnictví obchodu konkrétním uživatelem.
 
@@ -268,7 +268,7 @@ V~této sekci se nachází také tlačítko pro přidání nové položky nabíd
 Přidání nové nebo úprava stávající položky nabídky je realizována pomocí dialogu pro zadání všech potřebných údajů pro danou položku.
 
 Ve čtvrtém kroku uživatel zadává otevírací dobu obchodu (obrázek~\ref{fig:create-shop-step-04}).
-Uživatel má na výběr mezi dvěma způsoby zadání otevírací doby: jako pravidelnou denní otevírací dobu, kde může uživatel ke každému dni v~týdnu zadat otevírací hodiny (například \enquote{9:00-11:00, 13:00-17:00}), nebo jako nepravidelnou otevírací dobu formou volitelné zprávu, kde uživatel může zadat libovolný text (například \enquote{Kontaktujte mě předem telefonicky}).
+Uživatel má na výběr mezi dvěma způsoby zadání otevírací doby: jako pravidelnou denní otevírací dobu, kde může uživatel ke každému dni v~týdnu zadat otevírací hodiny (například \enquote{9:00-11:00, 13:00-17:00}), nebo jako nepravidelnou otevírací dobu formou volitelné zprávy, kde uživatel může zadat libovolný text (například \enquote{Kontaktujte mě předem telefonicky}).
 
 Posledním krokem je shrnutí, kde může uživatel zkontrolovat všechny zadané údaje před vytvořením nebo úpravou obchodu.
 
@@ -390,7 +390,7 @@ V~případě, že je potřeba implementovat vlastní serverovou logiku, Firebase
 Alternativním řešením by bylo vytvoření vlastního serveru například pomocí frameworku Spring~\parencite{spring_framework}.
 Tento přístup by poskytoval vyšší míru kontroly nad architekturou a umožňoval implementaci komplexnější aplikační logiky.
 Na druhou stranu však vyžaduje větší implementační úsilí a řešení provozních aspektů, jako je nasazení, škálovatelnost, bezpečnost a údržba serveru nebo i náklady na jeho provoz.
-Navrhovaná aplikace však nevyžaduje komplexní serverovou logiku ani vysokou škálovatelnost, a proto by implementace vlastního serveru představovala nepřiměřenou režii vzhledem k rozsahu a cílům práce.
+Navrhovaná aplikace však nevyžaduje komplexní serverovou logiku ani vysokou škálovatelnost, a proto by implementace vlastního serveru představovala nepřiměřenou implementační a provozní režii vzhledem k rozsahu a cílům práce.
 
 Řešení typu BaaS umožňuje soustředit se na vývoj aplikace, aniž by bylo nutné řešit především provozní aspekty.
 Náklady na provoz se totiž odvíjejí od počtu uživatelů a využití služeb, což je výhodné zejména pro aplikace s~nižším počtem uživatelů.
@@ -442,5 +442,5 @@ Poskytuje rovněž kvalitní dokumentaci a snadnou integraci s~platformou Androi
 OpenStreetMap je open source projekt, který poskytuje volně dostupná mapová data.
 Jeho hlavní výhodou je otevřenost a absence licenčních poplatků, avšak ve srovnání s~komerčními řešeními neposkytuje ucelené SDK pro platformu Android a jeho integrace je zpravidla složitější~\parencite{openstreetmap_about}.
 
-Na základě uvedených kritérií a zkušeností získaných v průběhu vývoje aplikace byla jako hlavní mapová služba zvolena platforma Mapbox, která poskytuje vyšší přizpůsobitelnost mapového vzhledu a lepší výkon při práci s~větším množstvím zobrazovaných obchodů.
+S ohledem na uvedená kritéria a zkušenosti získané v průběhu vývoje aplikace byla jako hlavní mapová služba zvolena platforma Mapbox, která poskytuje vyšší přizpůsobitelnost mapového vzhledu a lepší výkon při práci s~větším množstvím zobrazovaných obchodů.
 Služba Google Maps je v~aplikaci využita pouze okrajově pro vybrané funkce, kde byla její integrace jednodušší a plně dostačující.
