@@ -430,17 +430,17 @@ Zvolená databázová technologie tak odpovídá požadavkům aplikace z~hledisk
 \subsection{Mapové služby}
 
 Klíčovým prvkem navrhované aplikace je mapové zobrazení okolních obchodů.
-Pro implementaci mapových funkcí bylo nutné zvolit vhodnou mapovou službu, která by splňovala požadavky aplikace z~hlediska funkcionality, výkonu, uživatelského zážitku a nákladů na provoz.
+Hlavními kritérii pro výběr mapové služby byly míra přizpůsobitelnosti mapového zobrazení, výkon při práci s větším množstvím zobrazovaných prvků, uživatelský zážitek, kvalita dokumentace, náklady na provoz a náročnost integrace do prostředí Android aplikace.
 Rozhodování probíhalo mezi třemi hlavními možnostmi: Google Maps, Mapbox a OpenStreetMap.
 
 Google Maps nabízí velmi rozsáhlou dokumentaci a snadnou integraci s~platformou Android a frameworkem Jetpack Compose~\parencite{google_maps_integration}.
-Omezením je však menší míra přizpůsobení mapového vzhledu a absence vestavěných nástrojů pro efektivní práci s~větším množstvím zobrazovaných prvků zároveň bez využití externích nástrojů.
+Omezením je však menší míra přizpůsobení mapového vzhledu a absence vestavěných nástrojů pro efektivní práci s~větším množstvím zobrazovaných prvků bez využití externích nástrojů.
 
 Mapbox představuje populární alternativu ke službě Google Maps.
-Poskytuje rovněž kvalitní dokumentaci a snadnou integraci s~platformou Android a navíc nabízí vyšší míru přizpůsobitelnosti mapových stylů a lepší výkon při zobrazení většího množství značek na mapě~\parencite{mapbox_benefits}.
+Poskytuje rovněž kvalitní dokumentaci a snadnou integraci s~platformou Android a navíc nabízí vyšší míru přizpůsobitelnosti mapových stylů a efektivnější práci při zobrazení většího množství prvků na mapě~\parencite{mapbox_benefits}.
 
 OpenStreetMap je open source projekt, který poskytuje volně dostupná mapová data.
 Jeho hlavní výhodou je otevřenost a absence licenčních poplatků, avšak ve srovnání s~komerčními řešeními neposkytuje ucelené SDK pro platformu Android a jeho integrace je zpravidla složitější~\parencite{openstreetmap_about}.
 
-V~průběhu vývoje aplikace byla jako hlavní mapová služba zvolena platforma Mapbox, a to především z~důvodu vyšší přizpůsobitelnosti mapového vzhledu a lepšího výkonu při práci s~větším množstvím zobrazovaných obchodů.
-Služba Google Maps je v~aplikaci využita pouze okrajově pro vybrané funkce, kde byla její integrace jednodušší a dostatečná.
+Na základě uvedených kritérií a zkušeností získaných v průběhu vývoje aplikace byla jako hlavní mapová služba zvolena platforma Mapbox, která poskytuje vyšší přizpůsobitelnost mapového vzhledu a lepší výkon při práci s~větším množstvím zobrazovaných obchodů.
+Služba Google Maps je v~aplikaci využita pouze okrajově pro vybrané funkce, kde byla její integrace jednodušší a plně dostačující.
