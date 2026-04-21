@@ -46,7 +46,19 @@ jobs:
       - name: Prepare Pages
         run: |
           mkdir public
-          cp *.pdf public/index.pdf
+          cp *.pdf public/thesis.pdf
+          
+          cat <<EOF > public/index.html
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta http-equiv="refresh" content="0; url=thesis.pdf">
+            </head>
+            <body>
+              <p>Redirecting… <a href="thesis.pdf">Open PDF</a></p>
+            </body>
+          </html>
+          EOF
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
