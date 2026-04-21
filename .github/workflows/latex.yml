@@ -1,0 +1,26 @@
+name: Build LaTeX
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: fi-pdflatex.tex
+          compiler: latexmk
+          args: -pdf -interaction=nonstopmode -synctex=1 -file-line-error
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf
+          path: fi-pdflatex.pdf
