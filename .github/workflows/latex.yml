@@ -32,6 +32,10 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    environment:
+      name: github-pages
 
     steps:
       - name: Download artifact
@@ -42,7 +46,7 @@ jobs:
       - name: Prepare Pages
         run: |
           mkdir public
-          cp *.pdf public/
+          cp *.pdf public/index.pdf
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
