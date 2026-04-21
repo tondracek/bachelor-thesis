@@ -372,12 +372,12 @@ Použití vlastního designového systému je vhodné především pro větší 
 Další možností pro Android aplikace je využití Material Designu, což je designový systém vyvinutý společností Google.
 Pro vývoj nových aplikací je doporučováno využití nejnovější verze Material Design 3, která přináší moderní vzhled, lepší podporu pro tmavý režim a vestavěné komponenty a vzory pro návrh uživatelského rozhraní~\parencite{material_design_3_recommendation}.
 
-S ohledem na uvedená kritéria byl zvolen Material Design 3, který naplňuje požadavky na moderní a konzistentní vzhled aplikace a zároveň usnadňuje vývoj uživatelského rozhraní díky předpřipraveným komponentám.
+S~ohledem na uvedená kritéria byl zvolen Material Design 3, který naplňuje požadavky na moderní a konzistentní vzhled aplikace a zároveň usnadňuje vývoj uživatelského rozhraní díky předpřipraveným komponentám.
 
 \subsection{Serverová část aplikace}\label{subsec:backend-solution}
-Součástí návrhu bylo rozhodnutí o způsobu realizace serverové části aplikace, které by odpovídalo rozsahu bakalářské práce, požadavkům aplikace a možnostem jednotlivce jako vývojáře.
+Součástí návrhu bylo rozhodnutí o~způsobu realizace serverové části aplikace, které by odpovídalo rozsahu bakalářské práce, požadavkům aplikace a možnostem jednotlivce jako vývojáře.
 Hlavními kritérii pro výběr řešení serverové části byly především rychlost vývoje a nasazení, náročnost implementace a provozu, škálovatelnost řešení a vhodnost pro navržený datový model aplikace.
-V úvahu připadalo využití řešení typu Backend-as-a-Service (BaaS), reprezentovaného například platformou Firebase, nebo implementace vlastního serveru.
+V~úvahu připadalo využití řešení typu Backend-as-a-Service (BaaS), reprezentovaného například platformou Firebase, nebo implementace vlastního serveru.
 
 BaaS je model cloudové služby, který poskytuje vývojářům předpřipravené služby backendu~\parencite{baas_definition}.
 Mezi klíčové služby pro navrhovanou aplikaci poskytované platformou Firebase patří Firestore databáze pro ukládání dat a řízení přístupu k~datům pomocí bezpečnostních pravidel (security rules), Firebase Autentizace pro správu uživatelských účtů, Firebase Storage pro ukládání souborů, jako jsou fotografie obchodů a profilové obrázky uživatelů a Firebase Crashlytics pro sledování chyb a výkonu aplikace~\parencite{firebase_overview}.
@@ -392,7 +392,7 @@ V~případě, že je potřeba implementovat vlastní serverovou logiku, Firebase
 Alternativním řešením by bylo vytvoření vlastního serveru například pomocí frameworku Spring~\parencite{spring_framework}.
 Tento přístup by poskytoval vyšší míru kontroly nad architekturou a umožňoval implementaci komplexnější aplikační logiky.
 Na druhou stranu však vyžaduje větší implementační úsilí a řešení provozních aspektů, jako je nasazení, škálovatelnost, bezpečnost a údržba serveru nebo i náklady na jeho provoz.
-Navrhovaná aplikace však nevyžaduje komplexní serverovou logiku ani vysokou škálovatelnost, a proto by implementace vlastního serveru představovala nepřiměřenou implementační a provozní režii vzhledem k rozsahu a cílům práce.
+Navrhovaná aplikace však nevyžaduje komplexní serverovou logiku ani vysokou škálovatelnost, a proto by implementace vlastního serveru představovala nepřiměřenou implementační a provozní režii vzhledem k~rozsahu a cílům práce.
 
 Řešení typu BaaS umožňuje soustředit se na vývoj aplikace, aniž by bylo nutné řešit především provozní aspekty.
 Náklady na provoz se totiž odvíjejí od počtu uživatelů a využití služeb, což je výhodné zejména pro aplikace s~nižším počtem uživatelů.
@@ -432,7 +432,7 @@ Zvolená databázová technologie tak odpovídá požadavkům aplikace z~hledisk
 \subsection{Mapové služby}
 
 Klíčovým prvkem navrhované aplikace je mapové zobrazení okolních obchodů.
-Hlavními kritérii pro výběr mapové služby byly míra přizpůsobitelnosti mapového zobrazení, výkon při práci s větším množstvím zobrazovaných prvků, uživatelský zážitek, kvalita dokumentace, náklady na provoz a náročnost integrace do prostředí Android aplikace.
+Hlavními kritérii pro výběr mapové služby byly míra přizpůsobitelnosti mapového zobrazení, výkon při práci s~větším množstvím zobrazovaných prvků, uživatelský zážitek, kvalita dokumentace, náklady na provoz a náročnost integrace do prostředí Android aplikace.
 Rozhodování probíhalo mezi třemi hlavními možnostmi: Google Maps, Mapbox a OpenStreetMap.
 
 Google Maps nabízí velmi rozsáhlou dokumentaci a snadnou integraci s~platformou Android a frameworkem Jetpack Compose~\parencite{google_maps_integration}.
@@ -444,5 +444,5 @@ Poskytuje rovněž kvalitní dokumentaci a snadnou integraci s~platformou Androi
 OpenStreetMap je open source projekt, který poskytuje volně dostupná mapová data.
 Jeho hlavní výhodou je otevřenost a absence licenčních poplatků, avšak ve srovnání s~komerčními řešeními neposkytuje ucelené SDK pro platformu Android a jeho integrace je zpravidla složitější~\parencite{openstreetmap_about}.
 
-S ohledem na uvedená kritéria a zkušenosti získané v průběhu vývoje aplikace byla jako hlavní mapová služba zvolena platforma Mapbox, která poskytuje vyšší přizpůsobitelnost mapového vzhledu a lepší výkon při práci s~větším množstvím zobrazovaných obchodů.
+S~ohledem na uvedená kritéria a zkušenosti získané v~průběhu vývoje aplikace byla jako hlavní mapová služba zvolena platforma Mapbox, která poskytuje vyšší přizpůsobitelnost mapového vzhledu a lepší výkon při práci s~větším množstvím zobrazovaných obchodů.
 Služba Google Maps je v~aplikaci využita pouze okrajově pro vybrané funkce, kde byla její integrace jednodušší a plně dostačující.
