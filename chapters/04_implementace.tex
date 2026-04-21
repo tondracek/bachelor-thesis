@@ -50,7 +50,7 @@ suspend fun withSuccess(block: suspend (T) -> Unit): DomainResult<T> = apply {
 
 Chybové stavy jsou reprezentovány hierarchií typů implementujících rozhraní \texttt{Domain\-Error}.
 Jednotlivé skupiny podtypů odpovídají konkrétním oblastem aplikace, například autentizaci uživatele, práci s~obchody nebo práci s~fotografiemi.
-Ve vrstvě uživatelského rozhraní jsou tyto chyby následně mapovány na lokalizované texty, které mohou být zobrazeny uživateli ať už jako součást UI komponenty nebo vyskakovací dialog.
+Ve vrstvě uživatelského rozhraní jsou tyto chyby následně mapovány na lokalizované texty, které mohou být zobrazeny uživateli, ať už jako součást komponent uživatelského rozhraní, nebo jako vyskakovací dialog.
 
 \subsection{Implementace use-case tříd}\label{subsec:use-case-impl}
 Use-case třídy představují základní prvek realizace doménové logiky.
@@ -159,7 +159,7 @@ Jelikož obdélníky definované množinou rozsahů geohashových hodnot z~geome
 Tato částečná nepřesnost však není problém, protože řešení stále splňuje požadavek, aby se obchody nacházející se blíže k~uživateli načítaly dříve než obchody \textit{výrazně vzdálenější}.
 
 Důležité je ale především to, že toto řešení, přestože není geometricky plně přesné, zajišťuje \textbf{deterministické rozdělení obchodů} do daných prstenců.
-Každý obchod tedy svojí polohou patří právě do jednoho prstence a díky tomu při načítání dat nevznikají žádné duplicity ani vynechané záznamy, což je zásadní pro správné fungování stránkování.
+Každý obchod tedy svou polohou patří do právě jednoho prstence a díky tomu při načítání dat nevznikají žádné duplicity ani vynechané záznamy, což je zásadní pro správné fungování stránkování.
 
 Po načtení stránky obchodů z~databáze do aplikace jsou jednotlivé obchody v~rámci této stránky lokálně seřazeny podle skutečné geografické vzdálenosti od uživatele, což alespoň částečně zvyšuje přesnost seřazení obchodů podle vzdálenosti.
 Efektivní řazení obchodů napříč jednotlivými stránkami však není možné, protože by vyžadovalo načtení všech obchodů najednou.
@@ -294,8 +294,8 @@ Tyto funkce jsou zpravidla navrženy jako čisté a neobsahují vedlejší efekt
 Vedlejší efekty, jako jsou navigace nebo zobrazení dialogů, jsou řešeny mimo samotnou definici UI, typicky ve ViewModelu.
 
 Stav uživatelského rozhraní je reprezentován jako neměnná datová třída, která obsahuje všechny informace potřebné pro vykreslení dané komponenty.
-Tento stav je předáván jako vstupní parametr do UI funkce a podoba UI komponenty je deklarativně odvozena z~tohoto stavu.
-Aktualizace uživatelského rozhraní se provádí automaticky na základě změny tohoto stavu, což automaticky vyvolá rekompozici dané UI komponenty s~novými daty.
+Tento stav je předáván jako vstupní parametr do UI funkce a podoba komponenty uživatelského rozhraní je deklarativně odvozena z~tohoto stavu.
+Aktualizace uživatelského rozhraní se provádí automaticky na základě změny tohoto stavu, což vyvolá rekompozici dané komponenty s~novými daty.
 
 ViewModel spravuje stav zobrazení, zpracovává uživatelské události a komunikuje s~doménovou vrstvou prostřednictvím use-case tříd.
 Stav zobrazení je ve ViewModelu vystaven pomocí reaktivního datového toku \texttt{State\-Flow}, který uchovává aktuální hodnotu stavu a umožňuje pozorování jeho změn.
@@ -308,7 +308,7 @@ Tento přístup je inspirován vzorem \textit{Reducer pattern}~\parencite{redux_
 
 V~reakci na zpracování události mohou také vznikat vedlejší efekty, které jsou od samotného stavu odděleny a reprezentovány samostatným tokem událostí.
 Tím je zajištěno, že stav zůstává čistou reprezentací UI\@.
-Vedlejší efekty jsou zpracovávány jednorázově ve vrstvě propojující ViewModel a samotné UI komponenty, například pro navigaci nebo zobrazení zpráv uživateli.
+Vedlejší efekty jsou zpracovávány jednorázově ve vrstvě propojující ViewModel a samotné komponenty uživatelského rozhraní, například pro navigaci nebo zobrazení zpráv uživateli.
 
 Ukázka~\ref{lst:create-shop-vm} demonstruje implementaci ViewModelu pro vytvoření obchodu a implementaci správy stavu, vedlejších efektů a zpracování událostí v~tomto ViewModelu.
 
