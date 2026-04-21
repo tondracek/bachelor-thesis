@@ -16,7 +16,7 @@ Toto pojetí vychází z~principů doménově řízeného návrhu~\parencite{eva
 Jako základní architektonický vzor byla zvolena architektura Model-View-ViewModel (MVVM)~\parencite{mvvm}.
 Jedná se o doporučený vzor pro vývoj nativních Android aplikací, který je podporován samotným Android frameworkem a prosazován společností Google, která stojí za vývojem platformy Android~\parencite{android_recommended_architecture}.
 
-Alternativami k vzoru MVVM jsou například Model-View-Presenter (MVP) nebo Model-View-Intent (MVI)~\parencite{mvp_mvvm_mvi, android_mvi}.
+Alternativami k vzoru architektonickému MVVM jsou například Model-View-Presenter (MVP) nebo Model-View-Intent (MVI)~\parencite{mvp_mvvm_mvi, android_mvi}.
 U vzoru MVP Presenter přímo manipuluje s~uživatelským rozhraním, což zcela neodpovídá deklarativnímu přístupu frameworku Jetpack Compose, který je využíván v~této aplikaci.
 MVI je velmi dobře kompatibilní s deklarativním přístupem frameworku Jetpack Compose, ale je výrazně komplexnější než architektura MVVM\@.
 Některé jeho principy (jako například jednosměrný tok dat~\parencite{android_recommended_architecture} nebo \textit{Reducer pattern}~\parencite{redux_reducer_pattern}) jsou však využitelné i v~rámci MVVM vzoru a přispívají k lepší předvídatelnosti toku dat v~aplikaci a byly při implementaci také využity (viz.\ sekce~\ref{subsec:ui-state-management}).
