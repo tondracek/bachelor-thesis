@@ -117,7 +117,7 @@ Aplikace umožňuje zobrazovat obchody v~okolí aktuální polohy uživatele.
 V~aplikaci jsou dvě možná zobrazení – zobrazení na mapě a zobrazení jako seznam.
 Pokud by bylo v~databázi velké množství obchodů, bylo by neefektivní načítat všechny obchody zároveň, a proto bylo nutné implementovat stránkování výsledků.
 V~mapovém i seznamovém zobrazení je přitom žádoucí, aby se obchody nacházející se blíže k~uživateli načítaly a zobrazovaly dříve než vzdálenější obchody.
-Je tedy potřeba implementovat stránkování, které bude načítat obchody postupně podle alespoň přibližné vzdálenosti od uživatele.
+Je tedy potřeba implementovat stránkování, které bude načítat obchody postupně podle přibližné vzdálenosti od uživatele.
 
 Stránkování je přitom nutné realizovat na straně databáze, aby se minimalizovalo množství dat přenášených přes síť.
 Cloud Firestore však neposkytuje přímou podporu pro geografické dotazy v~závislosti na vzdálenosti od určitého bodu~\parencite{firebase_geohash}.
@@ -162,7 +162,7 @@ Důležité je ale především to, že toto řešení, přestože není geometr
 Každý obchod tedy svojí polohou patří právě do jednoho prstence a díky tomu při načítání dat nevznikají žádné duplicity ani vynechané záznamy, což je zásadní pro správné fungování stránkování.
 
 Po načtení stránky obchodů z~databáze do aplikace jsou jednotlivé obchody v~rámci této stránky lokálně seřazeny podle skutečné geografické vzdálenosti od uživatele, což alespoň částečně zvyšuje přesnost seřazení obchodů podle vzdálenosti.
-Řazení obchodů napříč jednotlivými stránkami však není možné, protože by to vyžadovalo načítat všechny obchody najednou, což by bylo neefektivní.
+Efektivní řazení obchodů napříč jednotlivými stránkami však není možné, protože by vyžadovalo načtení všech obchodů najednou.
 
 Při načítání jednotlivých stránek obchodů se využívá kurzor (\textit{cursor-based paging}), který umožňuje načítat další stránku dat od místa, kde skončilo načítání předchozí stránky.
 Stránka je z~praktických důvodů omezena jak prstencem, tak maximálním počtem záznamů, aby se nenačítalo nekontrolovatelné množství dat v~případě, že v~oblasti definované prstencem existuje velké množství obchodů.
@@ -173,7 +173,8 @@ Teprve až načteme všechny obchody z~prstence \textit{A}, nastavíme v~kurzoru
 
 Celkový postup stránkování obchodů pomocí prstenců a kurzoru je znázorněn na obrázku~\ref{fig:geo-paging-diagram}.
 
-% TODO: napsat nebo nenapsat že bylo řešení otestováno na cca 500 vygenerovaných testovacích obchodech a z hlediska výkonu i uživatele fungovalo velmi dobře - rychlé postupné načítání, přibližná přesnost seřazení podle vzdálenosti se ukázala jako naprosto dostatečná - při testování na uživatelích (viz sekce~\ref{sec:user_testing}) nikdo nezaznamenal rozdíl
+Navržené řešení bylo ověřeno na přibližně 500 vygenerovaných testovacích záznamech obchodů.
+Z hlediska výkonu i uživatelského vnímání se ukázalo jako dostatečné – načítání probíhalo plynule a přibližná přesnost řazení byla pro účely aplikace vyhovující.
 
 \begin{figure}[htbp]
     \centering
