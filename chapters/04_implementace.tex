@@ -155,16 +155,16 @@ Tento rozsah tedy popisuje obdélník v~geografickém prostoru.
 Hodnoty geohashů jednotlivých obchodů (respektive jejich polohy) mohou být s~tímto rozsahem porovnány pomocí lexikografického porovnání řetězců (operace větší/menší), čímž lze určit, zda do daného rozsahu spadají.
 
 Jelikož obdélníky definované množinou rozsahů geohashových hodnot z~geometrického hlediska neodpovídají přesně prstencové oblasti definované vzdáleností od uživatele, není seřazení obchodů podle vzdálenosti od uživatele zcela přesné, ale pouze přibližné (jak je popsáno v~dokumentaci implementované funkce pro stránkované načítání obchodů).
+Například obchod, který spadá do prstence \textit{A} (do 3 km), může být ve skutečnosti vzdálenější od uživatele než obchod, který spadá do prstence \textit{B} (3--8 km), pokud se nachází v~rohu obdélníku definovaného rozsahy geohashů pro prstenec \textit{A}.
 
 Tato částečná nepřesnost však není problém, protože řešení stále splňuje požadavek, aby se obchody nacházející se blíže k~uživateli načítaly dříve než obchody \textit{výrazně vzdálenější}.
-
-Důležité je ale především to, že toto řešení, přestože není geometricky plně přesné, zajišťuje \textbf{deterministické rozdělení obchodů} do daných prstenců.
+Zároveň toto řešení zajišťuje plně \textbf{deterministické rozdělení obchodů} do daných prstenců.
 Každý obchod tedy svou polohou patří do právě jednoho prstence a díky tomu při načítání dat nevznikají žádné duplicity ani vynechané záznamy, což je zásadní pro správné fungování stránkování.
 
-Po načtení stránky obchodů z~databáze do aplikace jsou jednotlivé obchody v~rámci této stránky lokálně seřazeny podle skutečné geografické vzdálenosti od uživatele, což alespoň částečně zvyšuje přesnost seřazení obchodů podle vzdálenosti.
-Efektivní řazení obchodů napříč jednotlivými stránkami však není možné, protože by vyžadovalo načtení všech obchodů najednou.
+Po načtení stránky obchodů z~databáze do aplikace jsou jednotlivé obchody v~rámci této stránky lokálně seřazeny podle skutečné geografické vzdálenosti od uživatele.
+Efektivní řazení obchodů napříč jednotlivými stránkami však není možné, protože by vyžadovalo načtení všech obchodů najednou, což by vedlo ke značné neefektivitě a nadměrnému přenosu dat.
 
-Při načítání jednotlivých stránek obchodů se využívá kurzor (\textit{cursor-based paging}), který umožňuje načítat další stránku dat od místa, kde skončilo načítání předchozí stránky.
+Při načítání jednotlivých stránek obchodů se využívá kurzor (\textit{cursor-based paging}), který umožňuje načítat další stránku dat od místa, kde skončilo načítání předchozí stránky~\parencite{cursor_based_paging}.
 Stránka je z~praktických důvodů omezena jak prstencem, tak maximálním počtem záznamů, aby se nenačítalo nekontrolovatelné množství dat v~případě, že v~oblasti definované prstencem existuje velké množství obchodů.
 Kurzor tak obsahuje jak informaci o~tom, ze kterého prstence máme načítat, tak informaci o~posledním načteném geohashi.
 
@@ -253,7 +253,7 @@ Pro tento účel je vytvořena samostatná kolekce \texttt{category\-popu\-la\-r
 Jednotlivé dokumenty obsahují pouze název kategorie jako ID dokumentu a její četnost.
 
 Zde využíváme službu Firebase Cloud Functions, která umožňuje spouštět serverový kód v~reakci na události v~databázi (popsáno v~sekci~\ref{subsec:backend-solution}).
-Při vytvoření nebo aktualizaci obchodu se na straně serveru spustí funkce, která porovná obchod před a po aktualizaci a získá přidané a odebrané kategorie.
+Při vytvoření nebo aktualizaci jakéhokoliv obchodu se na straně serveru spustí funkce, která porovná obchod před a po aktualizaci a získá přidané a odebrané kategorie.
 Následně aktualizuje odpovídajícím dokumentům v~kolekci \texttt{category\-popu\-la\-ri\-ty} jejich četnost (zvýší o~1 pro přidané kategorie, sníží o~1 pro odebrané kategorie), případně vytvoří nový dokument pro novou kategorii.
 
 Funkce je spouštěna pouze na straně serveru, aby se zabránilo neautorizovaným změnám a souběhům při aktualizaci četností kategorií.
@@ -272,11 +272,11 @@ Je implementováno pomocí frameworku Jetpack Compose, který umožňuje deklara
 Tato kapitola se zaměřuje především na strukturu navigace v~aplikaci a na správu stavu a vedlejších efektů v~rámci uživatelského rozhraní.
 Tyto prvky jsou klíčové zejména pro aplikace s~větším počtem obrazovek a složitějšími uživatelskými interakcemi.
 
-\subsection{Navigační graf aplikace}
+\subsection{Navigační graf aplikace}\label{subsec:ui-navigation}
 Navigace v~aplikaci je implementována pomocí navigační knihovny Jetpack Compose Navigation~\parencite{compose_navigation}.
 Pro zajištění bezpečnosti a přehlednosti je každá destinace v~navigačním grafu reprezentována jako konkrétní datová třída, která implementuje společné rozhraní \texttt{Route} pro zajištění typové bezpečnosti.
 
-Navigační graf je strukturován hierarchicky, přičemž obsahuje čtyři hlavní vnořené grafy: \textit{auth}, \textit{profile}, \textit{home} a \textit{my\-shops}.
+Navigační graf je strukturován hierarchicky, přičemž obsahuje čtyři hlavní vnořené podgrafy: \textit{auth}, \textit{profile}, \textit{home} a \textit{my\-shops}.
 
 Každý z~těchto podgrafů obsahuje destinace, které jsou relevantní pro danou oblast aplikace.
 Podgraf \textit{auth} obsahuje destinace pro přihlašování a registraci a je přístupný pouze pro nepřihlášené uživatele.
@@ -308,7 +308,8 @@ Tento přístup je inspirován vzorem \textit{Reducer pattern}~\parencite{redux_
 
 V~reakci na zpracování události mohou také vznikat vedlejší efekty, které jsou od samotného stavu odděleny a reprezentovány samostatným tokem událostí.
 Tím je zajištěno, že stav zůstává čistou reprezentací UI\@.
-Vedlejší efekty jsou zpracovávány jednorázově ve vrstvě propojující ViewModel a samotné komponenty uživatelského rozhraní, například pro navigaci nebo zobrazení zpráv uživateli.
+Vedlejší efekty jsou zpracovávány jednorázově ve vrstvě propojující ViewModel a samotné UI komponenty.
+Mezi vedlejší efekty patří například navigace nebo zobrazení zpráv uživateli.
 
 Ukázka~\ref{lst:create-shop-vm} demonstruje implementaci ViewModelu pro vytvoření obchodu a implementaci správy stavu, vedlejších efektů a zpracování událostí v~tomto ViewModelu.
 
