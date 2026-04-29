@@ -431,8 +431,17 @@ Tato databázová technologie tak odpovídá požadavkům aplikace z~hlediska st
 Na základě uvedených kritérií pro serverovou část aplikace bylo zvoleno řešení BaaS, konkrétně platforma Firebase, které umožňuje efektivní implementaci navrženého datového modelu, nevyžaduje správu serverové infrastruktury a zároveň poskytuje dostatečnou škálovatelnost pro potřeby navrhované aplikace.
 Zvolené řešení tak odpovídá současnému rozsahu a cílům bakalářské práce i možnostem jednotlivce jako vývojáře, přičemž nevylučuje další rozvoj aplikace v~případě zvýšených nároků na logiku na straně serveru nebo škálovatelnost.
 
-\subsection{Mapové služby}
+\subsection{Autentizace uživatelů}
+Autentizace uživatelů slouží k ověření identity uživatele a následné řízení přístupu k datům aplikace.
+V rámci navrhovaného řešení je autentizace realizována pomocí služby Firebase Authentication, která je součástí zvoleného backendového řešení typu Backend-as-a-Service~\parencite{firebase_overview}.
 
+Zvolený přístup umožňuje využít existující infrastrukturu pro správu uživatelských účtů a bezpečné ověřování identity bez nutnosti implementace vlastního autentizačního mechanismu.
+Autentizační identita uživatele je v návrhu oddělena od doménového identifikátoru, což umožňuje nezávislost doménového modelu na konkrétní technologii autentizace.
+V případě potřeby je tak možné v budoucnu změnit způsob autentizace bez nutnosti zásadních změn v doménovém modelu a logice aplikace.
+
+Detailní popis implementace autentizačního mechanismu a jeho propojení s řízením přístupu k datům je uveden v kapitole~\ref{subsec:authentication}.
+
+\subsection{Mapové služby}
 Klíčovým prvkem navrhované aplikace je mapové zobrazení okolních obchodů.
 Hlavními kritérii pro výběr mapové služby byly míra přizpůsobitelnosti mapového zobrazení, výkon při práci s~větším množstvím zobrazovaných prvků, uživatelský zážitek, kvalita dokumentace, náklady na provoz a náročnost integrace do prostředí Android aplikace.
 Rozhodování probíhalo mezi třemi hlavními možnostmi: Google Maps, Mapbox a OpenStreetMap.
