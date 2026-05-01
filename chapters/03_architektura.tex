@@ -13,7 +13,7 @@ Toto pojetí vychází z~principů doménově řízeného návrhu~\parencite{eva
 
 
 \section{Architektonický vzor MVVM}\label{sec:mvvm}
-Jako základní architektonický vzor byla zvolena architektura Model-View-ViewModel (MVVM)~\parencite{mvvm}.
+Jako základní architektonický vzor byla zvolena architektura Model-View-ViewModel (MVVM)~\parencite{mvvm, android_mvvm}.
 Jedná se o~doporučený vzor pro vývoj nativních Android aplikací, který je podporován samotným Android frameworkem a prosazován společností Google, která stojí za vývojem platformy Android~\parencite{android_recommended_architecture}.
 
 Alternativami k~architektonickému vzoru MVVM jsou například Model-View-Presenter (MVP) nebo Model-View-Intent (MVI)~\parencite{mvp_mvvm_mvi}.
@@ -56,7 +56,7 @@ Zvolený způsob využití architektonického vzoru MVVM se v~praxi osvědčil j
 
 
 \section{Struktura projektu podle funkčních celků}
-Projekt je strukturován podle funkčních celků (feature-based struktura), kdy jednotlivé části aplikace odpovídají konkrétním oblastem domény nebo uživatelské funkcionality~\parencite{android_modularization_patterns}.
+Projekt je strukturován podle funkčních celků (feature-based struktura), kdy jednotlivé části aplikace odpovídají konkrétním oblastem domény nebo uživatelské funkcionality~\parencite{android_modularization_patterns, martin_clean_architecture}.
 Tento přístup umožňuje jasné oddělení odpovědností, lepší orientaci v~kódu a omezuje provázanost mezi jednotlivými částmi aplikace.
 
 Každý celek je v~projektu organizován jako samostatná jednotka a typicky obsahuje následující vrstvy:
@@ -99,7 +99,7 @@ Jednotlivé funkční celky jsou v~projektu realizovány jako samostatné Gradle
 
 
 \section{Oddělení doménové a datové vrstvy}\label{sec:oddeleni-domenove-a-datove-vrstvy}
-Jedním ze základních principů architektury aplikace je oddělení doménové a datové vrstvy~\parencite{domain_data_layer_separation}.
+Jedním ze základních principů architektury aplikace je oddělení doménové a datové vrstvy~\parencite{domain_data_layer_separation, evans_ddd, martin_clean_architecture}.
 Cílem tohoto rozdělení je zajistit, aby doménová logika aplikace nebyla závislá na konkrétní implementaci ukládání nebo získávání dat.
 
 \textbf{Doménová vrstva} (domain layer) obsahuje veškerou logiku týkající se samotné domény aplikace.
