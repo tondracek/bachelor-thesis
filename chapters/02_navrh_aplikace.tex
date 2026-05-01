@@ -116,7 +116,11 @@ Přehled hlavních tříd a jejich vztahů je znázorněn na obrázku~\ref{fig:c
 \subsection{Entita uživatele}
 Jednou ze základních entit je uživatel (User), který reprezentuje registrovaného uživatele aplikace.
 Uživatel je identifikován jednoznačným identifikátorem a obsahuje základní osobní údaje, profilový obrázek a kontaktní informace.
+
 Identifikátor je typu UUID, což zajišťuje jeho jedinečnost napříč celým systémem.
+Tento identifikátor představuje doménovou identitu uživatele, která je oddělena od identifikátoru používaného autentizačním mechanismem.
+Ten je reprezentován samostatným atributem \texttt{auth\-Id}, což umožňuje flexibilitu v~případě změny autentizačního systému nebo implementace vlastního mechanismu autentizace.
+
 Kontaktní údaje jsou modelovány samostatnou třídou \texttt{Contact\-Info}, která je s~uživatelem svázána kompozicí, jelikož bez existence uživatele nemají samostatný význam.
 Profilový obrázek je volitelný a je reprezentován hodnotovým objektem \texttt{Image\-Resource}, který uchovává odkaz na externě uložený obrazový soubor.
 
