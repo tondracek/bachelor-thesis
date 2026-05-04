@@ -5,7 +5,7 @@ V~průběhu vývoje byly využity různé přístupy k~testování, od automatiz
 
 
 \section{Jednotkové testy}
-Pro ověření správnosti aplikační logiky byly využity jednotkové testy, zaměřené především na doménovou vrstvu, zejména use-case třídy.
+Pro ověření správnosti aplikační logiky byly využity jednotkové testy zaměřené především na doménovou vrstvu, zejména use-case třídy.
 
 Testy byly navrženy tak, aby ověřovaly chování jednotlivých use-case tříd nezávisle na konkrétní implementaci datových zdrojů.
 Díky oddělení doménové a datové vrstvy bylo možné testovat use-case třídy pomocí mockovaných repozitářů, což umožnilo simulovat různé scénáře, včetně chybových stavů.
@@ -32,7 +32,7 @@ Testování probíhalo formou procházení jednotlivých scénářů použití a
 Během tohoto testování bylo odhaleno několik chyb a nedostatků v~chování aplikace.
 Například při přechodu zpět po úspěšném přihlášení docházelo k~návratu na přihlašovací obrazovku, přestože je již uživatel přihlášen.
 Tento problém byl způsoben nevhodnou strukturou navigačního grafu a byl opraven rozdělením části navigace do dvou podgrafů: autentizačního a profilového (tato finální podoba je již popsána v~kapitole implementace v~sekci~\ref{subsec:ui-navigation}).
-Jakmile je tedy uživatel po přihlášení přesměrován do profilového podgrafu, nemůže se již systémovou navigací zpět vrátit do autentizačního grafu.
+Jakmile je tedy uživatel po přihlášení přesměrován do profilového podgrafu, nemůže se již systémovou navigací zpět vrátit do autentizačního podgrafu.
 
 Dalším nalezeným problémem bylo neočekávané resetování mapy do výchozího stavu.
 K~tomu docházelo po přechodu do recenzí obchodu ze spodního dialogu v~mapovém zobrazení obchodů a následném návratu zpět.
@@ -54,8 +54,8 @@ Testování se účastnilo celkem 8 uživatelů různé technické zdatnosti, od
 Mezi tyto scénáře patřilo vyhledání obchodů podle vzdálenosti, kategorie a hodnocení za pomoci filtrování, vytvoření nového obchodu včetně přidání produktů a fotografií, úprava dostupnosti produktů, úprava uživatelského profilu nebo vytvoření recenze.
 Podrobné zadání těchto scénářů je uvedeno v~příloze~\ref{ch:user_testing}.
 
-Všichni uživatelé prošli scénáři úspěšně, lišila se především rychlost provedení jednotlivých kroků.
-V~reakci na to byly přidány dodatečné popisky pro některá vstupní pole, oznámení pro právě provedené úspěšné i neúspěšné akce (formou upozornění typu \textit{toast message}~\parencite{android_toast_message}), zvýrazněna tlačítka pro důležité operace a adekvátně upraveno chování některých prvků uživatelského rozhraní.
+Všichni uživatelé prošli scénáři úspěšně, lišila se pouze rychlost provedení jednotlivých kroků.
+V~reakci na tento průběh byly přidány dodatečné popisky pro některá vstupní pole, oznámení pro právě provedené úspěšné i neúspěšné akce (formou upozornění typu \textit{toast message}~\parencite{android_toast_message}), zvýrazněna tlačítka pro důležité operace a adekvátně upraveno chování některých prvků uživatelského rozhraní.
 
 Jedním z~návrhů od uživatelů bylo například přidání navigační lišty pro jednotlivé kroky procesu vytváření a úpravy obchodu.
 To by urychlilo menší běžné úpravy obchodu, jako je například změna dostupnosti produktu, protože by uživatelé nemuseli procházet všechny kroky a hledat, ve kterém kroku se dané nastavení nachází.

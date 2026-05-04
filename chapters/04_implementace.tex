@@ -60,14 +60,15 @@ Typicky zahrnují validaci vstupních dat, čtení nebo zápis do repozitářů 
 Use-case třídy jsou typicky implementovány jako třídy, které ve svém konstruktoru přijímají potřebné závislosti (repozitáře, další use-case třídy apod.) a obsahují jedinou veřejnou metodu \texttt{invoke}, která slouží jako vstupní bod pro vykonání operace.
 Koordinace jednotlivých kroků uvnitř use-case třídy je často řízena pomocí výsledků typu \texttt{Domain\-Result} a jeho pomocných funkcí.
 
-Vytváření těchto tříd je řízeno pomocí mechanismu vkládání závislostí (viz sekce minulé kapitoly~\ref{sec:dependency_injection}).
+Vytváření těchto tříd je řízeno pomocí mechanismu vkládání závislostí (viz sekce~\ref{sec:dependency_injection} minulé kapitoly).
 
 Ukázka~\ref{lst:use-case-code} demonstruje implementaci use-case třídy \texttt{Create\-Shop\-UC}, která zajišťuje vytvoření nového obchodu.
 Tato třída přijímá jako závislosti use-case třídu pro získání přihlášeného uživatele, repozitář pro práci s~obchody a službu pro ukládání fotografií.
 Use-case nejprve získá přihlášeného uživatele, poté převede vstupní data na doménový model obchodu, uloží obchod do repozitáře, nahraje fotografie do úložiště a nakonec aktualizuje obchod o~odkazy na nově uložené fotografie.
 Při selhání kterékoliv z~těchto operací (návrat neúspěšného \texttt{Domain\-Result}) je metoda předčasně ukončena a aktuální chyba je okamžitě vrácena volajícímu pomocí funkce \texttt{getOrReturn}.
-Při úspěchu však \texttt{getOrReturn} vrací pouze vnitřní data, která jsou následně použita pro další operace.
+Při úspěchu však \texttt{getOrReturn} vrací pouze vnitřní data objektu typu \texttt{Domain\-Result}, která jsou následně použita pro další operace.
 
+\needspace{20\baselineskip}
 \begin{lstlisting}[language=Kotlin, caption={Ukázka implementace use-case třídy}, label={lst:use-case-code}]
 class CreateShopUC @Inject constructor(
     private val getLoggedInUser: GetLoggedInUserUC,
@@ -152,12 +153,12 @@ Na základě těchto hodnot se generuje množina rozsahů geohashových hodnot p
 
 Rozsah geohashových hodnot je definován počáteční a koncovou geohashovou hodnotou.
 Tento rozsah tedy popisuje obdélník v~geografickém prostoru.
-Hodnoty geohashů jednotlivých obchodů (respektive jejich polohy) mohou být s~tímto rozsahem porovnány pomocí lexikografického porovnání řetězců (operace větší/menší), čímž lze určit, zda do daného rozsahu spadají.
+Hodnoty geohashů polohy jednotlivých obchodů mohou být s~tímto rozsahem porovnány pomocí lexikografického porovnání řetězců (operace větší/menší), čímž lze určit, zda do daného rozsahu, a tím pádem i příslušného prstence, spadají.
 
-Jelikož obdélníky definované množinou rozsahů geohashových hodnot z~geometrického hlediska neodpovídají přesně prstencové oblasti definované vzdáleností od uživatele, není seřazení obchodů podle vzdálenosti od uživatele zcela přesné, ale pouze přibližné (jak je popsáno v~dokumentaci implementované funkce pro stránkované načítání obchodů).
+Jelikož obdélníky definované množinou rozsahů geohashových hodnot z~geometrického hlediska neodpovídají přesně prstencové oblasti definované vzdáleností od uživatele, není seřazení obchodů podle vzdálenosti od uživatele naprosto přesné, ale obsahuje mírnou odchylku (jak je popsáno v~dokumentaci implementované funkce pro stránkované načítání obchodů).
 Například obchod, který spadá do prstence \textit{A} (do 3 km), může být ve skutečnosti vzdálenější od uživatele než obchod, který spadá do prstence \textit{B} (3--8 km), pokud se nachází v~rohu obdélníku definovaného rozsahy geohashů pro prstenec \textit{A}.
 
-Tato částečná nepřesnost však není problém, protože řešení stále splňuje požadavek, aby se obchody nacházející se blíže k~uživateli načítaly dříve než obchody \textit{výrazně vzdálenější}.
+Tato částečná nepřesnost však není problém, protože řešení splňuje požadavek, aby se obchody nacházející se blíže k~uživateli načítaly dříve než obchody výrazně vzdálenější.
 Zároveň toto řešení zajišťuje plně \textbf{deterministické rozdělení obchodů} do daných prstenců.
 Každý obchod tedy svou polohou patří do právě jednoho prstence a díky tomu při načítání dat nevznikají žádné duplicity ani vynechané záznamy, což je zásadní pro správné fungování stránkování.
 
@@ -168,13 +169,13 @@ Při načítání jednotlivých stránek obchodů se využívá kurzor (\textit{
 Stránka je z~praktických důvodů omezena jak prstencem, tak maximálním počtem záznamů, aby se nenačítalo nekontrolovatelné množství dat v~případě, že v~oblasti definované prstencem existuje velké množství obchodů.
 Kurzor tak obsahuje jak informaci o~tom, ze kterého prstence máme načítat, tak informaci o~posledním načteném geohashi.
 
-V~případě, že načteme maximální počet obchodů z~prstence \textit{A} (kvůli omezení maximálního počtu záznamů) a zjistíme, že v~prstenci \textit{A} je ještě více obchodů k~načtení, uložíme do kurzoru geohash posledního načteného obchodu a pokračujeme v~načítání další stránky stále z~prstence \textit{A}, ale vynecháním obchodů s~hodnotou geohashe menší než je geohash uložený v~kurzoru (již načtené obchody z~aktuálního prstence).
+V~případě, že načteme maximální počet obchodů z~prstence \textit{A} (kvůli omezení maximálního počtu záznamů) a zjistíme, že v~prstenci \textit{A} je ještě více obchodů k~načtení, uložíme do kurzoru geohash posledního načteného obchodu a pokračujeme v~načítání další stránky stále z~prstence \textit{A}, ale vynecháme obchody s~hodnotou geohashe menší než je geohash uložený v~kurzoru (již načtené obchody z~aktuálního prstence).
 Teprve až načteme všechny obchody z~prstence \textit{A}, nastavíme v~kurzoru prstenec \textit{B} a hodnotu posledního načteného geohashe na \texttt{null} a tím načítáme z~následujícího prstence \textit{B}.
 
 Celkový postup stránkování obchodů pomocí prstenců a kurzoru je znázorněn na obrázku~\ref{fig:geo-paging-diagram}.
 
 Navržené řešení bylo ověřeno na přibližně 500 vygenerovaných testovacích záznamech obchodů.
-Z~hlediska výkonu i uživatelského vnímání se ukázalo jako dostatečné – načítání probíhalo plynule a přibližná přesnost řazení byla pro účely aplikace vyhovující.
+Z~hlediska výkonu i uživatelského vnímání v~rámci uživatelského testování se řešení ukázalo jako zcela dostatečné – načítání probíhalo plynule a přibližná přesnost řazení byla pro účely aplikace vyhovující.
 
 \begin{figure}[htbp]
     \centering
@@ -262,7 +263,7 @@ Samotná operace zvýšení nebo snížení četnosti je atomická, aby byla zaj
 Četnosti se vztahují pouze k~názvům kategorií, protože kategorie nejsou globální entitou, ale pouze atributem obchodu.
 Před aktualizací četnosti se název kategorie normalizuje – například se odstraní mezery na začátku a konci řetězce nebo se počáteční písmeno převede na velké a zbytek písmen na malá.
 
-Tyto četnosti kategorií jsou využívány pro nabízení nejpopulárnějších kategorií obchodů při přidávání kategorie do obchodu při jeho vytváření nebo úpravě a při nastavování filtrování pro zobrazení obchodů jak v~mapovém, tak v~seznamovém zobrazení.
+Tyto četnosti kategorií jsou využívány pro nabízení nejpopulárnějších kategorií obchodů při vytváření nebo úpravě obchodu a při nastavování filtrování pro zobrazení obchodů jak v~mapovém, tak v~seznamovém zobrazení.
 
 
 \section{Implementace uživatelského rozhraní}
@@ -283,15 +284,15 @@ Podgraf \textit{auth} obsahuje destinace pro přihlašování a registraci a je 
 Podgraf \textit{profile} obsahuje destinace pro zobrazení a úpravu profilu a je přístupný pouze pro přihlášené uživatele.
 Podgraf \textit{home} obsahuje jedinou destinaci pro zobrazení mapy a seznamu obchodů a podgraf \textit{my\-shops} obsahuje destinaci pro zobrazení seznamu obchodů vytvořených přihlášeným uživatelem.
 Mezi těmito podgrafy je v~uživatelském rozhraní možné přecházet pomocí spodní navigace, která byla již popsána v~sekci~\ref{subsec:ui-layout}.
-Při přepínání mezi podgrafy je zachováván jejich navigační stav, což umožňuje uživateli plynule pokračovat v~práci bez ztráty kontextu.
+Při přepínání mezi podgrafy je zachován jejich navigační stav, což umožňuje uživateli plynule pokračovat v~práci bez ztráty kontextu.
 
-Mimo to obsahuje navigační graf destinace, které nespadají pod žádné z~těchto podgrafů, například destinaci pro zobrazení detailu obchodu.
+Mimo tyto podgrafy obsahuje navigační graf destinace, které nespadají pod žádný z~těchto podgrafů, například destinaci pro zobrazení detailu obchodu.
 Tyto destinace jsou globální a mohou být navigovány z~různých částí aplikace.
 
 \subsection{Správa stavu a vedlejší efekty}\label{subsec:ui-state-management}
 Ve frameworku Jetpack Compose je uživatelské rozhraní definováno jako funkce, která na základě vstupního stavu deklaruje výslednou podobu UI~\parencite{compose_mental_model}.
 Tyto funkce jsou zpravidla navrženy jako čisté a neobsahují vedlejší efekty.
-Vedlejší efekty, jako jsou navigace nebo zobrazení dialogů, jsou řešeny mimo samotnou definici UI, typicky ve ViewModelu.
+Vedlejší efekty, jako jsou navigace nebo zobrazení dialogů, jsou řešeny mimo samotnou definici UI.
 
 Stav uživatelského rozhraní je reprezentován jako neměnná datová třída, která obsahuje všechny informace potřebné pro vykreslení dané komponenty.
 Tento stav je předáván jako vstupní parametr do UI funkce a podoba komponenty uživatelského rozhraní je deklarativně odvozena z~tohoto stavu.
@@ -306,7 +307,7 @@ Ty jsou pomocí volání funkcí předávány z~UI do ViewModelu, který je zpra
 Aktualizace stavu je provedena pomocí vytvoření nové instance stavu vycházející pouze z~předchozího stavu a přijaté události.
 Tento přístup je inspirován vzorem \textit{Reducer pattern}~\parencite{redux_reducer_pattern}.
 
-V~reakci na zpracování události mohou také vznikat vedlejší efekty, které jsou od samotného stavu odděleny a reprezentovány samostatným tokem událostí.
+V~reakci na zpracování události mohou také vznikat vedlejší efekty, které jsou od samotného stavu odděleny a reprezentovány samostatným datovým tokem.
 Tím je zajištěno, že stav zůstává čistou reprezentací UI\@.
 Vedlejší efekty jsou zpracovávány jednorázově ve vrstvě propojující ViewModel a samotné UI komponenty.
 Mezi vedlejší efekty patří například navigace nebo zobrazení zpráv uživateli.
@@ -320,8 +321,8 @@ Bezpečnost aplikace je zajištěna kombinací autentizačních mechanismů a pr
 \subsection{Autentizace uživatelů}\label{subsec:authentication}
 Autentizace uživatelů je realizována pomocí služby Firebase Authentication, která poskytuje různé metody přihlášení (například e-mail a Google účet).
 Po úspěšném přihlášení získává aplikace unikátní identifikátor uživatele (\texttt{uid}), který představuje identitu uživatele v~rámci autentizační služby.
-Tento identifikátor je uložen v~dokumentu uživatele v~databázi jako samostatný atribut z~důvodu propojení autentizační identity (\texttt{uid}) s~doménovým identifikátorem uživatele.
-Doménový identifikátor uživatele je reprezentován nezávislým identifikátorem (\texttt{id}).
+Tento identifikátor je uložen v~dokumentu uživatele v~databázi jako samostatný atribut z~důvodu propojení autentizační identity s~doménovým identifikátorem uživatele.
+Doménový identifikátor uživatele je reprezentován nezávislým atributem (\texttt{id}).
 
 Samotná autentizace řeší pouze ověření identity uživatele.
 Oprávnění k~přístupu k~datům jsou následně řízena pomocí bezpečnostních pravidel databáze popsaných v~následující sekci.
@@ -350,7 +351,7 @@ Pro kolekci \texttt{review} není operace aktualizace implementována, protože 
 
 \textbf{Operace mazání} dokumentů je opět pro většinu kolekcí povolena pouze pro vlastníka dokumentu, přičemž je kontrolováno, zda je uživatel autentizován.
 
-Speciálním případem jsou pravidla pro kolekci \texttt{category\-popu\-la\-ri\-ty}, kde jsou všechny operace kromě čtení zakázána, protože tyto dokumenty jsou vytvářeny na straně serveru pomocí Firebase Cloud Functions, nikoliv požadavky z~klientské aplikace.
+Speciálním případem jsou pravidla pro kolekci \texttt{category\-popu\-la\-ri\-ty}, kde jsou všechny operace kromě čtení zakázány, protože tyto dokumenty jsou vytvářeny na straně serveru pomocí Firebase Cloud Functions, nikoliv požadavky z~klientské aplikace.
 
 Kolekce recenzí je v~databázi strukturována jako podkolekce uvnitř každého dokumentu obchodu.
 Jednotlivé dokumenty recenzí jsou následně v~této podkolekci identifikovány pomocí ID uživatele, který recenzi vytvořil.

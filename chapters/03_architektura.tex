@@ -48,7 +48,7 @@ ViewModely v~této aplikaci nevykonávají žádné přímé akce nad uživatels
 Efekty jsou jednorázové události, které vyvolávají akce v~uživatelském rozhraní, jako například navigace nebo zobrazení vyskakovacích oken.
 View vystavované efekty interpretuje a na jejich základě provádí příslušné akce v~uživatelském rozhraní.
 
-Jak bylo zmíněno výše, MVVM je přímo podporovaný frameworkem Android.
+Jak bylo zmíněno výše, vzor MVVM je přímo podporovaný frameworkem Android.
 ViewModely jsou v~Android frameworku tzv.\ lifecycle-aware, což znamená, že automaticky reagují na změny životního cyklu aplikace, například při změně konfigurace zařízení (otočení obrazovky) nebo při přechodu aplikace na pozadí.
 Díky tomu nedochází ke ztrátě stavu uživatelského rozhraní a k~opakovanému načítání dat při těchto změnách~\parencite{android_viewmodel_overview}.
 
@@ -165,7 +165,7 @@ Typický tok dat v~aplikaci probíhá následujícím způsobem:
 ViewModel vystavuje stav uživatelského rozhraní pomocí reaktivních datových toků, které uživatelské rozhraní průběžně pozoruje.
 Díky tomu není nutné explicitně řídit aktualizaci uživatelského rozhraní – změna stavu automaticky vede k~jeho opětovnému vykreslení.
 
-Stav uživatelského rozhraní je v~aplikaci reprezentován neměnnými (immutable) datovými objekty.
+Stav uživatelského rozhraní je v~aplikaci reprezentován neměnnými (immutable) datovými objekty~\parencite{compose_ui_architecture}.
 Při změně stavu je vždy vytvořena nová instance stavu, nikoli modifikována stávající.
 Tento přístup zjednodušuje sledování změn, eliminuje vedlejší efekty a přispívá k~lepší předvídatelnosti chování aplikace.
 
