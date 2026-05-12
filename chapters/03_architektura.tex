@@ -61,21 +61,21 @@ Tento přístup umožňuje jasné oddělení odpovědností, lepší orientaci v
 
 Každý celek je v~projektu organizován jako samostatná jednotka a typicky obsahuje následující vrstvy:
 \begin{itemize}
-    \item \textbf{domain} – doménové modely, use-case třídy (třídy případů užití) a rozhraní repozitářů (viz sekce~\ref{sec:oddeleni-domenove-a-datove-vrstvy}),
-    \item \textbf{data} – konkrétní implementace repozitářů a práce s~datovými zdroji, mapování návratových hodnot do doménových výsledků (viz sekce~\ref{sec:domain_result}),
-    \item \textbf{di} – definice závislostí a jejich konfigurace pro daný funkční celek,
-    \item \textbf{sample} - ukázková data využívaná při testování a ladění aplikace.
+    \item \textbf{domain} -- doménové modely, use-case třídy (třídy případů užití) a rozhraní repozitářů (viz sekce~\ref{sec:oddeleni-domenove-a-datove-vrstvy}),
+    \item \textbf{data} -- konkrétní implementace repozitářů a práce s~datovými zdroji, mapování návratových hodnot do doménových výsledků (viz sekce~\ref{sec:domain_result}),
+    \item \textbf{di} -- definice závislostí a jejich konfigurace pro daný funkční celek,
+    \item \textbf{sample} -- ukázková data využívaná při testování a ladění aplikace.
 \end{itemize}
 
 Aplikace je rozdělena do několika hlavních funkčních celků.
 Mezi nejdůležitější patří například:
 \begin{itemize}
-    \item \textbf{auth} – správa registrace a přihlášení uživatelů,
-    \item \textbf{shop} – práce s~obchody, jejich vytváření, úprava a zobrazování,
-    \item \textbf{review} – hodnocení a recenze obchodů,
-    \item \textbf{user} – správa uživatelských údajů,
-    \item \textbf{core} – logika jádra aplikace, architektonické abstrakce,
-    \item \textbf{common} – společné pomocné třídy a funkce.
+    \item \textbf{auth} -- registrace a přihlášení uživatelů,
+    \item \textbf{shop} -- práce s~obchody, jejich vytváření, úprava a zobrazování,
+    \item \textbf{review} -- hodnocení a recenze obchodů,
+    \item \textbf{user} -- správa uživatelských údajů,
+    \item \textbf{core} -- logika jádra aplikace a architektonické abstrakce,
+    \item \textbf{common} -- společné pomocné třídy a funkce.
 \end{itemize}
 
 Celek \textbf{shop} je založen především na entitě \textit{Shop} a s~ní související doménovou logiku.
@@ -163,7 +163,7 @@ Typický tok dat v~aplikaci probíhá následujícím způsobem:
 \end{enumerate}
 
 ViewModel vystavuje stav uživatelského rozhraní pomocí reaktivních datových toků, které uživatelské rozhraní průběžně pozoruje.
-Díky tomu není nutné explicitně řídit aktualizaci uživatelského rozhraní – změna stavu automaticky vede k~jeho opětovnému vykreslení.
+Díky tomu není nutné explicitně řídit aktualizaci uživatelského rozhraní -- změna stavu automaticky vede k~jeho opětovnému vykreslení.
 
 Stav uživatelského rozhraní je v~aplikaci reprezentován neměnnými (immutable) datovými objekty~\parencite{compose_ui_architecture}.
 Při změně stavu je vždy vytvořena nová instance stavu, nikoli modifikována stávající.

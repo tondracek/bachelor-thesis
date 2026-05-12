@@ -115,7 +115,7 @@ V~případě úspěchu je vrácen úspěšný \texttt{Domain\-Result} obsahujíc
 
 \subsection{Geografické dotazy a stránkování}
 Aplikace umožňuje zobrazovat obchody v~okolí aktuální polohy uživatele.
-V~aplikaci jsou dvě možná zobrazení – zobrazení na mapě a zobrazení jako seznam.
+V~aplikaci jsou dvě možná zobrazení: zobrazení na mapě a zobrazení jako seznam.
 Pokud by bylo v~databázi velké množství obchodů, bylo by neefektivní načítat všechny obchody zároveň, a proto bylo nutné implementovat stránkování výsledků.
 V~mapovém i seznamovém zobrazení je přitom žádoucí, aby se obchody nacházející se blíže k~uživateli načítaly a zobrazovaly dříve než vzdálenější obchody.
 Je tedy potřeba implementovat stránkování, které bude načítat obchody postupně podle přibližné vzdálenosti od uživatele.
@@ -141,9 +141,9 @@ Na základě těchto hodnot se generuje množina rozsahů geohashových hodnot p
     \begin{minipage}[t]{0.64\textwidth}
         \vspace{0pt}
         \begin{itemize}[topsep=0pt,itemsep=2pt]
-            \item \textbf{x} – aktuální poloha uživatele
-            \item \textbf{zelený (vnitřní) obdélník} – rozsah prvního prstence (do 3 km)
-            \item \textbf{červené (vnější) čtyři obdélníky} – rozsahy druhého prstence (3--8 km)
+            \item \textbf{x} -- aktuální poloha uživatele
+            \item \textbf{zelený (vnitřní) obdélník} -- rozsah prvního prstence (do 3 km)
+            \item \textbf{červené (vnější) čtyři obdélníky} -- rozsahy druhého prstence (3--8 km)
         \end{itemize}
     \end{minipage}
 
@@ -175,7 +175,7 @@ Teprve až načteme všechny obchody z~prstence \textit{A}, nastavíme v~kurzoru
 Celkový postup stránkování obchodů pomocí prstenců a kurzoru je znázorněn na obrázku~\ref{fig:geo-paging-diagram}.
 
 Navržené řešení bylo ověřeno na přibližně 500 vygenerovaných testovacích záznamech obchodů.
-Z~hlediska výkonu i uživatelského vnímání v~rámci uživatelského testování se řešení ukázalo jako zcela dostatečné – načítání probíhalo plynule a přibližná přesnost řazení byla pro účely aplikace vyhovující.
+Z~hlediska výkonu i uživatelského vnímání v~rámci uživatelského testování se řešení ukázalo jako zcela dostatečné -- načítání probíhalo plynule a přibližná přesnost řazení byla pro účely aplikace vyhovující.
 
 \begin{figure}[htbp]
     \centering
@@ -261,7 +261,7 @@ Funkce je spouštěna pouze na straně serveru, aby se zabránilo neautorizovan�
 Samotná operace zvýšení nebo snížení četnosti je atomická, aby byla zajištěna konzistence dat.
 
 Četnosti se vztahují pouze k~názvům kategorií, protože kategorie nejsou globální entitou, ale pouze atributem obchodu.
-Před aktualizací četnosti se název kategorie normalizuje – například se odstraní mezery na začátku a konci řetězce nebo se počáteční písmeno převede na velké a zbytek písmen na malá.
+Před aktualizací četnosti se název kategorie normalizuje -- například se odstraní mezery na začátku a konci řetězce nebo se počáteční písmeno převede na velké a zbytek písmen na malá.
 
 Tyto četnosti kategorií jsou využívány pro nabízení nejpopulárnějších kategorií obchodů při vytváření nebo úpravě obchodu a při nastavování filtrování pro zobrazení obchodů jak v~mapovém, tak v~seznamovém zobrazení.
 
